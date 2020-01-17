@@ -1,0 +1,32 @@
+{
+  "name": "wpscholar/bluehost-move",
+  "description": "A WordPress plugin to help you quickly and easily migrate your website to Bluehost.",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Micah Wood",
+      "email": "micah@wpscholar.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.wpteamhub.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "ext-zip": "*"
+  },
+  "require-dev": {
+    "bluehost/wp-php-standards": "^1.1"
+  },
+  "scripts": {
+    "lint": [
+      "vendor/bin/phpcs . --standard=Bluehost -s"
+    ],
+    "clean": [
+      "vendor/bin/phpcbf . --standard=Bluehost"
+    ]
+  }
+}

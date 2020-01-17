@@ -1,0 +1,40 @@
+.page.--complete {
+
+  background-color: $color-light-blue;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  min-height: calc(100vh - 32px);
+
+  .content {
+    grid-area: 1 / 1 / 2 / 2;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 0 0 0;
+
+    p {
+      max-width: 462px;
+    }
+
+    .button {
+      margin-top: 40px;
+    }
+  }
+
+  img {
+    margin-top: 48px;
+    flex-grow: 1;
+    object-fit: contain;
+    object-position: bottom;
+    margin-bottom: -100px;
+    z-index: 1;
+  }
+
+  .footer {
+    background-color: $color-white;
+    grid-area: 3 / 1 / 4 / 2;
+  }
+}

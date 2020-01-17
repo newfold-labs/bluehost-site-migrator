@@ -1,0 +1,43 @@
+.page.--check-compatibility {
+
+  background-color: $color-light-blue;
+  display: grid;
+  grid-template-columns: auto minmax(400px, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "content image" "footer footer";
+  min-height: calc(100vh - 32px);
+
+  .content {
+    grid-area: content;
+    padding: 48px 0 48px 48px;
+
+    .message {
+      @extend %text-xs;
+      display: block;
+      margin-top: 16px;
+      text-align: center;
+      width: 245px;
+    }
+  }
+
+  img {
+    grid-area: image;
+    place-self: end;
+    margin-top: 48px;
+    transform: translateY(2px);
+  }
+
+  .footer {
+    grid-area: footer;
+    background-color: $color-white;
+    align-self: stretch;
+  }
+
+  @media screen and (max-width: 1172px) {
+    grid-template-areas: "content content" "footer image";
+    img {
+      max-width: 400px;
+    }
+  }
+
+}

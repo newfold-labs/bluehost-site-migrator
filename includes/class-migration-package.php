@@ -1,0 +1,189 @@
+<?php
+
+/**
+ * Class BH_Move_Migration_Package
+ */
+class BH_Move_Migration_Package {
+
+	/**
+	 * Create a package of a specific type.
+	 *
+	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.).
+	 *
+	 * @return array Package data on success or empty array on failure.
+	 */
+	public static function create( $package_type ) {
+
+		$package_data = array();
+
+		if ( ! self::is_valid_type( $package_type ) ) {
+			return $package_data;
+		}
+
+		$packager = BH_Move_Packager_Factory::create( $package_type );
+		$package  = $packager->create_package();
+
+		if ( ! empty( $package ) ) {
+
+			$uploads = wp_get_upload_dir();
+
+			$package_data = array(
+				'hash'      => md5_file( $package ),
+				'path'      => $package,
+				'size'      => filesize( $package ),
+				'timestamp' => time(),
+				'url'       => str_replace( $uploads['basedir'], $uploads['baseurl'], $package ),
+			);
+
+			BH_Move_Options::set( $package_type, $package_data );
+
+		}
+
+		return $package_data;
+	}
+
+	/**
+	 * Fetch a package of a specific type.
+	 *
+	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.).
+	 *
+	 * @return array Package data on success or empty array on failure.
+	 */
+	public static function fetch( $package_type ) {
+
+		$package_data = array();
+
+		if ( ! self::is_valid_type( $package_type ) ) {
+			return $package_data;
+		}
+
+		$package_data = BH_Move_Options::get( $package_type, array() );
+
+		return $package_data;
+	}
+
+	/**
+	 * Fetch all packages.
+	 *
+	 * @return array Collection of package data on success or empty array on failure.
+	 */
+	public static function fetch_all() {
+		$packages      = array();
+		$package_types = BH_Move_Packager_Factory::get_package_types();
+		foreach ( $package_types as $package_type ) {
+			$packages[ $package_type ] = self::fetch( $package_type );
+		}
+
+		return $packages;
+	}
+
+	/**
+	 * Delete a package of a specific type.
+	 *
+	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.).
+	 *
+	 * @return array Package data on success or empty array on failure.
+	 */
+	public static function delete( $package_type ) {
+
+		$is_successful = false;
+		$package_data  = self::fetch( $package_type );
+
+		if ( ! empty( $package_data ) && isset( $package_data['path'] ) ) {
+			if ( unlink( $package_data['path'] ) ) {
+				BH_Move_Options::delete( $package_type );
+				$is_successful = true;
+			}
+		}
+
+		return $is_successful ? $package_data : array();
+	}
+
+	/**
+	 * Delete all packages.
+	 *
+	 * @return array Collection of package data on success or empty array on failure.
+	 */
+	public static function delete_all() {
+		$packages      = array();
+		$package_types = BH_Move_Packager_Factory::get_package_types();
+		foreach ( $package_types as $package_type ) {
+			$packages[ $package_type ] = self::delete( $package_type );
+		}
+
+		return $packages;
+	}
+
+	/**
+	 * Delete orphaned migration packages.
+	 */
+	public static function delete_orphans() {
+		$packages = wp_list_pluck( self::fetch_all(), 'path' );
+
+		$directory          = BH_Move_Utilities::get_upload_path();
+		$directory_iterator = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
+		$files              = new RecursiveIteratorIterator( $directory_iterator, RecursiveIteratorIterator::SELF_FIRST );
+
+		foreach ( $files as $file_name => $file ) {
+
+			// Skip anything that isn't a .zip file
+			if ( 'zip' !== $file->getExtension() ) {
+				continue;
+			}
+
+			// Skip known migration packages
+			if ( in_array( $file->getRealPath(), $packages, true ) ) {
+				continue;
+			}
+
+			unlink( $file->getRealPath() );
+		}
+	}
+
+	/**
+	 * Purge all migration packages from the filesystem.
+	 */
+	public static function purge() {
+		$directory          = BH_Move_Utilities::get_upload_path();
+		$directory_iterator = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
+		$files              = new RecursiveIteratorIterator( $directory_iterator, RecursiveIteratorIterator::SELF_FIRST );
+
+		foreach ( $files as $file_name => $file ) {
+
+			// Skip anything that isn't a .zip file
+			if ( 'zip' !== $file->getExtension() ) {
+				continue;
+			}
+
+			unlink( $file->getRealPath() );
+		}
+	}
+
+	/**
+	 * Check if a package type is valid.
+	 *
+	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.).
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_type( $package_type ) {
+		return BH_Move_Packager_Factory::is_valid_package_type( $package_type );
+	}
+
+	/**
+	 * Generate a name for a package file based on the type.
+	 *
+	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.). The package type.
+	 * @param string $ext          The file extension.
+	 *
+	 * @return string The package file name (e.g. backup-2019-12-17-171507-my-site-5df90d1be9136-db.zip).
+	 */
+	public static function generate_name( $package_type, $ext = 'zip' ) {
+		$date      = gmdate( 'Y-m-d-His' );
+		$site_name = strtolower( preg_replace( '#[^a-zA-Z0-9]#', '-', get_bloginfo( 'name' ) ) );
+		$unique_id = uniqid();
+
+		return "backup-{$date}-{$site_name}-{$unique_id}-{$package_type}.{$ext}";
+	}
+
+}
