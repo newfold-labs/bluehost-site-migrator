@@ -34,6 +34,7 @@ BH_Move_Class_Loader::register_class_map(
 		'BH_Move_WP_Manifest'                       => BH_MOVE_DIR . 'includes/class-manifest-wp.php',
 		'BH_Move_Migration_Checks'                  => BH_MOVE_DIR . 'includes/class-migration-checks.php',
 		'BH_Move_Migration_Package'                 => BH_MOVE_DIR . 'includes/class-migration-package.php',
+		'BH_Move_Notification_Blocker'              => BH_MOVE_DIR . 'includes/class-notification-blocker.php',
 		'BH_Move_Options'                           => BH_MOVE_DIR . 'includes/class-options.php',
 		'BH_Move_Database_Packager'                 => BH_MOVE_DIR . 'includes/class-packager-database.php',
 		'BH_Move_Dropins_Packager'                  => BH_MOVE_DIR . 'includes/class-packager-dropins.php',
@@ -72,3 +73,6 @@ add_action( 'rest_api_init', array( 'BH_Move_Utilities', 'rest_api_init' ) );
 
 // Add admin menu page
 add_action( 'admin_menu', array( 'BH_Move_Admin_Page', 'add_menu_page' ) );
+
+// Disable notifications on our page(s)
+add_action( 'admin_print_styles', array( 'BH_Move_Notification_Blocker', 'block_notifications' ) );
