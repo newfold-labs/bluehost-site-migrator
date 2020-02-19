@@ -4,6 +4,7 @@
   color: $color-white;
   border-radius: 38px;
   border: none;
+  box-shadow: none;
   padding: 14px 32px;
   margin-top: 20px;
   font-weight: 500;
@@ -13,11 +14,13 @@
   &:hover {
     background-color: $color-blue;
     color: $color-white;
+    box-shadow: none;
   }
 
   &.--is-disabled {
     background-color: #5E91DB;
     pointer-events: none;
+    box-shadow: none;
   }
 }
 
