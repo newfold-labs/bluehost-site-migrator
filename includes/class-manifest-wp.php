@@ -21,7 +21,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 	/**
 	 * Get a list of pertinent WP constants.
 	 *
-	 * @return array
+	 * @return object
 	 */
 	protected function constants() {
 		$constants = array();
@@ -51,7 +51,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 			}
 		}
 
-		return $constants;
+		return (object) $constants;
 	}
 
 	/**
