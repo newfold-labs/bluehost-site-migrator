@@ -84,11 +84,14 @@ class BH_Move_Manifest extends BH_Move_Registry {
 	 * @return array
 	 */
 	protected function env() {
+		$uploads = wp_get_upload_dir();
+
 		return array(
 			'filesystem'       => array(
-				'document_root' => $_SERVER['DOCUMENT_ROOT'],
-				'free_space'    => disk_free_space( ABSPATH ),
-				'total_space'   => disk_total_space( ABSPATH ),
+				'document_root'    => $_SERVER['DOCUMENT_ROOT'],
+				'free_space'       => disk_free_space( ABSPATH ),
+				'total_space'      => disk_total_space( ABSPATH ),
+				'uploads_dir_size' => recurse_dirsize( $uploads['basedir'] ),
 			),
 			'ip_address'       => $_SERVER['SERVER_ADDR'],
 			'operating_system' => PHP_OS,

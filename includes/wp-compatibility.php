@@ -29,3 +29,81 @@ if ( ! function_exists( 'wp_timezone_string' ) ) {
 		return $tz_offset;
 	}
 }
+
+if ( ! function_exists( 'recurse_dirsize' ) ) {
+	/**
+	 * Get the size of a directory recursively.
+	 *
+	 * Used by get_dirsize() to get a directory's size when it contains
+	 * other directories.
+	 *
+	 * @param string       $directory          Full path of a directory.
+	 * @param string|array $exclude            Optional. Full path of a subdirectory to exclude from the total, or array of paths.
+	 *                                         Expected without trailing slash(es).
+	 * @param int          $max_execution_time Maximum time to run before giving up. In seconds.
+	 *                                         The timeout is global and is measured from the moment WordPress started to load.
+	 *
+	 * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
+	 * @since 4.3.0 $exclude parameter added.
+	 * @since 5.2.0 $max_execution_time parameter added.
+	 *
+	 * @since MU (3.0.0)
+	 */
+	function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null ) {
+		$size = 0;
+
+		$directory = untrailingslashit( $directory );
+
+		if ( ! file_exists( $directory ) || ! is_dir( $directory ) || ! is_readable( $directory ) ) {
+			return false;
+		}
+
+		if (
+			( is_string( $exclude ) && $directory === $exclude ) ||
+			( is_array( $exclude ) && in_array( $directory, $exclude, true ) )
+		) {
+			return false;
+		}
+
+		if ( $max_execution_time === null ) {
+			// Keep the previous behavior but attempt to prevent fatal errors from timeout if possible.
+			if ( function_exists( 'ini_get' ) ) {
+				$max_execution_time = ini_get( 'max_execution_time' );
+			} else {
+				// Disable...
+				$max_execution_time = 0;
+			}
+
+			// Leave 1 second "buffer" for other operations if $max_execution_time has reasonable value.
+			if ( $max_execution_time > 10 ) {
+				$max_execution_time -= 1;
+			}
+		}
+
+		$handle = opendir( $directory );
+		if ( $handle ) {
+			while ( ( $file = readdir( $handle ) ) !== false ) {
+				$path = $directory . '/' . $file;
+				if ( $file != '.' && $file != '..' ) {
+					if ( is_file( $path ) ) {
+						$size += filesize( $path );
+					} elseif ( is_dir( $path ) ) {
+						$handlesize = recurse_dirsize( $path, $exclude, $max_execution_time );
+						if ( $handlesize > 0 ) {
+							$size += $handlesize;
+						}
+					}
+
+					if ( $max_execution_time > 0 && microtime( true ) - WP_START_TIMESTAMP > $max_execution_time ) {
+						// Time exceeded. Give up instead of risking a fatal timeout.
+						$size = null;
+						break;
+					}
+				}
+			}
+			closedir( $handle );
+		}
+
+		return $size;
+	}
+}
