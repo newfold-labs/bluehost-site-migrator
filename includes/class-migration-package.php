@@ -171,6 +171,46 @@ class BH_Move_Migration_Package {
 	}
 
 	/**
+	 * Check if a specific migration package is still valid.
+	 *
+	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.).
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_package( $package_type ) {
+		$data = self::fetch( $package_type );
+
+		// Make sure data exists
+		if ( empty( $data ) ) {
+			return false;
+		}
+
+		// Make sure all keys are present
+		$keys = array(
+			'hash',
+			'path',
+			'size',
+			'timestamp',
+			'url'
+		);
+		foreach ( $keys as $key ) {
+			if ( ! array_key_exists( $key, $data ) ) {
+				return false;
+			}
+		}
+
+		// Validate that the package was generated in the last 24 hours
+		if ( absint( $data['timestamp'] ) + ( HOUR_IN_SECONDS * 24 ) < time() ) {
+			return false;
+		}
+
+		// Validate the specific package
+		$instance = BH_Move_Packager_Factory::create( $package_type );
+
+		return $instance->is_package_valid( $data );
+	}
+
+	/**
 	 * Generate a name for a package file based on the type.
 	 *
 	 * @param string $package_type Type of migration package (e.g. plugins, themes, uploads, etc.). The package type.

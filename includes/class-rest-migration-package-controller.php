@@ -70,6 +70,25 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 			)
 		);
 
+		register_rest_route(
+			$this->namespace,
+			"/{$this->rest_base}/(?P<type>[\w-]+)/is-valid",
+			array(
+				'args' => array(
+					'type' => array(
+						'validate_callback' => function ( $param ) {
+							return BH_Move_Migration_Package::is_valid_type( $param );
+						},
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'is_package_valid' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
+
 	}
 
 	/**
@@ -133,6 +152,17 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 */
 	public function delete_items() {
 		return rest_ensure_response( BH_Move_Migration_Package::delete_all() );
+	}
+
+	/**
+	 * Check if migration package is still valid.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function is_package_valid( $request ) {
+		return rest_ensure_response( BH_Move_Migration_Package::is_valid_package( $request->get_param( 'type' ) ) );
 	}
 
 	/**

@@ -14,7 +14,6 @@
 </template>
 
 <script>
-	import {has} from 'lodash';
 	import ProgressBar from '@/components/ProgressBar.vue';
 	import apiFetch from '@wordpress/api-fetch';
 
@@ -35,16 +34,8 @@
 			}
 		},
 		methods: {
-			isValidPackage(packageData) {
-				return has(packageData, 'hash') && has(packageData, 'url'); // TODO: Also check if a package is too old?
-			},
-			areAllPackagesReady() {
-				for (let packageType in this.packages) {
-					if (!this.isValidPackage(this.packages[packageType])) {
-						return false;
-					}
-				}
-				return true;
+			async isValidPackage(packageType) {
+				return await apiFetch({path: `/bluehost-move/v1/migration-package/${packageType}/is-valid`});
 			},
 			fetchExistingMigrationPackages() {
 				apiFetch({path: '/bluehost-move/v1/migration-package'})
@@ -57,10 +48,11 @@
 						this.packages = packages;
 						// Generate packages that are missing
 						for (const packageType in packages) {
-							if (!this.isValidPackage(packages[packageType])) {
+							if (!await this.isValidPackage(packageType)) {
 								await this.generateMigrationPackage(packageType);
 							}
 						}
+						this.sendUpdatedManifestFile();
 					});
 			},
 			async generateMigrationPackage(packageType) {
@@ -75,9 +67,6 @@
 					})
 					.then((packageData) => {
 						this.packages[packageType] = packageData;
-						if (this.areAllPackagesReady()) {
-							this.sendUpdatedManifestFile();
-						}
 					});
 			},
 			sendUpdatedManifestFile() {

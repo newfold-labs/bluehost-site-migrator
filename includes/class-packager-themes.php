@@ -14,4 +14,29 @@ class BH_Move_Themes_Packager implements BH_Move_Packager {
 		return BH_Move_Utilities::zip_directory( get_theme_root(), 'themes' );
 	}
 
+	/**
+	 * Validate whether or not the generated package is still valid.
+	 *
+	 * @param array $data Package data (e.g. hash, path, size, timestamp, url)
+	 *
+	 * @return bool
+	 */
+	public function is_package_valid( array $data ) {
+
+		// Check if files have been updated
+		$themes = array_keys( wp_get_themes() );
+
+		$slash = DIRECTORY_SEPARATOR;
+
+		foreach ( $themes as $theme ) {
+			$path     = realpath( WP_CONTENT_DIR . $slash . 'themes' . $slash . $theme );
+			$modified = filemtime( $path );
+			if ( $modified && $modified > $data['timestamp'] ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }
