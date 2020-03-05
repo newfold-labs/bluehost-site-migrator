@@ -105,7 +105,10 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 
 		/*
 		$response = wp_remote_post( 'https://', array(
-			'body' => BH_Move_Manifest::fetch(),
+			'body' => array(
+				'key'   => '',
+				'files' => BH_Move_Migration_Package::fetch_all(),
+			),
 		) );
 
 		$status_code = (int) wp_remote_retrieve_response_code( $response );
@@ -120,7 +123,7 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 		BH_Move_Options::set( 'isComplete', true );
 		BH_Move_Scheduled_Events::schedule_migration_package_purge();
 
-		return rest_ensure_response( '' ); // wp_remote_retrieve_body( $response ) );
+		return rest_ensure_response( true );
 	}
 
 	/**

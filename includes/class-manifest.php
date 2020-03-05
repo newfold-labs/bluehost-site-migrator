@@ -12,7 +12,7 @@ class BH_Move_Manifest extends BH_Move_Registry {
 	 */
 	public static function create() {
 		$manifest      = new self();
-		$manifest_data = self::merge_package_data( $manifest->to_array() );
+		$manifest_data = $manifest->to_array();
 		BH_Move_Options::set( 'manifest', $manifest_data );
 
 		return $manifest_data;
@@ -37,10 +37,7 @@ class BH_Move_Manifest extends BH_Move_Registry {
 			return self::create();
 		}
 
-		$manifest      = BH_Move_Options::get( 'manifest', array() );
-		$manifest_data = self::merge_package_data( $manifest );
-
-		return $manifest_data;
+		return BH_Move_Options::get( 'manifest', array() );
 	}
 
 	/**
@@ -53,19 +50,6 @@ class BH_Move_Manifest extends BH_Move_Registry {
 		if ( $delete_packages ) {
 			BH_Move_Migration_Package::delete_all();
 		}
-	}
-
-	/**
-	 * Merge package data into manifest.
-	 *
-	 * @param array $manifest Manifest data.
-	 *
-	 * @return array
-	 */
-	protected static function merge_package_data( array $manifest ) {
-		$manifest['files'] = array_filter( array_values( BH_Move_Migration_Package::fetch_all() ) );
-
-		return $manifest;
 	}
 
 	/**
