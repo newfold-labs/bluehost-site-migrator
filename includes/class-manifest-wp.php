@@ -140,7 +140,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 	protected function plugins() {
 		$manifest = new BH_Move_Plugin_Manifest();
 
-		return $manifest->to_array();
+		return array_values( $manifest->to_array() );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 	protected function themes() {
 		$manifest = new BH_Move_Theme_Manifest();
 
-		return $manifest->to_array();
+		return array_values( $manifest->to_array() );
 	}
 
 }
