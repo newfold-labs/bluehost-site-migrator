@@ -18,6 +18,7 @@ define( 'BH_MOVE_FILE', __FILE__ );
 define( 'BH_MOVE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BH_MOVE_URL', plugin_dir_url( __FILE__ ) );
 
+require dirname( __FILE__ ) . '/includes/functions.php';
 require dirname( __FILE__ ) . '/includes/wp-compatibility.php';
 require dirname( __FILE__ ) . '/includes/class-autoloader.php';
 
@@ -28,6 +29,7 @@ BH_Move_Class_Loader::register_class_map(
 		'BH_Move_Plugin_Data'                       => BH_MOVE_DIR . 'includes/class-data-plugin.php',
 		'BH_Move_Theme_Data'                        => BH_MOVE_DIR . 'includes/class-data-theme.php',
 		'BH_Move_Deactivate'                        => BH_MOVE_DIR . 'includes/class-deactivate.php',
+		'BH_Move_Filter_Iterator'                   => BH_MOVE_DIR . 'includes/class-filter-iterator.php',
 		'BH_Move_Manifest'                          => BH_MOVE_DIR . 'includes/class-manifest.php',
 		'BH_Move_Plugin_Manifest'                   => BH_MOVE_DIR . 'includes/class-manifest-plugin.php',
 		'BH_Move_Theme_Manifest'                    => BH_MOVE_DIR . 'includes/class-manifest-theme.php',
@@ -49,8 +51,6 @@ BH_Move_Class_Loader::register_class_map(
 		'BH_Move_REST_Migration_Package_Controller' => BH_MOVE_DIR . 'includes/class-rest-migration-package-controller.php',
 		'BH_Move_Scheduled_Events'                  => BH_MOVE_DIR . 'includes/class-scheduled-events.php',
 		'BH_Move_Utilities'                         => BH_MOVE_DIR . 'includes/class-utilities.php',
-		'BH_Move_WP_Filter_Iterator'                => BH_MOVE_DIR . 'includes/class-wp-filter-iterator.php',
-		'BH_Move_Zip_Filter_Iterator'               => BH_MOVE_DIR . 'includes/class-zip-filter-iterator.php',
 		'BH_Move_Packager'                          => BH_MOVE_DIR . 'includes/interface-packager.php',
 	)
 );
@@ -76,3 +76,9 @@ add_action( 'admin_menu', array( 'BH_Move_Admin_Page', 'add_menu_page' ) );
 
 // Disable notifications on our page(s)
 add_action( 'admin_print_styles', array( 'BH_Move_Notification_Blocker', 'block_notifications' ) );
+
+// Setup filters for migration packages
+add_filter( 'bh_move_filter_files', 'bh_move_filter_files', 10, 2 );
+add_filter( 'bh_move_filter_by_extension', 'bh_move_filter_by_extension' );
+add_filter( 'bh_move_filter_by_name', 'bh_move_filter_by_name' );
+add_filter( 'bh_move_filter_by_path', 'bh_move_filter_by_path', 99 );

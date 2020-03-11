@@ -50,7 +50,7 @@ class BH_Move_Utilities {
 	 *
 	 * @return string The path to the zip file on success or an empty string on failure.
 	 */
-	public static function zip_directory( $directory, $name, $filter = 'BH_Move_Zip_Filter_Iterator' ) {
+	public static function zip_directory( $directory, $name ) {
 		$filename = BH_Move_Migration_Package::generate_name( $name );
 		$zip_path = self::get_upload_path( $filename );
 
@@ -58,7 +58,7 @@ class BH_Move_Utilities {
 		if ( true === $zip->open( $zip_path, ZipArchive::CREATE ) ) {
 
 			$dir_iterator    = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
-			$filter_iterator = new $filter( $dir_iterator );
+			$filter_iterator = new BH_Move_Filter_Iterator( $dir_iterator );
 			$files           = new RecursiveIteratorIterator( $filter_iterator, RecursiveIteratorIterator::SELF_FIRST );
 
 			foreach ( $files as $file_name => $file ) {
