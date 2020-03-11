@@ -1,11 +1,13 @@
 <template>
 	<div class="page --transfer">
 		<div class="content">
-			<h2>Transferring your website</h2>
+			<h2>{{__("Transferring your website", 'bluehost-move')}}</h2>
 			<div class="modal">
 				<p>{{message}}</p>
 				<ProgressBar :progressPercentage="progressPercentage"/>
-				<router-link class="button-secondary" to="/compatible" tag="button">Cancel Transfer</router-link>
+				<router-link class="button-secondary" to="/compatible" tag="button">{{__("Cancel Transfer",
+					'bluehost-move')}}
+				</router-link>
 			</div>
 		</div>
 		<img v-bind:src="imageSrc"/>
@@ -16,6 +18,7 @@
 <script>
 	import ProgressBar from '@/components/ProgressBar.vue';
 	import apiFetch from '@wordpress/api-fetch';
+	import {__, sprintf} from '@wordpress/i18n';
 
 	apiFetch.use(apiFetch.createNonceMiddleware(window.BHMove.restNonce));
 	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHMove.restRootUrl));
@@ -28,7 +31,7 @@
 			return {
 				imageSrc: window.BHMove.pluginUrl + require('@/images/boxed-up.svg').default,
 				isComplete: null,
-				message: 'Preparing to generate package files...',
+				message: __('Preparing to generate package files...', 'bluehost-move'),
 				progressPercentage: 100,
 				packages: null,
 			}
@@ -56,7 +59,7 @@
 					});
 			},
 			async generateMigrationPackage(packageType) {
-				this.message = 'Packaging ' + packageType + '...';
+				this.message = sprintf(__('Packaging %s...', 'bluehost-move'), packageType);
 				await apiFetch({
 					method: 'POST',
 					path: `/bluehost-move/v1/migration-package/${packageType}`

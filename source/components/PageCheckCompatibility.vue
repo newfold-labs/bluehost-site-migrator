@@ -1,15 +1,15 @@
 <template>
 	<div class="page --check-compatibility">
 		<div class="content">
-			<h1>Bluehost Site Migrator</h1>
-			<p><strong>Let's get this truck rolling:</strong></p>
+			<h1>{{__("Bluehost Site Migrator", 'bluehost-move')}}</h1>
+			<p><strong>{{__("Let's get this truck rolling:", 'bluehost-move')}}</strong></p>
 			<ul>
-				<li>First we'll check to see if your website is compatible.</li>
-				<li>If it's compatible, we'll transfer your site.</li>
-				<li>And then send you a link for review.</li>
+				<li>{{__("First we'll check to see if your website is compatible.", 'bluehost-move')}}</li>
+				<li>{{__("If it's compatible, we'll transfer your site.", 'bluehost-move')}}</li>
+				<li>{{__("And then send you a link for review.", 'bluehost-move')}}</li>
 			</ul>
 			<button v-on:click="checkCompatibility" v-bind:class="this.buttonClasses">
-				Check Compatibility
+				{{__("Check Compatibility", 'bluehost-move')}}
 				<spinner color="white" v-bind:is-visible="this.isSpinnerVisible" size="18"/>
 			</button>
 			<span class="message">{{message}}</span>
@@ -22,6 +22,7 @@
 <script>
 	import Spinner from "./Spinner.vue";
 	import apiFetch from '@wordpress/api-fetch';
+	import {__} from '@wordpress/i18n';
 
 	apiFetch.use(apiFetch.createNonceMiddleware(window.BHMove.restNonce));
 	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHMove.restRootUrl));
@@ -58,10 +59,10 @@
 			},
 			loopMessages() {
 				const messages = [
-					'Checking environment...',
-					'Checking plugins...',
-					'Checking themes...',
-					'Checking configuration...',
+					__('Checking environment...', 'bluehost-move'),
+					__('Checking plugins...', 'bluehost-move'),
+					__('Checking themes...', 'bluehost-move'),
+					__('Checking configuration...', 'bluehost-move'),
 				];
 				messages.forEach((msg, index) => {
 					setTimeout(() => {

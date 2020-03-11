@@ -4,7 +4,18 @@ import VueRouter from 'vue-router';
 import App from '@/components/App.vue';
 import routes from '@/js/routes';
 
+import {__, _x, _nx, sprintf} from '@wordpress/i18n';
+
 Vue.use(VueRouter);
+
+Vue.mixin({
+	methods: {
+		__,
+		_x,
+		_nx,
+		sprintf
+	}
+});
 
 const router = new VueRouter({routes});
 

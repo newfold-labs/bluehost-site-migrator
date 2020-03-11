@@ -3,14 +3,13 @@
 
 		<div class="content">
 
-			<h1>That didn't work:<br> Let's bring in the pros.</h1>
+			<h1>{{__("That didn't work:<br> Let's bring in the pros.", 'bluehost-move')}}</h1>
 
 			<p>
-				This can happen if you have a multisite, alternate directory structures, or certain themes or plugins.
-				The transfer might require some extra steps, or we might need to look at other options.
+				{{__("This can happen if you have a multisite, alternate directory structures, or certain themes or plugins. The transfer might require some extra steps, or we might need to look at other options.", 'bluehost-move')}}
 			</p>
 
-			<p>Give us a call at 800-XXX-XXXX.</p>
+			<p>{{__("Give us a call at 800-XXX-XXXX.", 'bluehost-move')}}</p>
 
 		</div>
 

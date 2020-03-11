@@ -3,12 +3,10 @@
 
 		<div class="content">
 
-			<h1>Welcome to the Bluehost family!</h1>
+			<h1>{{__("Welcome to the Bluehost family!", 'bluehost-move')}}</h1>
 
 			<p>
-				You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account
-				so
-				you can review it.
+				{{__("You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account so you can review it.", 'bluehost-move')}}
 			</p>
 
 			<a class="button"
@@ -16,17 +14,17 @@
 			   target="_blank"
 			   rel="noreferrer noopener"
 			>
-				Login to Bluehost
+				{{__("Login to Bluehost", 'bluehost-move')}}
 			</a>
 
 			<p>
-				<span class="text-disabled">Don't have an account?</span>&nbsp;&nbsp;
+				<span class="text-disabled">{{__("Don't have an account?", 'bluehost-move')}}</span>&nbsp;&nbsp;
 				<a
 					href="https://www.bluehost.com/cgi-bin/signup"
 					target="_blank"
 					rel="noreferrer noopener"
 				>
-					Create account
+					{{__("Create account", 'bluehost-move')}}
 				</a>
 			</p>
 

@@ -82,12 +82,6 @@ module.exports = function (env, options) {
 							],
 						],
 						plugins: [
-							[
-								'@wordpress/babel-plugin-makepot',
-								{
-									'output': `${paths.lang}translation.pot`,
-								}
-							],
 							'transform-class-properties',
 						],
 					},
