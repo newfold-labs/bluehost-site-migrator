@@ -43,6 +43,7 @@ BH_Move_Class_Loader::register_class_map(
 		'BH_Move_Packager_Factory'                  => BH_MOVE_DIR . 'includes/class-packager-factory.php',
 		'BH_Move_MU_Plugins_Packager'               => BH_MOVE_DIR . 'includes/class-packager-mu-plugins.php',
 		'BH_Move_Plugins_Packager'                  => BH_MOVE_DIR . 'includes/class-packager-plugins.php',
+		'BH_Move_Root_Packager'                     => BH_MOVE_DIR . 'includes/class-packager-root.php',
 		'BH_Move_Themes_Packager'                   => BH_MOVE_DIR . 'includes/class-packager-themes.php',
 		'BH_Move_Uploads_Packager'                  => BH_MOVE_DIR . 'includes/class-packager-uploads.php',
 		'BH_Move_Registry'                          => BH_MOVE_DIR . 'includes/class-registry.php',

@@ -17,6 +17,7 @@ class BH_Move_Packager_Factory {
 		'plugins'    => 'BH_Move_Plugins_Packager',
 		'themes'     => 'BH_Move_Themes_Packager',
 		'uploads'    => 'BH_Move_Uploads_Packager',
+		'root'       => 'BH_Move_Root_Packager',
 	);
 
 	/**

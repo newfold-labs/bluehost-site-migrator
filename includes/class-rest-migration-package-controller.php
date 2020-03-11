@@ -99,7 +99,13 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		return rest_ensure_response( BH_Move_Migration_Package::create( $request->get_param( 'type' ) ) );
+		// Create package
+		$package_data = BH_Move_Migration_Package::create( $request->get_param( 'type' ) );
+
+		// Remove any unreferenced packages
+		BH_Move_Migration_Package::delete_orphans();
+
+		return rest_ensure_response( $package_data );
 	}
 
 
