@@ -1,7 +1,7 @@
 {
   "name": "wpscholar/bluehost-move",
   "description": "A WordPress plugin to help you quickly and easily migrate your website to Bluehost.",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Micah Wood",
