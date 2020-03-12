@@ -1,7 +1,7 @@
 <template>
 	<div class="page --compatible">
 		<div class="content">
-			<h1>{{__("Looks like we're<br/> compatible!", 'bluehost-move')}}</h1>
+			<h1>{{__("Looks like we're compatible!", 'bluehost-move')}}</h1>
 			<p>{{__("Next, let's transfer your site.", 'bluehost-move')}}</p>
 			<p>
 				{{__("Please wait to make changes to your website until the transfer is completely done. For now, leave your DNS and domain the same as well.", 'bluehost-move')}}
