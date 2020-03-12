@@ -92,7 +92,7 @@
 			},
 		},
 		mounted() {
-			//this.fetchExistingMigrationPackages();
+			this.fetchExistingMigrationPackages();
 		},
 	}
 </script>
