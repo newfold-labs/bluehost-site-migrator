@@ -44,7 +44,7 @@ jobs:
         run: npm install
 
       - name: Build JavaScript
-        run: npm run build
+        run: npm run build && webpack
 
       - name: Generate .pot file
         run: npm run makepot
