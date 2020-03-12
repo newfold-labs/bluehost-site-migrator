@@ -1,0 +1,55 @@
+name: Build Plugin
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: PHP version
+        run: php --version
+
+      - name: Set Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Node version
+        run: node --version
+
+      - name: NPM version
+        run: npm --version
+
+      - name: npm install
+        run: npm install
+
+      - name: Build JavaScript
+        run: npm run build
+
+      - name: Generate .pot file
+        run: npm run makepot
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install PHP Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-dev
+
+      - name: Create Zip
+        run: zip -r bluehost-move.zip . --exclude @./.distignore
+
+      - name: List Files
+        run: ls -lah
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: bluehost-move.zip
+          path: ./bluehost-move.zip

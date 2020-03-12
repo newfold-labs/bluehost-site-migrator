@@ -1,0 +1,10 @@
+.*
+node_modules*
+source*
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml
+readme.md
+webpack.config.js
