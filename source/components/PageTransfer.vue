@@ -4,7 +4,7 @@
 			<h2>{{__("Transferring your website", 'bluehost-move')}}</h2>
 			<div class="modal">
 				<p>{{message}}</p>
-				<ProgressBar :progressPercentage="progressPercentage"/>
+				<ProgressBar :isAnimated="true" :progressPercentage="progressPercentage"/>
 				<router-link class="button-secondary" to="/compatible" tag="button">{{__("Cancel Transfer",
 					'bluehost-move')}}
 				</router-link>
@@ -92,7 +92,7 @@
 			},
 		},
 		mounted() {
-			this.fetchExistingMigrationPackages();
+			//this.fetchExistingMigrationPackages();
 		},
 	}
 </script>
