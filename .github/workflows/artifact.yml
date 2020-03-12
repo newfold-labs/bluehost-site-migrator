@@ -75,5 +75,5 @@ jobs:
 
       - uses: actions/upload-artifact@v1
         with:
-          name: bluehost-move
+          name: bluehost-move.zip
           path: ./bluehost-move.zip
