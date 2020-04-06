@@ -4,6 +4,7 @@ rm -rf ./.git
 rm -rf ./.github
 rm -rf ./node_modules
 rm -rf ./source
+rm -rf ./vendor
 find . -name '.*' -type f -maxdepth 1 -delete
 rm composer.json
 rm composer.lock
