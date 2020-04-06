@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+rm -rf ./.git
+rm -rf ./.github
 rm -rf ./node_modules
 rm -rf ./source
-find . -name '.*' -maxdepth 1 -delete
+find . -name '.*' -type f -maxdepth 1 -delete
 rm composer.json
 rm composer.lock
 rm package.json
