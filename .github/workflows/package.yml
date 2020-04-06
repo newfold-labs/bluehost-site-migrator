@@ -68,8 +68,11 @@ jobs:
       - name: Install PHP Dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --no-dev
 
+      - name: Remove development files
+        run: .github/scripts/cleanup.sh
+
       - name: Create Zip
-        run: zip -r bluehost-move.zip . --exclude @./.distignore
+        run: zip -r bluehost-move.zip .
 
       - name: List Files
         run: ls -lah
