@@ -3,8 +3,8 @@
 /**
  * Filter files used in the filter iterator.
  *
- * @param bool        $accept
- * @param SplFileInfo $file
+ * @param bool        $accept Whether or not to accept the file.
+ * @param SplFileInfo $file   The file information.
  *
  * @return bool
  */
@@ -39,7 +39,7 @@ function bh_move_filter_files( $accept, SplFileInfo $file ) {
 /**
  * Filter to exclude files with specific extensions from generated packages.
  *
- * @param array $extensions
+ * @param array $extensions A collection of extensions to ignore.
  *
  * @return array
  */
@@ -52,7 +52,7 @@ function bh_move_filter_by_extension( array $extensions ) {
 /**
  * Filter to exclude files with specific file/directory names from generated packages.
  *
- * @param array $names
+ * @param array $names A collection of file/directory names to ignore.
  *
  * @return array
  */
@@ -66,7 +66,7 @@ function bh_move_filter_by_name( array $names ) {
 /**
  * Filter to exclude files with specific paths from generated packages.
  *
- * @param array $paths
+ * @param array $paths A collection of file paths to ignore.
  *
  * @return array
  */
@@ -84,7 +84,7 @@ function bh_move_filter_by_path( array $paths ) {
 /**
  * Filter WordPress root files.
  *
- * @param array $paths
+ * @param array $paths A collection of WordPress core root files to ignore.
  *
  * @return array
  */
@@ -117,8 +117,8 @@ function bh_move_filter_wp_root_files( array $paths ) {
 /**
  * Filter directories.
  *
- * @param bool        $accept
- * @param SplFileInfo $file
+ * @param bool        $accept Whether or not to accept the file.
+ * @param SplFileInfo $file   The file information.
  *
  * @return bool
  */
@@ -129,7 +129,7 @@ function bh_move_filter_directories( $accept, SplFileInfo $file ) {
 /**
  * Dynamically replace placeholders with
  *
- * @param string $path
+ * @param string $path The path in which to replace placeholders.
  *
  * @return string|string[]
  */

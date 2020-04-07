@@ -46,7 +46,6 @@ class BH_Move_Utilities {
 	 *
 	 * @param string $directory Absolute path to directory.
 	 * @param string $name      Name to be appended to filename.
-	 * @param string $filter    Name of the filter to be applied.
 	 *
 	 * @return string The path to the zip file on success or an empty string on failure.
 	 */

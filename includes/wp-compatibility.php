@@ -65,7 +65,7 @@ if ( ! function_exists( 'recurse_dirsize' ) ) {
 			return false;
 		}
 
-		if ( $max_execution_time === null ) {
+		if ( null === $max_execution_time ) {
 			// Keep the previous behavior but attempt to prevent fatal errors from timeout if possible.
 			if ( function_exists( 'ini_get' ) ) {
 				$max_execution_time = ini_get( 'max_execution_time' );
@@ -76,15 +76,15 @@ if ( ! function_exists( 'recurse_dirsize' ) ) {
 
 			// Leave 1 second "buffer" for other operations if $max_execution_time has reasonable value.
 			if ( $max_execution_time > 10 ) {
-				$max_execution_time -= 1;
+				-- $max_execution_time;
 			}
 		}
 
 		$handle = opendir( $directory );
 		if ( $handle ) {
-			while ( ( $file = readdir( $handle ) ) !== false ) {
+			while ( ( $file = readdir( $handle ) ) !== false ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 				$path = $directory . '/' . $file;
-				if ( $file != '.' && $file != '..' ) {
+				if ( '.' !== $file && '..' !== $file ) {
 					if ( is_file( $path ) ) {
 						$size += filesize( $path );
 					} elseif ( is_dir( $path ) ) {

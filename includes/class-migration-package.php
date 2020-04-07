@@ -191,7 +191,7 @@ class BH_Move_Migration_Package {
 			'path',
 			'size',
 			'timestamp',
-			'url'
+			'url',
 		);
 		foreach ( $keys as $key ) {
 			if ( ! array_key_exists( $key, $data ) ) {
