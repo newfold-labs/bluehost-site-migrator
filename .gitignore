@@ -1,3 +1,4 @@
 node_modules
 /assets
 /vendor
+cypress.env.json
