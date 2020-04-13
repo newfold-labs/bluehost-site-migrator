@@ -9,18 +9,6 @@ jobs:
     name: Push to master
     runs-on: ubuntu-latest
     steps:
-      - name: Check for SVN access
-        id: svn_access
-        run: |
-          if [[ ${#SVN_USERNAME} == 0 || ${#SVN_PASSWORD} == 0 ]]
-            then
-              echo "::set-output name=has_access::no"
-            else
-              echo "::set-output name=has_access::yes"
-          fi
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
       - uses: actions/checkout@master
       - name: WordPress.org Plugin Asset/Readme Update
         if: contains( steps.svn_access.outputs.has_access, 'yes')
