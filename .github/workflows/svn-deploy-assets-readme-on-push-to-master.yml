@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for SVN access
-        id: svn
+        id: svn_access
         run: |
-          if[ -n SVN_USERNAME && -n SVN_PASSWORD ]; then
+          if [ -n SVN_USERNAME && -n SVN_PASSWORD ]
+          then
             echo "::set-output name=has_access::yes"
           else
             echo "::set-output name=has_access::no"
@@ -22,7 +23,7 @@ jobs:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
       - uses: actions/checkout@master
       - name: WordPress.org Plugin Asset/Readme Update
-        if: contains( steps.svn.outputs.has_access, 'yes')
+        if: contains( steps.svn_access.outputs.has_access, 'yes')
         uses: 10up/action-wordpress-plugin-asset-update@master
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
