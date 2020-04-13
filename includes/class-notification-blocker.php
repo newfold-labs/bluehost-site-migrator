@@ -9,7 +9,7 @@ class BH_Move_Notification_Blocker {
 	 * Target notices using highly-specific CSS selectors to avoid collisions.
 	 */
 	public static function block_notifications() {
-		if ( ! isset( $_GET['page'] ) || false === stripos( filter_input( INPUT_GET, 'page' ), 'bluehost' ) ) {
+		if ( ! isset( $_GET['page'] ) || false === stripos( filter_input( INPUT_GET, 'page' ), 'bluehost' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 		?>

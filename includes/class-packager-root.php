@@ -47,6 +47,8 @@ class BH_Move_Root_Packager implements BH_Move_Packager {
 
 		foreach ( $files as $file ) {
 			/**
+			 * File instance.
+			 *
 			 * @var SplFileInfo $file
 			 */
 			$modified = filemtime( $file->getRealPath() );

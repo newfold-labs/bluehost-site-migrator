@@ -137,7 +137,7 @@ function bh_move_set_path_context( $path ) {
 
 	$uploads = wp_upload_dir( null, false );
 
-	$contexts = [
+	$contexts = array(
 		'ABSPATH'         => untrailingslashit( ABSPATH ),
 		'WP_CONTENT_DIR'  => WP_CONTENT_DIR,
 		'WPMU_PLUGIN_DIR' => WPMU_PLUGIN_DIR,
@@ -145,7 +145,7 @@ function bh_move_set_path_context( $path ) {
 		'WP_THEME_DIR'    => get_theme_root(),
 		'WP_UPLOAD_DIR'   => $uploads['basedir'],
 		'WP_LANG_DIR'     => WP_LANG_DIR,
-	];
+	);
 
 	foreach ( $contexts as $needle => $contextual_path ) {
 		$placeholder = '{' . $needle . '}';

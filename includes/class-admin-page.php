@@ -27,8 +27,8 @@ class BH_Move_Admin_Page {
 	 */
 	public static function render_page() {
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_style( 'bluehost-move', plugins_url( "/assets/css/app{$suffix}.css", dirname( __FILE__ ) ) );
-		wp_enqueue_script( 'bluehost-move', plugins_url( "/assets/js/app{$suffix}.js", dirname( __FILE__ ) ), array(), false, true );
+		wp_enqueue_style( 'bluehost-move', plugins_url( "/assets/css/app{$suffix}.css", dirname( __FILE__ ) ), array(), BH_MOVE_VERSION );
+		wp_enqueue_script( 'bluehost-move', plugins_url( "/assets/js/app{$suffix}.js", dirname( __FILE__ ) ), array(), BH_MOVE_VERSION, true );
 		wp_localize_script(
 			'bluehost-move',
 			'BHMove',

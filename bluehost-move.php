@@ -14,6 +14,7 @@
  * @package bluehost-move
  */
 
+define( 'BH_MOVE_VERSION', '1.0' );
 define( 'BH_MOVE_FILE', __FILE__ );
 define( 'BH_MOVE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BH_MOVE_URL', plugin_dir_url( __FILE__ ) );
