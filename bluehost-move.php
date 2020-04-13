@@ -18,9 +18,9 @@ define( 'BH_MOVE_FILE', __FILE__ );
 define( 'BH_MOVE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BH_MOVE_URL', plugin_dir_url( __FILE__ ) );
 
-require dirname( __FILE__ ) . '/includes/functions.php';
-require dirname( __FILE__ ) . '/includes/wp-compatibility.php';
-require dirname( __FILE__ ) . '/includes/class-autoloader.php';
+require BH_MOVE_DIR . 'includes/functions.php';
+require BH_MOVE_DIR . 'includes/wp-compatibility.php';
+require BH_MOVE_DIR . 'includes/class-autoloader.php';
 
 // Register class map autoloader
 BH_Move_Class_Loader::register_class_map(
@@ -59,6 +59,9 @@ BH_Move_Class_Loader::register_class_map(
 // Initialize options
 BH_Move_Options::fetch();
 add_action( 'shutdown', array( 'BH_Move_Options', 'maybe_persist' ) );
+
+// Load translations
+add_action( 'plugins_loaded', 'bh_move_load_plugin_textdomain' );
 
 // Register deactivation hook
 add_action( 'plugins_loaded', array( 'BH_Move_Deactivate', 'register_listener' ) );

@@ -158,3 +158,11 @@ function bh_move_set_path_context( $path ) {
 
 	return $path;
 }
+
+/**
+ * Load plugin text domain.
+ */
+function bh_move_load_plugin_textdomain() {
+	$plugin_dir = basename( dirname( BH_MOVE_FILE ) );
+	load_plugin_textdomain( $plugin_dir, false, $plugin_dir . '/languages/' );
+}
