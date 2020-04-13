@@ -12,11 +12,11 @@ jobs:
       - name: Check for SVN access
         id: svn_access
         run: |
-          if [ -n SVN_USERNAME && -n SVN_PASSWORD ]
-          then
-            echo "::set-output name=has_access::yes"
-          else
-            echo "::set-output name=has_access::no"
+          if [[ ${#SVN_USERNAME} == 0 || ${#SVN_PASSWORD} == 0 ]]
+            then
+              echo "::set-output name=has_access::no"
+            else
+              echo "::set-output name=has_access::yes"
           fi
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
