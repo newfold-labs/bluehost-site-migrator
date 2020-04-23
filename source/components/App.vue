@@ -1,5 +1,5 @@
 <template>
-	<div class="bluehost-move">
+	<div class="bluehost-site-migrator">
 		<transition name="slide-fade">
 			<router-view></router-view>
 		</transition>

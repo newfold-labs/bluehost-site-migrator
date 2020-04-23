@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Database_Packager
+ * Class BH_Site_Migrator_Database_Packager
  */
-class BH_Move_Database_Packager implements BH_Move_Packager {
+class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 
 	/**
 	 * Create the database package.
@@ -14,8 +14,8 @@ class BH_Move_Database_Packager implements BH_Move_Packager {
 
 		$package = '';
 
-		$filename = BH_Move_Migration_Package::generate_name( 'db' );
-		$zip_path = BH_Move_Utilities::get_upload_path( $filename );
+		$filename = BH_Site_Migrator_Migration_Package::generate_name( 'db' );
+		$zip_path = BH_Site_Migrator_Utilities::get_upload_path( $filename );
 
 		$zip = new ZipArchive();
 		if ( true === $zip->open( $zip_path, ZipArchive::CREATE ) ) {

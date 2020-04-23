@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Plugin_Manifest
+ * Class BH_Site_Migrator_Plugin_Manifest
  */
-class BH_Move_Plugin_Manifest extends BH_Move_Registry {
+class BH_Site_Migrator_Plugin_Manifest extends BH_Site_Migrator_Registry {
 
 	/**
 	 * Constructor.
@@ -38,7 +38,7 @@ class BH_Move_Plugin_Manifest extends BH_Move_Registry {
 	 * @return array
 	 */
 	protected function get_plugin_data( $basename ) {
-		$plugin = new BH_Move_Plugin_Data( $basename );
+		$plugin = new BH_Site_Migrator_Plugin_Data( $basename );
 
 		$last_modified = $plugin->last_modified();
 		$last_updated  = $plugin->last_updated();

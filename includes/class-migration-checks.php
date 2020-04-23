@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Migration_Checks
+ * Class BH_Site_Migrator_Migration_Checks
  */
-class BH_Move_Migration_Checks {
+class BH_Site_Migrator_Migration_Checks {
 
 	/**
 	 * Run migration checks.
@@ -11,8 +11,8 @@ class BH_Move_Migration_Checks {
 	 * @return bool True if migration is possible, false otherwise.
 	 */
 	public static function run() {
-		$can_we_migrate = apply_filters( 'bluehost_move_can_migrate', true );
-		BH_Move_Options::set( 'isCompatible', $can_we_migrate );
+		$can_we_migrate = apply_filters( 'bluehost_site_migrator_can_migrate', true );
+		BH_Site_Migrator_Options::set( 'isCompatible', $can_we_migrate );
 
 		return $can_we_migrate;
 	}
@@ -21,11 +21,11 @@ class BH_Move_Migration_Checks {
 	 * Register migration checks.
 	 */
 	public static function register() {
-		add_filter( 'bluehost_move_can_migrate', array( __CLASS__, 'can_mysqldump' ), 5 );
-		add_filter( 'bluehost_move_can_migrate', array( __CLASS__, 'can_we_migrate_api' ), 10 );
-		add_filter( 'bluehost_move_can_migrate', array( __CLASS__, 'has_zip_archive' ), 5 );
-		add_filter( 'bluehost_move_can_migrate', array( __CLASS__, 'is_content_directory_writable' ), 5 );
-		add_filter( 'bluehost_move_can_migrate', array( __CLASS__, 'is_not_multisite' ), 5 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_mysqldump' ), 5 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_we_migrate_api' ), 10 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'has_zip_archive' ), 5 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'is_content_directory_writable' ), 5 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'is_not_multisite' ), 5 );
 	}
 
 	/**
@@ -51,10 +51,10 @@ class BH_Move_Migration_Checks {
 	public static function can_we_migrate_api( $can_migrate ) {
 		if ( $can_migrate ) {
 			/*
-			$cache_key   = 'bluehost_move_can_migrate';
+			$cache_key   = 'bluehost_site_migrator_can_migrate';
 			$can_migrate = get_transient( $cache_key );
 			if ( ! $can_migrate ) {
-				$manifest    = BH_Move_Manifest::create();
+				$manifest    = BH_Site_Migrator_Manifest::create();
 				$response    = wp_remote_post( 'https://', array(
 					'body' => $manifest,
 				) );

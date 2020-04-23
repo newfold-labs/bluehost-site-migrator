@@ -1,5 +1,5 @@
 {
-  "name": "bluehost-move",
+  "name": "bluehost-site-migrator",
   "version": "1.0.0",
   "description": "Quickly and easily migrate your website to Bluehost.",
   "private": true,
@@ -36,13 +36,13 @@
   "scripts": {
     "build": "webpack -p",
     "cypress": "npx cypress open",
-    "makepot": "wpvuei18n makepot",
+    "i18n": "wpvuei18n makepot",
     "start": "webpack --watch",
     "test": "npx cypress run"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bluehost/bluehost-migration-plugin.git"
+    "url": "git+https://github.com/bluehost/bluehost-site-migrator.git"
   },
   "author": "Micah Wood <micah@wpscholar.com>",
   "license": "GPL-2.0+",

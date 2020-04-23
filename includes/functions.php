@@ -8,24 +8,24 @@
  *
  * @return bool
  */
-function bh_move_filter_files( $accept, SplFileInfo $file ) {
+function bh_site_migrator_filter_files( $accept, SplFileInfo $file ) {
 
 	// Filter by extension
-	$exclude_extensions = apply_filters( 'bh_move_filter_by_extension', array() );
+	$exclude_extensions = apply_filters( 'bh_site_migrator_filter_by_extension', array() );
 
 	if ( in_array( $file->getExtension(), $exclude_extensions, true ) ) {
 		return false;
 	}
 
 	// Filter by name
-	$exclude_names = apply_filters( 'bh_move_filter_by_name', array() );
+	$exclude_names = apply_filters( 'bh_site_migrator_filter_by_name', array() );
 
 	if ( in_array( $file->getFilename(), $exclude_names, true ) ) {
 		return false;
 	}
 
 	// Filter by path
-	$exclude_paths = apply_filters( 'bh_move_filter_by_path', array() );
+	$exclude_paths = apply_filters( 'bh_site_migrator_filter_by_path', array() );
 
 	foreach ( $exclude_paths as $path ) {
 		if ( 0 === strpos( $file->getRealPath(), $path ) ) {
@@ -43,7 +43,7 @@ function bh_move_filter_files( $accept, SplFileInfo $file ) {
  *
  * @return array
  */
-function bh_move_filter_by_extension( array $extensions ) {
+function bh_site_migrator_filter_by_extension( array $extensions ) {
 	array_push( $extensions, 'bak', 'exe', 'gz', 'log', 'sql', 'tar' );
 
 	return $extensions;
@@ -56,9 +56,9 @@ function bh_move_filter_by_extension( array $extensions ) {
  *
  * @return array
  */
-function bh_move_filter_by_name( array $names ) {
+function bh_site_migrator_filter_by_name( array $names ) {
 	array_push( $names, '.git', '.gitignore', '.idea', '.svn', '.vscode', 'node_modules' );
-	$names[] = str_replace( '.php', '', basename( plugin_basename( BH_MOVE_FILE ) ) );
+	$names[] = str_replace( '.php', '', basename( plugin_basename( BH_SITE_MIGRATOR_FILE ) ) );
 
 	return $names;
 }
@@ -70,11 +70,11 @@ function bh_move_filter_by_name( array $names ) {
  *
  * @return array
  */
-function bh_move_filter_by_path( array $paths ) {
+function bh_site_migrator_filter_by_path( array $paths ) {
 
 	foreach ( $paths as $index => $path ) {
 		if ( 0 === strpos( $path, '{' ) ) {
-			$paths[ $index ] = bh_move_set_path_context( $path );
+			$paths[ $index ] = bh_site_migrator_set_path_context( $path );
 		}
 	}
 
@@ -88,7 +88,7 @@ function bh_move_filter_by_path( array $paths ) {
  *
  * @return array
  */
-function bh_move_filter_wp_root_files( array $paths ) {
+function bh_site_migrator_filter_wp_root_files( array $paths ) {
 
 	array_push(
 		$paths,
@@ -122,7 +122,7 @@ function bh_move_filter_wp_root_files( array $paths ) {
  *
  * @return bool
  */
-function bh_move_filter_directories( $accept, SplFileInfo $file ) {
+function bh_site_migrator_filter_directories( $accept, SplFileInfo $file ) {
 	return $accept && ! $file->isDir();
 }
 
@@ -133,7 +133,7 @@ function bh_move_filter_directories( $accept, SplFileInfo $file ) {
  *
  * @return string|string[]
  */
-function bh_move_set_path_context( $path ) {
+function bh_site_migrator_set_path_context( $path ) {
 
 	$uploads = wp_upload_dir( null, false );
 
@@ -162,7 +162,7 @@ function bh_move_set_path_context( $path ) {
 /**
  * Load plugin text domain.
  */
-function bh_move_load_plugin_textdomain() {
-	$plugin_dir = basename( dirname( BH_MOVE_FILE ) );
+function bh_site_migrator_load_plugin_textdomain() {
+	$plugin_dir = basename( dirname( BH_SITE_MIGRATOR_FILE ) );
 	load_plugin_textdomain( $plugin_dir, false, $plugin_dir . '/languages/' );
 }

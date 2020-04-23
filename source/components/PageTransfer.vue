@@ -1,12 +1,12 @@
 <template>
 	<div class="page --transfer">
 		<div class="content">
-			<h2>{{__("Transferring your website", 'bluehost-move')}}</h2>
+			<h2>{{__("Transferring your website", 'bluehost-site-migrator')}}</h2>
 			<div class="modal">
 				<p>{{message}}</p>
 				<ProgressBar :isAnimated="true" :progressPercentage="progressPercentage"/>
 				<router-link class="button-secondary" to="/compatible" tag="button">{{__("Cancel Transfer",
-					'bluehost-move')}}
+					'bluehost-site-migrator')}}
 				</router-link>
 			</div>
 		</div>
@@ -20,8 +20,8 @@
 	import apiFetch from '@wordpress/api-fetch';
 	import {__, sprintf} from '@wordpress/i18n';
 
-	apiFetch.use(apiFetch.createNonceMiddleware(window.BHMove.restNonce));
-	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHMove.restRootUrl));
+	apiFetch.use(apiFetch.createNonceMiddleware(window.BHSiteMigrator.restNonce));
+	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHSiteMigrator.restRootUrl));
 
 	// TODO: Base default progress bar progress on PHP timeout?
 
@@ -29,19 +29,19 @@
 		components: {ProgressBar},
 		data() {
 			return {
-				imageSrc: window.BHMove.pluginUrl + require('@/images/boxed-up.svg').default,
+				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/boxed-up.svg').default,
 				isComplete: null,
-				message: __('Preparing to generate package files...', 'bluehost-move'),
+				message: __('Preparing to generate package files...', 'bluehost-site-migrator'),
 				progressPercentage: 100,
 				packages: null,
 			}
 		},
 		methods: {
 			async isValidPackage(packageType) {
-				return await apiFetch({path: `/bluehost-move/v1/migration-package/${packageType}/is-valid`});
+				return await apiFetch({path: `/bluehost-site-migrator/v1/migration-package/${packageType}/is-valid`});
 			},
 			fetchExistingMigrationPackages() {
-				apiFetch({path: '/bluehost-move/v1/migration-package'})
+				apiFetch({path: '/bluehost-site-migrator/v1/migration-package'})
 					.catch((error) => {
 						console.error(error);
 						this.$router.push('/error');
@@ -59,10 +59,10 @@
 					});
 			},
 			async generateMigrationPackage(packageType) {
-				this.message = sprintf(__('Packaging %s...', 'bluehost-move'), packageType);
+				this.message = sprintf(__('Packaging %s...', 'bluehost-site-migrator'), packageType);
 				await apiFetch({
 					method: 'POST',
-					path: `/bluehost-move/v1/migration-package/${packageType}`
+					path: `/bluehost-site-migrator/v1/migration-package/${packageType}`
 				})
 					.catch((error) => {
 						console.error(error);
@@ -75,7 +75,7 @@
 			sendUpdatedManifestFile() {
 				apiFetch({
 					method: 'POST',
-					path: '/bluehost-move/v1/manifest/send'
+					path: '/bluehost-site-migrator/v1/manifest/send'
 				})
 					.catch((error) => {
 						console.error(error);

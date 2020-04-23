@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Utilities
+ * Class BH_Site_Migrator_Utilities
  */
-class BH_Move_Utilities {
+class BH_Site_Migrator_Utilities {
 
 	/**
 	 * Get path relative to this plugin's custom upload directory.
@@ -14,7 +14,7 @@ class BH_Move_Utilities {
 	 */
 	public static function get_upload_path( $path = '' ) {
 		$uploads   = wp_get_upload_dir();
-		$directory = $uploads['basedir'] . DIRECTORY_SEPARATOR . 'bluehost-move' . DIRECTORY_SEPARATOR;
+		$directory = $uploads['basedir'] . DIRECTORY_SEPARATOR . 'bluehost-site-migrator' . DIRECTORY_SEPARATOR;
 		wp_mkdir_p( $directory );
 
 		return $directory . ltrim( $path, DIRECTORY_SEPARATOR );
@@ -25,9 +25,9 @@ class BH_Move_Utilities {
 	 */
 	public static function rest_api_init() {
 		$controllers = array(
-			'BH_Move_REST_Can_We_Migrate_Controller',
-			'BH_Move_REST_Manifest_Controller',
-			'BH_Move_REST_Migration_Package_Controller',
+			'BH_Site_Migrator_REST_Can_We_Migrate_Controller',
+			'BH_Site_Migrator_REST_Manifest_Controller',
+			'BH_Site_Migrator_REST_Migration_Package_Controller',
 		);
 
 		foreach ( $controllers as $controller ) {
@@ -50,14 +50,14 @@ class BH_Move_Utilities {
 	 * @return string The path to the zip file on success or an empty string on failure.
 	 */
 	public static function zip_directory( $directory, $name ) {
-		$filename = BH_Move_Migration_Package::generate_name( $name );
+		$filename = BH_Site_Migrator_Migration_Package::generate_name( $name );
 		$zip_path = self::get_upload_path( $filename );
 
 		$zip = new ZipArchive();
 		if ( true === $zip->open( $zip_path, ZipArchive::CREATE ) ) {
 
 			$dir_iterator    = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
-			$filter_iterator = new BH_Move_Filter_Iterator( $dir_iterator );
+			$filter_iterator = new BH_Site_Migrator_Filter_Iterator( $dir_iterator );
 			$files           = new RecursiveIteratorIterator( $filter_iterator, RecursiveIteratorIterator::SELF_FIRST );
 
 			foreach ( $files as $file_name => $file ) {

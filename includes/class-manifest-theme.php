@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Theme_Manifest
+ * Class BH_Site_Migrator_Theme_Manifest
  */
-class BH_Move_Theme_Manifest extends BH_Move_Registry {
+class BH_Site_Migrator_Theme_Manifest extends BH_Site_Migrator_Registry {
 
 	/**
 	 * Constructor.
@@ -23,7 +23,7 @@ class BH_Move_Theme_Manifest extends BH_Move_Registry {
 	 * @return array
 	 */
 	protected function get_theme_data( $directory_name ) {
-		$theme = new BH_Move_Theme_Data( $directory_name );
+		$theme = new BH_Site_Migrator_Theme_Data( $directory_name );
 
 		$last_updated = $theme->last_updated();
 

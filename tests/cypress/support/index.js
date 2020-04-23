@@ -26,5 +26,5 @@ Cypress.Cookies.defaults({
 
 before(() => {
 	cy.login(Cypress.env('wpUsername'), Cypress.env('wpPassword'));
-	cy.visit('/wp-admin/admin.php?page=bluehost-move');
+	cy.visit('/wp-admin/admin.php?page=bluehost-site-migrator');
 });

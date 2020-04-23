@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Class BH_Move_REST_Migration_Package_Controller
+ * Class BH_Site_Migrator_REST_Migration_Package_Controller
  */
-class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
+class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Controller {
 
 	/**
 	 * The namespace of this controller's route.
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'bluehost-move/v1';
+	protected $namespace = 'bluehost-site-migrator/v1';
 
 	/**
 	 * The base of this controller's route.
@@ -48,7 +48,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 				'args' => array(
 					'type' => array(
 						'validate_callback' => function ( $param ) {
-							return BH_Move_Migration_Package::is_valid_type( $param );
+							return BH_Site_Migrator_Migration_Package::is_valid_type( $param );
 						},
 					),
 				),
@@ -77,7 +77,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 				'args' => array(
 					'type' => array(
 						'validate_callback' => function ( $param ) {
-							return BH_Move_Migration_Package::is_valid_type( $param );
+							return BH_Site_Migrator_Migration_Package::is_valid_type( $param );
 						},
 					),
 				),
@@ -100,10 +100,10 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 */
 	public function create_item( $request ) {
 		// Create package
-		$package_data = BH_Move_Migration_Package::create( $request->get_param( 'type' ) );
+		$package_data = BH_Site_Migrator_Migration_Package::create( $request->get_param( 'type' ) );
 
 		// Remove any unreferenced packages
-		BH_Move_Migration_Package::delete_orphans();
+		BH_Site_Migrator_Migration_Package::delete_orphans();
 
 		return rest_ensure_response( $package_data );
 	}
@@ -117,7 +117,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
-		return rest_ensure_response( BH_Move_Migration_Package::fetch( $request->get_param( 'type' ) ) );
+		return rest_ensure_response( BH_Site_Migrator_Migration_Package::fetch( $request->get_param( 'type' ) ) );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		return rest_ensure_response( BH_Move_Migration_Package::delete( $request->get_param( 'type' ) ) );
+		return rest_ensure_response( BH_Site_Migrator_Migration_Package::delete( $request->get_param( 'type' ) ) );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_items( $request ) {
-		$packages = BH_Move_Migration_Package::fetch_all();
+		$packages = BH_Site_Migrator_Migration_Package::fetch_all();
 
 		// Ensure that empty arrays are properly converted to empty objects!
 		foreach ( $packages as $key => $value ) {
@@ -157,7 +157,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_items() {
-		return rest_ensure_response( BH_Move_Migration_Package::delete_all() );
+		return rest_ensure_response( BH_Site_Migrator_Migration_Package::delete_all() );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function is_package_valid( $request ) {
-		return rest_ensure_response( BH_Move_Migration_Package::is_valid_package( $request->get_param( 'type' ) ) );
+		return rest_ensure_response( BH_Site_Migrator_Migration_Package::is_valid_package( $request->get_param( 'type' ) ) );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class BH_Move_REST_Migration_Package_Controller extends WP_REST_Controller {
 	 */
 	public function check_permission() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to access this endpoint.', 'bluehost-move' ), array( 'status' => rest_authorization_required_code() ) );
+			return new \WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to access this endpoint.', 'bluehost-site-migrator' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;

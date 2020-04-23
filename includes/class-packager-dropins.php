@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Dropins_Packager
+ * Class BH_Site_Migrator_Dropins_Packager
  */
-class BH_Move_Dropins_Packager implements BH_Move_Packager {
+class BH_Site_Migrator_Dropins_Packager implements BH_Site_Migrator_Packager {
 
 	/**
 	 * Create the dropins package.
@@ -22,8 +22,8 @@ class BH_Move_Dropins_Packager implements BH_Move_Packager {
 
 		if ( $dropins ) {
 
-			$filename = BH_Move_Migration_Package::generate_name( 'dropins' );
-			$zip_path = BH_Move_Utilities::get_upload_path( $filename );
+			$filename = BH_Site_Migrator_Migration_Package::generate_name( 'dropins' );
+			$zip_path = BH_Site_Migrator_Utilities::get_upload_path( $filename );
 
 			$zip = new ZipArchive();
 			if ( true === $zip->open( $zip_path, ZipArchive::CREATE ) ) {

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Plugin_Data
+ * Class BH_Site_Migrator_Plugin_Data
  */
-class BH_Move_Plugin_Data {
+class BH_Site_Migrator_Plugin_Data {
 
 	/**
 	 * Plugin basename.

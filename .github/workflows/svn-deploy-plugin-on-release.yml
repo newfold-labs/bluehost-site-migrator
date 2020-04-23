@@ -3,11 +3,11 @@ on:
   release:
     types:
       - created
-      - updated
+      - edited
 
 jobs:
-  tag:
-    name: New tag
+  deploy:
+    name: On Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -16,4 +16,4 @@ jobs:
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          ASSETS_DIR: .github/wordpress-org-assets
+          ASSETS_DIR: .wporg

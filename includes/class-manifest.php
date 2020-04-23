@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Manifest
+ * Class BH_Site_Migrator_Manifest
  */
-class BH_Move_Manifest extends BH_Move_Registry {
+class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 
 	/**
 	 * Generate manifest.
@@ -13,7 +13,7 @@ class BH_Move_Manifest extends BH_Move_Registry {
 	public static function create() {
 		$manifest      = new self();
 		$manifest_data = $manifest->to_array();
-		BH_Move_Options::set( 'manifest', $manifest_data );
+		BH_Site_Migrator_Options::set( 'manifest', $manifest_data );
 
 		return $manifest_data;
 	}
@@ -24,7 +24,7 @@ class BH_Move_Manifest extends BH_Move_Registry {
 	 * @return bool
 	 */
 	public static function exists() {
-		return BH_Move_Options::has( 'manifest' );
+		return BH_Site_Migrator_Options::has( 'manifest' );
 	}
 
 	/**
@@ -37,7 +37,7 @@ class BH_Move_Manifest extends BH_Move_Registry {
 			return self::create();
 		}
 
-		return BH_Move_Options::get( 'manifest', array() );
+		return BH_Site_Migrator_Options::get( 'manifest', array() );
 	}
 
 	/**
@@ -46,9 +46,9 @@ class BH_Move_Manifest extends BH_Move_Registry {
 	 * @param bool $delete_packages Whether or not to delete all migration packages as well.
 	 */
 	public static function delete( $delete_packages = false ) {
-		BH_Move_Options::delete( 'manifest' );
+		BH_Site_Migrator_Options::delete( 'manifest' );
 		if ( $delete_packages ) {
-			BH_Move_Migration_Package::delete_all();
+			BH_Site_Migrator_Migration_Package::delete_all();
 		}
 	}
 
@@ -95,7 +95,7 @@ class BH_Move_Manifest extends BH_Move_Registry {
 	 * @return array
 	 */
 	protected function wp() {
-		$wp = new BH_Move_WP_Manifest();
+		$wp = new BH_Site_Migrator_WP_Manifest();
 
 		return $wp->to_array();
 	}

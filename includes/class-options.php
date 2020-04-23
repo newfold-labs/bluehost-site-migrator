@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Class BH_Move_Options
+ * Class BH_Site_Migrator_Options
  */
-class BH_Move_Options {
+class BH_Site_Migrator_Options {
 
 	/**
 	 * Plugin option name.
 	 *
 	 * @var string
 	 */
-	const OPTION_NAME = 'bluehost_move';
+	const OPTION_NAME = 'bluehost_site_migrator';
 
 	/**
 	 * Whether or not changes were made to the options.

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Class BH_Move_REST_Manifest_Controller
+ * Class BH_Site_Migrator_REST_Manifest_Controller
  */
-class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
+class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 
 	/**
 	 * The namespace of this controller's route.
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'bluehost-move/v1';
+	protected $namespace = 'bluehost-site-migrator/v1';
 
 	/**
 	 * The base of this controller's route.
@@ -68,7 +68,7 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		return rest_ensure_response( BH_Move_Manifest::create() );
+		return rest_ensure_response( BH_Site_Migrator_Manifest::create() );
 	}
 
 
@@ -80,7 +80,7 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
-		return rest_ensure_response( BH_Move_Manifest::fetch() );
+		return rest_ensure_response( BH_Site_Migrator_Manifest::fetch() );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		return rest_ensure_response( BH_Move_Manifest::delete() );
+		return rest_ensure_response( BH_Site_Migrator_Manifest::delete() );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 		$response = wp_remote_post( 'https://', array(
 			'body' => array(
 				'key'   => '',
-				'files' => BH_Move_Migration_Package::fetch_all(),
+				'files' => BH_Site_Migrator_Migration_Package::fetch_all(),
 			),
 		) );
 
@@ -120,8 +120,8 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 		}
 		*/
 
-		BH_Move_Options::set( 'isComplete', true );
-		BH_Move_Scheduled_Events::schedule_migration_package_purge();
+		BH_Site_Migrator_Options::set( 'isComplete', true );
+		BH_Site_Migrator_Scheduled_Events::schedule_migration_package_purge();
 
 		return rest_ensure_response( true );
 	}
@@ -133,7 +133,7 @@ class BH_Move_REST_Manifest_Controller extends WP_REST_Controller {
 	 */
 	public function check_permission() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to access this endpoint.', 'bluehost-move' ), array( 'status' => rest_authorization_required_code() ) );
+			return new \WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to access this endpoint.', 'bluehost-site-migrator' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;

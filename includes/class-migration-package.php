@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Migration_Package
+ * Class BH_Site_Migrator_Migration_Package
  */
-class BH_Move_Migration_Package {
+class BH_Site_Migrator_Migration_Package {
 
 	/**
 	 * Create a package of a specific type.
@@ -20,7 +20,7 @@ class BH_Move_Migration_Package {
 			return $package_data;
 		}
 
-		$packager = BH_Move_Packager_Factory::create( $package_type );
+		$packager = BH_Site_Migrator_Packager_Factory::create( $package_type );
 		$package  = $packager->create_package();
 
 		if ( ! empty( $package ) ) {
@@ -35,7 +35,7 @@ class BH_Move_Migration_Package {
 				'url'       => str_replace( $uploads['basedir'], $uploads['baseurl'], $package ),
 			);
 
-			BH_Move_Options::set( $package_type, $package_data );
+			BH_Site_Migrator_Options::set( $package_type, $package_data );
 
 		}
 
@@ -57,7 +57,7 @@ class BH_Move_Migration_Package {
 			return $package_data;
 		}
 
-		$package_data = BH_Move_Options::get( $package_type, array() );
+		$package_data = BH_Site_Migrator_Options::get( $package_type, array() );
 
 		return $package_data;
 	}
@@ -69,7 +69,7 @@ class BH_Move_Migration_Package {
 	 */
 	public static function fetch_all() {
 		$packages      = array();
-		$package_types = BH_Move_Packager_Factory::get_package_types();
+		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
 		foreach ( $package_types as $package_type ) {
 			$packages[ $package_type ] = self::fetch( $package_type );
 		}
@@ -91,7 +91,7 @@ class BH_Move_Migration_Package {
 
 		if ( ! empty( $package_data ) && isset( $package_data['path'] ) ) {
 			if ( unlink( $package_data['path'] ) ) {
-				BH_Move_Options::delete( $package_type );
+				BH_Site_Migrator_Options::delete( $package_type );
 				$is_successful = true;
 			}
 		}
@@ -106,7 +106,7 @@ class BH_Move_Migration_Package {
 	 */
 	public static function delete_all() {
 		$packages      = array();
-		$package_types = BH_Move_Packager_Factory::get_package_types();
+		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
 		foreach ( $package_types as $package_type ) {
 			$packages[ $package_type ] = self::delete( $package_type );
 		}
@@ -120,7 +120,7 @@ class BH_Move_Migration_Package {
 	public static function delete_orphans() {
 		$packages = wp_list_pluck( self::fetch_all(), 'path' );
 
-		$directory          = BH_Move_Utilities::get_upload_path();
+		$directory          = BH_Site_Migrator_Utilities::get_upload_path();
 		$directory_iterator = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
 		$files              = new RecursiveIteratorIterator( $directory_iterator, RecursiveIteratorIterator::SELF_FIRST );
 
@@ -144,7 +144,7 @@ class BH_Move_Migration_Package {
 	 * Purge all migration packages from the filesystem.
 	 */
 	public static function purge() {
-		$directory          = BH_Move_Utilities::get_upload_path();
+		$directory          = BH_Site_Migrator_Utilities::get_upload_path();
 		$directory_iterator = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
 		$files              = new RecursiveIteratorIterator( $directory_iterator, RecursiveIteratorIterator::SELF_FIRST );
 
@@ -167,7 +167,7 @@ class BH_Move_Migration_Package {
 	 * @return bool
 	 */
 	public static function is_valid_type( $package_type ) {
-		return BH_Move_Packager_Factory::is_valid_package_type( $package_type );
+		return BH_Site_Migrator_Packager_Factory::is_valid_package_type( $package_type );
 	}
 
 	/**
@@ -205,7 +205,7 @@ class BH_Move_Migration_Package {
 		}
 
 		// Validate the specific package
-		$instance = BH_Move_Packager_Factory::create( $package_type );
+		$instance = BH_Site_Migrator_Packager_Factory::create( $package_type );
 
 		return $instance->is_package_valid( $data );
 	}

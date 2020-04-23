@@ -19,11 +19,11 @@ Vue.mixin({
 
 const router = new VueRouter({routes});
 
-window.BHMove.App = new Vue({
-	el: '#bluehost-move',
+window.BHSiteMigrator.App = new Vue({
+	el: '#bluehost-site-migrator',
 	data: {
-		isCompatible: window.BHMove.isCompatible || null,
-		isComplete: window.BHMove.isComplete || null,
+		isCompatible: window.BHSiteMigrator.isCompatible || null,
+		isComplete: window.BHSiteMigrator.isComplete || null,
 	},
 	created() {
 

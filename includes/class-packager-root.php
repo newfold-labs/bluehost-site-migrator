@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Root_Packager
+ * Class BH_Site_Migrator_Root_Packager
  */
-class BH_Move_Root_Packager implements BH_Move_Packager {
+class BH_Site_Migrator_Root_Packager implements BH_Site_Migrator_Packager {
 
 	/**
 	 * Create the others package.
@@ -14,13 +14,13 @@ class BH_Move_Root_Packager implements BH_Move_Packager {
 
 		$package = '';
 
-		add_filter( 'bh_move_filter_files', 'bh_move_filter_directories', 10, 2 );
-		add_filter( 'bh_move_filter_by_path', 'bh_move_filter_wp_root_files' );
+		add_filter( 'bh_site_migrator_filter_files', 'bh_site_migrator_filter_directories', 10, 2 );
+		add_filter( 'bh_site_migrator_filter_by_path', 'bh_site_migrator_filter_wp_root_files' );
 
-		$zip = BH_Move_Utilities::zip_directory( ABSPATH, 'root' );
+		$zip = BH_Site_Migrator_Utilities::zip_directory( ABSPATH, 'root' );
 
-		remove_filter( 'bh_move_filter_files', 'bh_move_filter_directories' );
-		remove_filter( 'bh_move_filter_by_path', 'bh_move_filter_wp_root_files' );
+		remove_filter( 'bh_site_migrator_filter_files', 'bh_site_migrator_filter_directories' );
+		remove_filter( 'bh_site_migrator_filter_by_path', 'bh_site_migrator_filter_wp_root_files' );
 
 		if ( $zip ) {
 			$package = $zip;
@@ -38,11 +38,11 @@ class BH_Move_Root_Packager implements BH_Move_Packager {
 	 */
 	public function is_package_valid( array $data ) {
 
-		add_filter( 'bh_move_filter_files', 'bh_move_filter_directories', 10, 2 );
-		add_filter( 'bh_move_filter_by_path', 'bh_move_filter_wp_root_files' );
+		add_filter( 'bh_site_migrator_filter_files', 'bh_site_migrator_filter_directories', 10, 2 );
+		add_filter( 'bh_site_migrator_filter_by_path', 'bh_site_migrator_filter_wp_root_files' );
 
 		$dir_iterator    = new RecursiveDirectoryIterator( ABSPATH, RecursiveDirectoryIterator::SKIP_DOTS );
-		$filter_iterator = new BH_Move_Filter_Iterator( $dir_iterator );
+		$filter_iterator = new BH_Site_Migrator_Filter_Iterator( $dir_iterator );
 		$files           = new RecursiveIteratorIterator( $filter_iterator, RecursiveIteratorIterator::SELF_FIRST );
 
 		foreach ( $files as $file ) {
@@ -57,8 +57,8 @@ class BH_Move_Root_Packager implements BH_Move_Packager {
 			}
 		}
 
-		remove_filter( 'bh_move_filter_files', 'bh_move_filter_directories' );
-		remove_filter( 'bh_move_filter_by_path', 'bh_move_filter_wp_root_files' );
+		remove_filter( 'bh_site_migrator_filter_files', 'bh_site_migrator_filter_directories' );
+		remove_filter( 'bh_site_migrator_filter_by_path', 'bh_site_migrator_filter_wp_root_files' );
 
 		return true;
 	}

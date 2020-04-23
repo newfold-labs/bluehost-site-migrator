@@ -3,7 +3,7 @@
 /**
  * Class ClassLoader
  */
-class BH_Move_Class_Loader {
+class BH_Site_Migrator_Class_Loader {
 
 	/**
 	 * Class map.

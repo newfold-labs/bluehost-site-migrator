@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Registry
+ * Class BH_Site_Migrator_Registry
  */
-class BH_Move_Registry {
+class BH_Site_Migrator_Registry {
 
 	/**
 	 * Registry data.

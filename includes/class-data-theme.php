@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Theme_Data
+ * Class BH_Site_Migrator_Theme_Data
  */
-class BH_Move_Theme_Data {
+class BH_Site_Migrator_Theme_Data {
 
 	/**
 	 * Theme directory name.

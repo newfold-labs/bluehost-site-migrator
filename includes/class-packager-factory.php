@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Packager_Factory
+ * Class BH_Site_Migrator_Packager_Factory
  */
-class BH_Move_Packager_Factory {
+class BH_Site_Migrator_Packager_Factory {
 
 	/**
 	 * Mapping of package types to packager classes.
@@ -11,13 +11,13 @@ class BH_Move_Packager_Factory {
 	 * @var array
 	 */
 	protected static $class_map = array(
-		'database'   => 'BH_Move_Database_Packager',
-		'dropins'    => 'BH_Move_Dropins_Packager',
-		'mu-plugins' => 'BH_Move_MU_Plugins_Packager',
-		'plugins'    => 'BH_Move_Plugins_Packager',
-		'themes'     => 'BH_Move_Themes_Packager',
-		'uploads'    => 'BH_Move_Uploads_Packager',
-		'root'       => 'BH_Move_Root_Packager',
+		'database'   => 'BH_Site_Migrator_Database_Packager',
+		'dropins'    => 'BH_Site_Migrator_Dropins_Packager',
+		'mu-plugins' => 'BH_Site_Migrator_MU_Plugins_Packager',
+		'plugins'    => 'BH_Site_Migrator_Plugins_Packager',
+		'themes'     => 'BH_Site_Migrator_Themes_Packager',
+		'uploads'    => 'BH_Site_Migrator_Uploads_Packager',
+		'root'       => 'BH_Site_Migrator_Root_Packager',
 	);
 
 	/**
@@ -25,7 +25,7 @@ class BH_Move_Packager_Factory {
 	 *
 	 * @param string $package_type One of the keys listed in the class map above.
 	 *
-	 * @return BH_Move_Packager|null
+	 * @return BH_Site_Migrator_Packager|null
 	 */
 	public static function create( $package_type ) {
 

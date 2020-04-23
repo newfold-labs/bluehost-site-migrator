@@ -10,16 +10,16 @@ describe('Transfer', function () {
 
 		cy.server({delay: 500, force404: true});
 
-		cy.route('GET', '/wp-json/bluehost-move/v1/migration-package?*', 'fx:migrationPackages').as('fetchPackages');
-		cy.route('GET', '/wp-json/bluehost-move/v1/migration-package/*/is-valid*', false);
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/database?*', 'fx:migrationPackage').as('database');
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/dropins?*', 'fx:migrationPackage').as('dropins');
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/mu-plugins?*', 'fx:migrationPackage').as('mu-plugins');
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/plugins?*', 'fx:migrationPackage').as('plugins');
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/themes?*', 'fx:migrationPackage').as('themes');
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/uploads?*', 'fx:migrationPackage').as('uploads');
-		cy.route('POST', '/wp-json/bluehost-move/v1/migration-package/root?*', 'fx:migrationPackage').as('root');
-		cy.route('POST', '/wp-json/bluehost-move/v1/manifest/send*', true).as('sendManifest');
+		cy.route('GET', '/wp-json/bluehost-site-migrator/v1/migration-package?*', 'fx:migrationPackages').as('fetchPackages');
+		cy.route('GET', '/wp-json/bluehost-site-migrator/v1/migration-package/*/is-valid*', false);
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/database?*', 'fx:migrationPackage').as('database');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/dropins?*', 'fx:migrationPackage').as('dropins');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/mu-plugins?*', 'fx:migrationPackage').as('mu-plugins');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/plugins?*', 'fx:migrationPackage').as('plugins');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/themes?*', 'fx:migrationPackage').as('themes');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/uploads?*', 'fx:migrationPackage').as('uploads');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/root?*', 'fx:migrationPackage').as('root');
+		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/manifest/send*', true).as('sendManifest');
 
 		cy.contains('p', 'Preparing to generate package files...');
 

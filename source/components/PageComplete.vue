@@ -3,10 +3,10 @@
 
 		<div class="content">
 
-			<h1>{{__("Welcome to the Bluehost family!", 'bluehost-move')}}</h1>
+			<h1>{{__("Welcome to the Bluehost family!", 'bluehost-site-migrator')}}</h1>
 
 			<p>
-				{{__("You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account so you can review it.", 'bluehost-move')}}
+				{{__("You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account so you can review it.", 'bluehost-site-migrator')}}
 			</p>
 
 			<a class="button"
@@ -14,17 +14,17 @@
 			   target="_blank"
 			   rel="noreferrer noopener"
 			>
-				{{__("Login to Bluehost", 'bluehost-move')}}
+				{{__("Login to Bluehost", 'bluehost-site-migrator')}}
 			</a>
 
 			<p>
-				<span class="text-disabled">{{__("Don't have an account?", 'bluehost-move')}}</span>&nbsp;&nbsp;
+				<span class="text-disabled">{{__("Don't have an account?", 'bluehost-site-migrator')}}</span>&nbsp;&nbsp;
 				<a
 					href="https://www.bluehost.com/cgi-bin/signup"
 					target="_blank"
 					rel="noreferrer noopener"
 				>
-					{{__("Create account", 'bluehost-move')}}
+					{{__("Create account", 'bluehost-site-migrator')}}
 				</a>
 			</p>
 
@@ -41,7 +41,7 @@
 	export default {
 		data() {
 			return {
-				imageSrc: window.BHMove.pluginUrl + require('@/images/moving-truck-unloaded.svg').default
+				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default
 			}
 		}
 	}

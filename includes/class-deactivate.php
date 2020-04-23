@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Class BH_Move_Deactivate
+ * Class BH_Site_Migrator_Deactivate
  */
-class BH_Move_Deactivate {
+class BH_Site_Migrator_Deactivate {
 
 	/**
-	 * BH_Move_Deactivate constructor.
+	 * BH_Site_Migrator_Deactivate constructor.
 	 */
 	public static function register_listener() {
-		register_deactivation_hook( BH_MOVE_FILE, array( __CLASS__, 'on_deactivation' ) );
+		register_deactivation_hook( BH_SITE_MIGRATOR_FILE, array( __CLASS__, 'on_deactivation' ) );
 	}
 
 	/**
@@ -27,10 +27,10 @@ class BH_Move_Deactivate {
 
 		// Delete all files
 		$filesystem = new WP_Filesystem_Direct( false );
-		$filesystem->rmdir( BH_Move_Utilities::get_upload_path(), true );
+		$filesystem->rmdir( BH_Site_Migrator_Utilities::get_upload_path(), true );
 
 		// Delete all data
-		BH_Move_Options::purge();
+		BH_Site_Migrator_Options::purge();
 	}
 
 }

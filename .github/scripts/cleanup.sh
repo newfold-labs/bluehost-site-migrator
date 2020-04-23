@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-rm -rf ./.git
-rm -rf ./.github
-rm -rf ./node_modules
-rm -rf ./source
-rm -rf ./vendor
+rm -rf .git
+rm -rf .github
+rm -rf .wporg
+rm -rf node_modules
 find . -name '.*' -type f -maxdepth 1 -delete
-rm composer.json
-rm composer.lock
-rm package.json
-rm package-lock.json
-rm phpcs.xml
-rm readme.md
-rm webpack.config.js
+find . -name '*.md' -type f -maxdepth 1 -delete
+find . -name '*.json' -type f -maxdepth 1 -delete
+find . -name '*.lock' -type f -maxdepth 1 -delete
+find . -name '*.xml' -type f -maxdepth 1 -delete
+find . -name '*.yml' -type f -maxdepth 1 -delete
+rm -f webpack.config.js

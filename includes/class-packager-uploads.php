@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Uploads_Packager
+ * Class BH_Site_Migrator_Uploads_Packager
  */
-class BH_Move_Uploads_Packager implements BH_Move_Packager {
+class BH_Site_Migrator_Uploads_Packager implements BH_Site_Migrator_Packager {
 
 	/**
 	 * Create the uploads package.
@@ -16,7 +16,7 @@ class BH_Move_Uploads_Packager implements BH_Move_Packager {
 
 		$uploads = wp_upload_dir();
 
-		$zip = BH_Move_Utilities::zip_directory( $uploads['basedir'], 'uploads' );
+		$zip = BH_Site_Migrator_Utilities::zip_directory( $uploads['basedir'], 'uploads' );
 
 		if ( $zip ) {
 

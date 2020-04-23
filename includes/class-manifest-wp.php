@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_WP_Manifest
+ * Class BH_Site_Migrator_WP_Manifest
  */
-class BH_Move_WP_Manifest extends BH_Move_Registry {
+class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 
 	/**
 	 * Constructor.
@@ -120,7 +120,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 
 		return array(
 			'active_plugin_count' => count( get_option( 'active_plugins' ) ),
-			'plugin_count'        => count( BH_Move_Plugin_Manifest::get_plugins() ),
+			'plugin_count'        => count( BH_Site_Migrator_Plugin_Manifest::get_plugins() ),
 			'post_type_count'     => count( $post_types ),
 			'post_types'          => $post_types,
 			'taxonomies'          => $taxonomies,
@@ -138,7 +138,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 	 * @return array
 	 */
 	protected function plugins() {
-		$manifest = new BH_Move_Plugin_Manifest();
+		$manifest = new BH_Site_Migrator_Plugin_Manifest();
 
 		return array_values( $manifest->to_array() );
 	}
@@ -163,7 +163,7 @@ class BH_Move_WP_Manifest extends BH_Move_Registry {
 	 * @return array
 	 */
 	protected function themes() {
-		$manifest = new BH_Move_Theme_Manifest();
+		$manifest = new BH_Site_Migrator_Theme_Manifest();
 
 		return array_values( $manifest->to_array() );
 	}

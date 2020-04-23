@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Plugins_Packager
+ * Class BH_Site_Migrator_Plugins_Packager
  */
-class BH_Move_Plugins_Packager implements BH_Move_Packager {
+class BH_Site_Migrator_Plugins_Packager implements BH_Site_Migrator_Packager {
 
 	/**
 	 * Create the plugins package.
@@ -11,7 +11,7 @@ class BH_Move_Plugins_Packager implements BH_Move_Packager {
 	 * @return string Path to the package file or an empty string on failure.
 	 */
 	public function create_package() {
-		return BH_Move_Utilities::zip_directory( WP_PLUGIN_DIR, 'plugins' );
+		return BH_Site_Migrator_Utilities::zip_directory( WP_PLUGIN_DIR, 'plugins' );
 	}
 
 	/**

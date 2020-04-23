@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class BH_Move_Notification_Blocker
+ * Class BH_Site_Migrator_Notification_Blocker
  */
-class BH_Move_Notification_Blocker {
+class BH_Site_Migrator_Notification_Blocker {
 
 	/**
 	 * Target notices using highly-specific CSS selectors to avoid collisions.

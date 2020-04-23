@@ -21,5 +21,5 @@ Cypress.Commands.add('login', (username, password) => {
 });
 
 Cypress.Commands.add('navigateTo', (path) => {
-	cy.window().then(win => win.BHMove.App.$router.push(path));
+	cy.window().then(win => win.BHSiteMigrator.App.$router.push(path));
 });

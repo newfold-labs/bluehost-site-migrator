@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Interface BH_Move_Packager
+ * Interface BH_Site_Migrator_Packager
  */
-interface BH_Move_Packager {
+interface BH_Site_Migrator_Packager {
 
 	/**
 	 * Create a package.

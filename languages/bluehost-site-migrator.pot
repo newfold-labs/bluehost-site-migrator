@@ -2,9 +2,10 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bluehost Move 1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bluehost-move\n"
-"POT-Creation-Date: 2020-03-11 23:45:49+00:00\n"
+"Project-Id-Version: Bluehost Site Migrator 1.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/bluehost-site-migrator\n"
+"POT-Creation-Date: 2020-04-23 21:03:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,17 +15,13 @@ msgstr ""
 "X-Generator: wp-vue-i18n 1.1.4\n"
 
 #. Plugin Name of the plugin/theme
-msgid "Bluehost Move"
+msgid "Bluehost Site Migrator"
 msgstr ""
 
 #: includes/class-rest-can-we-migrate-controller.php:59
 #: includes/class-rest-manifest-controller.php:136
 #: includes/class-rest-migration-package-controller.php:181
 msgid "Sorry, you are not allowed to access this endpoint."
-msgstr ""
-
-#: source/components/PageCheckCompatibility.vue:4
-msgid "Bluehost Site Migrator"
 msgstr ""
 
 #: source/components/PageCheckCompatibility.vue:5
@@ -64,7 +61,7 @@ msgid "Checking configuration..."
 msgstr ""
 
 #: source/components/PageCompatible.vue:4
-msgid "Looks like we're<br/> compatible!"
+msgid "Looks like we're compatible!"
 msgstr ""
 
 #: source/components/PageCompatible.vue:5
@@ -121,18 +118,22 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: source/components/PageIncompatible.vue:6
-msgid "That didn't work:<br> Let's bring in the pros."
+#: source/components/PageIncompatible.vue:7
+msgid "That didn't work:"
 msgstr ""
 
-#: source/components/PageIncompatible.vue:9
+#: source/components/PageIncompatible.vue:8
+msgid "Let's bring in the pros."
+msgstr ""
+
+#: source/components/PageIncompatible.vue:12
 msgid ""
 "This can happen if you have a multisite, alternate directory structures, or "
 "certain themes or plugins. The transfer might require some extra steps, or "
 "we might need to look at other options."
 msgstr ""
 
-#: source/components/PageIncompatible.vue:12
+#: source/components/PageIncompatible.vue:15
 msgid "Give us a call at 800-XXX-XXXX."
 msgstr ""
 
