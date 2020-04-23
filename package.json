@@ -49,7 +49,7 @@
     "build": "webpack -p",
     "cypress": "npx cypress open",
     "i18n": "wpvuei18n makepot",
-    "lint": "npx yamllint **/*.yml",
+    "lint": "npx yamllint **/*.yml --ignore=node_modules/**",
     "start": "webpack --watch",
     "test": "npx cypress run"
   },
