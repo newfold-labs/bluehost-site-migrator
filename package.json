@@ -1,9 +1,18 @@
 {
   "name": "bluehost-site-migrator",
-  "version": "1.0.0",
   "description": "Quickly and easily migrate your website to Bluehost.",
   "private": true,
   "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluehost/bluehost-site-migrator.git"
+  },
+  "author": "Micah Wood <micah@wpscholar.com>",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/bluehost/bluehost-site-migrator/issues"
+  },
+  "homepage": "https://github.com/bluehost/bluehost-site-migrator#readme",
   "dependencies": {
     "@wordpress/api-fetch": "^3.9.0",
     "@wordpress/i18n": "^3.9.0",
@@ -22,6 +31,8 @@
     "css-loader": "^3.4.1",
     "cypress": "^4.3.0",
     "file-loader": "^5.0.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.7",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
@@ -31,23 +42,28 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "wp-vue-i18n": "^1.1.4"
+    "wp-vue-i18n": "^1.1.4",
+    "yaml-lint": "^1.2.4"
   },
   "scripts": {
     "build": "webpack -p",
     "cypress": "npx cypress open",
     "i18n": "wpvuei18n makepot",
+    "lint": "npx yamllint **/*.yml",
     "start": "webpack --watch",
     "test": "npx cypress run"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bluehost/bluehost-site-migrator.git"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
-  "author": "Micah Wood <micah@wpscholar.com>",
-  "license": "GPL-2.0+",
-  "bugs": {
-    "url": "https://github.com/bluehost/bluehost-migration-plugin/issues"
-  },
-  "homepage": "https://github.com/bluehost/bluehost-migration-plugin#readme"
+  "lint-staged": {
+    "**/*.yml": [
+      "npm run lint"
+    ],
+    "**/*.php": [
+      "composer run-script lint"
+    ]
+  }
 }
