@@ -103,6 +103,7 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 	 */
 	public function send_manifest() {
 
+		// phpcs:disable
 		/*
 		$response = wp_remote_post( 'https://', array(
 			'body' => array(
@@ -119,6 +120,7 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 			) );
 		}
 		*/
+		// phpcs:enable
 
 		BH_Site_Migrator_Options::set( 'isComplete', true );
 		BH_Site_Migrator_Scheduled_Events::schedule_migration_package_purge();

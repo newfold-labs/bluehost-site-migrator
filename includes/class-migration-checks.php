@@ -49,6 +49,7 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function can_we_migrate_api( $can_migrate ) {
+		// phpcs:disable
 		if ( $can_migrate ) {
 			/*
 			$cache_key   = 'bluehost_site_migrator_can_migrate';
@@ -68,6 +69,7 @@ class BH_Site_Migrator_Migration_Checks {
 			}
 			*/
 		}
+		// phpcs:enable
 
 		return $can_migrate;
 	}
