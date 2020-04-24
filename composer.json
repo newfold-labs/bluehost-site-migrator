@@ -1,6 +1,7 @@
 {
   "name": "bluehost/bluehost-site-migrator",
   "description": "A WordPress plugin to help you quickly and easily migrate your website to Bluehost.",
+  "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
