@@ -65,11 +65,11 @@ class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 		require ABSPATH . WPINC . '/version.php';
 
 		return array(
-			'is_multisite'           => is_multisite(),
-			'required_mysql_version' => $required_mysql_version,
-			'required_php_version'   => $required_php_version,
-			'wp_db_version'          => $wp_db_version,
-			'wp_version'             => $wp_version,
+			'isMultisite'          => is_multisite(),
+			'requiredMysqlVersion' => $required_mysql_version,
+			'requiredPhpVersion'   => $required_php_version,
+			'wpDbVersion'          => $wp_db_version,
+			'wpVersion'            => $wp_version,
 		);
 	}
 
@@ -91,13 +91,13 @@ class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 		}
 
 		return array(
-			'host'         => DB_HOST,
-			'name'         => DB_NAME,
-			'size'         => $db_size,
-			'table_prefix' => $wpdb->prefix,
-			'tables'       => array_values( $wpdb->tables() ),
-			'user'         => DB_USER,
-			'version'      => $wpdb->db_version(),
+			'host'        => DB_HOST,
+			'name'        => DB_NAME,
+			'size'        => $db_size,
+			'tablePrefix' => $wpdb->prefix,
+			'tables'      => array_values( $wpdb->tables() ),
+			'user'        => DB_USER,
+			'version'     => $wpdb->db_version(),
 		);
 	}
 
@@ -119,16 +119,16 @@ class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 		}
 
 		return array(
-			'active_plugin_count' => count( get_option( 'active_plugins' ) ),
-			'plugin_count'        => count( BH_Site_Migrator_Plugin_Manifest::get_plugins() ),
-			'post_type_count'     => count( $post_types ),
-			'post_types'          => $post_types,
-			'taxonomies'          => $taxonomies,
-			'taxonomy_count'      => count( $taxonomies ),
-			'term_counts'         => $term_counts,
-			'theme_count'         => count( wp_get_themes() ),
-			'user_count'          => $users['total_users'],
-			'user_role_counts'    => $users['avail_roles'],
+			'activePluginCount' => count( get_option( 'active_plugins' ) ),
+			'pluginCount'       => count( BH_Site_Migrator_Plugin_Manifest::get_plugins() ),
+			'postTypeCount'     => count( $post_types ),
+			'postTypes'         => $post_types,
+			'taxonomies'        => $taxonomies,
+			'taxonomyCount'     => count( $taxonomies ),
+			'termCounts'        => $term_counts,
+			'themeCount'        => count( wp_get_themes() ),
+			'userCount'         => $users['total_users'],
+			'userRoleCounts'    => $users['avail_roles'],
 		);
 	}
 
@@ -150,10 +150,10 @@ class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 	 */
 	protected function settings() {
 		return array(
-			'admin_email' => get_option( 'admin_email' ),
-			'home_url'    => get_home_url(),
-			'site_url'    => get_site_url(),
-			'timezone'    => wp_timezone_string(),
+			'adminEmail' => get_option( 'admin_email' ),
+			'homeUrl'    => get_home_url(),
+			'siteUrl'    => get_site_url(),
+			'timezone'   => wp_timezone_string(),
 		);
 	}
 

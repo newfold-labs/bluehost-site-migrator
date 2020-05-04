@@ -72,18 +72,18 @@ class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 
 		return array(
 			'filesystem'       => array(
-				'document_root'    => $_SERVER['DOCUMENT_ROOT'],
-				'free_space'       => disk_free_space( ABSPATH ),
-				'total_space'      => disk_total_space( ABSPATH ),
-				'uploads_dir_size' => recurse_dirsize( $uploads['basedir'] ),
+				'documentRoot'   => $_SERVER['DOCUMENT_ROOT'],
+				'freeSpace'      => disk_free_space( ABSPATH ),
+				'totalSpace'     => disk_total_space( ABSPATH ),
+				'uploadsDirSize' => recurse_dirsize( $uploads['basedir'] ),
 			),
 			'ip_address'       => $_SERVER['SERVER_ADDR'],
 			'operating_system' => PHP_OS,
 			'php'              => array(
-				'execution_timeout' => absint( ini_get( 'max_execution_time' ) ),
-				'extensions'        => get_loaded_extensions(),
-				'memory_limit'      => ini_get( 'memory_limit' ),
-				'version'           => phpversion(),
+				'executionTimeout' => absint( ini_get( 'max_execution_time' ) ),
+				'extensions'       => get_loaded_extensions(),
+				'memoryLimit'      => ini_get( 'memory_limit' ),
+				'version'          => phpversion(),
 			),
 			'server_hostname'  => gethostname(),
 		);

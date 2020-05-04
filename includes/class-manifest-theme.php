@@ -28,22 +28,22 @@ class BH_Site_Migrator_Theme_Manifest extends BH_Site_Migrator_Registry {
 		$last_updated = $theme->last_updated();
 
 		return array(
-			'author'       => $theme->author(),
-			'author_url'   => $theme->author_url(),
-			'description'  => $theme->description(),
-			'is_active'    => $theme->is_active(),
-			'is_wp_org'    => $theme->is_wp_org(),
-			'last_updated' => $last_updated ? $last_updated->format( 'c' ) : '',
-			'name'         => $theme->name(),
-			'new_version'  => $theme->new_version(),
-			'path'         => $theme->path(),
-			'requires_php' => $theme->requires_php_version(),
-			'requires_wp'  => $theme->requires_wp_version(),
-			'stylesheet'   => $theme->stylesheet(),
-			'template'     => $theme->template(),
-			'text_domain'  => $theme->text_domain(),
-			'url'          => $theme->url(),
-			'version'      => $theme->version(),
+			'author'      => $theme->author(),
+			'authorUrl'   => $theme->author_url(),
+			'description' => $theme->description(),
+			'isActive'    => $theme->is_active(),
+			'isWpOrg'     => $theme->is_wp_org(),
+			'lastUpdated' => $last_updated ? $last_updated->format( 'c' ) : '',
+			'name'        => $theme->name(),
+			'newVersion'  => $theme->new_version(),
+			'path'        => $theme->path(),
+			'requiresPhp' => $theme->requires_php_version(),
+			'requiresWp'  => $theme->requires_wp_version(),
+			'stylesheet'  => $theme->stylesheet(),
+			'template'    => $theme->template(),
+			'textDomain'  => $theme->text_domain(),
+			'url'         => $theme->url(),
+			'version'     => $theme->version(),
 		);
 	}
 
