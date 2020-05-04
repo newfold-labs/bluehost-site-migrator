@@ -60,10 +60,10 @@
   },
   "lint-staged": {
     "**/*.yml": [
-      "npm run lint"
+      "yamllint --ignore=node_modues/**"
     ],
     "**/*.php": [
-      "composer run-script lint"
+      "vendor/bin/phpcs --standard=Bluehost -s"
     ]
   }
 }
