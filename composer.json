@@ -17,7 +17,8 @@
   ],
   "require": {
     "ext-json": "*",
-    "ext-zip": "*"
+    "ext-zip": "*",
+    "wpscholar/github-archive-installer": "^1.1"
   },
   "require-dev": {
     "bluehost/wp-php-standards": "^1.1"
