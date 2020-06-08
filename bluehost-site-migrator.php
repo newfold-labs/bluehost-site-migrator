@@ -50,6 +50,7 @@ BH_Site_Migrator_Class_Loader::register_class_map(
 		'BH_Site_Migrator_Registry'                       => BH_SITE_MIGRATOR_DIR . 'includes/class-registry.php',
 		'BH_Site_Migrator_REST_Can_We_Migrate_Controller' => BH_SITE_MIGRATOR_DIR . 'includes/class-rest-can-we-migrate-controller.php',
 		'BH_Site_Migrator_REST_Manifest_Controller'       => BH_SITE_MIGRATOR_DIR . 'includes/class-rest-manifest-controller.php',
+		'BH_Site_Migrator_REST_Migration_Id_Controller'      => BH_SITE_MIGRATOR_DIR . 'includes/class-rest-migration-id-controller.php',
 		'BH_Site_Migrator_REST_Migration_Package_Controller' => BH_SITE_MIGRATOR_DIR . 'includes/class-rest-migration-package-controller.php',
 		'BH_Site_Migrator_Scheduled_Events'               => BH_SITE_MIGRATOR_DIR . 'includes/class-scheduled-events.php',
 		'BH_Site_Migrator_Utilities'                      => BH_SITE_MIGRATOR_DIR . 'includes/class-utilities.php',
