@@ -10,7 +10,7 @@
 			</p>
 
 			<a class="button"
-			   href="https://my.bluehost.com/web-hosting/cplogin"
+			   v-bind:href="siteMigrationUrl"
 			   target="_blank"
 			   rel="noreferrer noopener"
 			>
@@ -20,7 +20,7 @@
 			<p>
 				<span class="text-disabled">{{__("Don't have an account?", 'bluehost-site-migrator')}}</span>&nbsp;&nbsp;
 				<a
-					href="https://www.bluehost.com/cgi-bin/signup"
+					v-bind:href="accountCreationUrl"
 					target="_blank"
 					rel="noreferrer noopener"
 				>
@@ -38,11 +38,40 @@
 </template>
 
 <script>
+	import apiFetch from '@wordpress/api-fetch';
+
+	apiFetch.use(apiFetch.createNonceMiddleware(window.BHSiteMigrator.restNonce));
+	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHSiteMigrator.restRootUrl));
+
 	export default {
+		computed: {
+			accountCreationUrl() {
+				return `https://www.bluehost.com/cgi-bin/signup/?migrationId=${this.migrationId}`;
+			},
+			siteMigrationUrl() {
+				return `https://my.bluehost.com/cgi/site_migration/?migrationId=${this.migrationId}`;
+			}
+		},
 		data() {
 			return {
-				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default
+				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default,
+				migrationId: null
 			}
+		},
+		methods: {
+			getMigrationId() {
+				apiFetch({path: '/bluehost-site-migrator/v1/migration-id'})
+					.catch((error) => {
+						console.error(error);
+						this.$router.push('/error');
+					})
+					.then((migrationId) => {
+						this.migrationId = migrationId;
+					});
+			}
+		},
+		mounted() {
+			this.getMigrationId();
 		}
 	}
 </script>
