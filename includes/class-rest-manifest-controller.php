@@ -52,7 +52,7 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'send_manifest' ),
+					'callback'            => array( $this, 'send_files_manifest' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			)
@@ -95,32 +95,32 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Send manifest to Bluehost.
-	 *
-	 * // TODO: Integrate with Migration API
+	 * Send files manifest to Bluehost.
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function send_manifest() {
-
-		// phpcs:disable
-		/*
-		$response = wp_remote_post( 'https://', array(
-			'body' => array(
-				'key'   => '',
-				'files' => BH_Site_Migrator_Migration_Package::fetch_all(),
-			),
-		) );
+	public function send_files_manifest() {
+		$files    = BH_Site_Migrator_Migration_Package::fetch_all();
+		$response = wp_remote_post(
+			'https://cwm.eigproserve.com/api/v1/migration/' . get_option( 'bh_site_migration_id' ) . '/files',
+			array(
+				'body' => array(
+					'files' => $files,
+				),
+			)
+		);
 
 		$status_code = (int) wp_remote_retrieve_response_code( $response );
 
-		if ( $status_code !== 201 ) {
-			return new WP_Error( 'code', 'message', array(
-				'status_code' => $status_code,
-			) );
+		if ( 200 !== $status_code ) {
+			return new WP_Error(
+				'migration_payload_failure',
+				__( 'An error occured when delivering the migration payload.', 'bluehost-site-migrator' ),
+				array(
+					'status_code' => $status_code,
+				)
+			);
 		}
-		*/
-		// phpcs:enable
 
 		BH_Site_Migrator_Options::set( 'isComplete', true );
 		BH_Site_Migrator_Scheduled_Events::schedule_migration_package_purge();
