@@ -1,6 +1,14 @@
 <?php
 
 /**
+ * Callback triggered on plugin activation.
+ */
+function bh_site_migrator_on_activation() {
+	BH_Site_Migrator_Utilities::rest_api_init();
+	flush_rewrite_rules();
+}
+
+/**
  * Filter files used in the filter iterator.
  *
  * @param bool        $accept Whether or not to accept the file.
