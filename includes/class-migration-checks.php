@@ -42,34 +42,32 @@ class BH_Site_Migrator_Migration_Checks {
 	/**
 	 * Check if migration is still allowed and, if so, send the manifest file to the CanWeMigrate API for a more thorough validation.
 	 *
-	 * TODO: Integrate with CanWeMigrate API (cache response for x amount of time)
-	 *
 	 * @param bool $can_migrate Whether or not we can migrate the site.
 	 *
 	 * @return bool
 	 */
 	public static function can_we_migrate_api( $can_migrate ) {
-		// phpcs:disable
 		if ( $can_migrate ) {
-			/*
 			$cache_key   = 'bluehost_site_migrator_can_migrate';
 			$can_migrate = get_transient( $cache_key );
 			if ( ! $can_migrate ) {
 				$manifest    = BH_Site_Migrator_Manifest::create();
-				$response    = wp_remote_post( 'https://', array(
-					'body' => $manifest,
-				) );
+				$response    = wp_remote_post(
+					'https://cwm.eigproserve.com/api/v1/ManifestScan',
+					array(
+						'body' => $manifest,
+					)
+				);
 				$status_code = (int) wp_remote_retrieve_response_code( $response );
 				$body        = wp_remote_retrieve_body( $response );
-				$data        = json_decode( $body );
-				if ( $status_code === 200 && isset( $data, $data['can_migrate'] ) ) {
-					$can_migrate = $data['can_migrate'];
+				$data        = json_decode( $body, true );
+				if ( 200 === $status_code && isset( $data, $data['feasible'], $data['migrationId'] ) ) {
+					$can_migrate = (bool) $data['feasible'];
+					update_option( 'bh_site_migration_id', $data['migrationId'] );
 					set_transient( $cache_key, $can_migrate, HOUR_IN_SECONDS );
 				}
 			}
-			*/
 		}
-		// phpcs:enable
 
 		return $can_migrate;
 	}
