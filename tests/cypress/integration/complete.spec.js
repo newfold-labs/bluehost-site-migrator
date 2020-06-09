@@ -9,13 +9,13 @@ describe('Complete', function () {
 	it('Has "Login to Bluehost" Button', () => {
 		cy.contains('a', 'Login to Bluehost')
 			.should('have.attr', 'href')
-			.and('eq', 'https://my.bluehost.com/web-hosting/cplogin');
+			.and('include', 'https://my.bluehost.com/cgi/site_migration/?migrationId=');
 	});
 
 	it('Has "Create Account" Link', () => {
 		cy.contains('a', 'Create account')
 			.should('have.attr', 'href')
-			.and('eq', 'https://www.bluehost.com/cgi-bin/signup');
+			.and('include', 'https://www.bluehost.com/cgi-bin/signup/?migrationId=');
 	});
 
 });

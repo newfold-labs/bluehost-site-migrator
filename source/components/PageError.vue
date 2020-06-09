@@ -9,7 +9,7 @@
 			</p>
 
 			<p>
-				{{__("Call us at 800-XXX-XXXX", 'bluehost-site-migrator')}}
+				{{__("Call us at 888-401-4678", 'bluehost-site-migrator')}}
 			</p>
 
 			<router-link class="button" to="/compatible" tag="button">{{__("Try Again", 'bluehost-site-migrator')}}</router-link>
