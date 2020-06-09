@@ -61,9 +61,10 @@ class BH_Site_Migrator_Migration_Checks {
 				$status_code = (int) wp_remote_retrieve_response_code( $response );
 				$body        = wp_remote_retrieve_body( $response );
 				$data        = json_decode( $body, true );
-				if ( 200 === $status_code && isset( $data, $data['feasible'], $data['migrationId'] ) ) {
+				if ( 200 === $status_code && isset( $data, $data['feasible'], $data['migrationId'], $data['x-auth-token'] ) ) {
 					$can_migrate = (bool) $data['feasible'];
 					update_option( 'bh_site_migration_id', $data['migrationId'] );
+					update_option( 'bh_site_migration_token', $data['x-auth-token'] );
 					set_transient( $cache_key, $can_migrate, HOUR_IN_SECONDS );
 				}
 			}

@@ -104,7 +104,10 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 		$response = wp_remote_post(
 			'https://cwm.eigproserve.com/api/v1/migration/' . get_option( 'bh_site_migration_id' ) . '/files',
 			array(
-				'body' => array(
+				'headers' => array(
+					'x-auth-token' => get_option( 'bh_site_migration_token' ),
+				),
+				'body'    => array(
 					'files' => $files,
 				),
 			)
