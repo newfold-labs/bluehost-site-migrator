@@ -71,21 +71,21 @@ class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 		$uploads = wp_get_upload_dir();
 
 		return array(
-			'filesystem'       => array(
+			'filesystem'      => array(
 				'documentRoot'   => $_SERVER['DOCUMENT_ROOT'],
 				'freeSpace'      => disk_free_space( ABSPATH ),
 				'totalSpace'     => disk_total_space( ABSPATH ),
 				'uploadsDirSize' => recurse_dirsize( $uploads['basedir'] ),
 			),
-			'ip_address'       => $_SERVER['SERVER_ADDR'],
-			'operating_system' => PHP_OS,
-			'php'              => array(
+			'ipAddress'       => $_SERVER['SERVER_ADDR'],
+			'operatingSystem' => PHP_OS,
+			'php'             => array(
 				'executionTimeout' => absint( ini_get( 'max_execution_time' ) ),
 				'extensions'       => get_loaded_extensions(),
 				'memoryLimit'      => ini_get( 'memory_limit' ),
 				'version'          => phpversion(),
 			),
-			'server_hostname'  => gethostname(),
+			'serverHostname'  => gethostname(),
 		);
 	}
 
