@@ -9,6 +9,22 @@ function bh_site_migrator_on_activation() {
 }
 
 /**
+ * Get the path to the wp-config.php file.
+ *
+ * @return string
+ */
+function bh_site_migrator_locate_wp_config() {
+	$path = '';
+	if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
+		$path = ABSPATH . 'wp-config.php';
+	} elseif ( file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
+		$path = dirname( ABSPATH ) . '/wp-config.php';
+	}
+
+	return $path;
+}
+
+/**
  * Filter files used in the filter iterator.
  *
  * @param bool        $accept Whether or not to accept the file.
