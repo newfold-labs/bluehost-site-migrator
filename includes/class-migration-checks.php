@@ -52,10 +52,14 @@ class BH_Site_Migrator_Migration_Checks {
 			$can_migrate = get_transient( $cache_key );
 			if ( ! $can_migrate ) {
 				$manifest    = BH_Site_Migrator_Manifest::create();
+				$payload     = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
 				$response    = wp_remote_post(
-					'https://cwm.eigproserve.com/api/v1/ManifestScan',
+					'https://cwm.eigproserve.com/api/v1/manifestScan',
 					array(
-						'body' => $manifest,
+						'headers' => array(
+							'Content-Type' => 'application/json',
+						),
+						'body'    => $payload,
 					)
 				);
 				$status_code = (int) wp_remote_retrieve_response_code( $response );
