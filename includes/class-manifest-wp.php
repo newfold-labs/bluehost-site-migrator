@@ -41,13 +41,30 @@ class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 			'SECURE_AUTH_SALT',
 		);
 
-		$pattern = '#define.+?[\'"](.*?)[\'"]#';
-		$found   = preg_match_all( $pattern, file_get_contents( ABSPATH . 'wp-config.php' ), $results );
+		$config_path = bh_site_migrator_locate_wp_config();
+		if ( empty( $config_path ) ) {
+			return new stdClass();
+		}
+
+		$config = file_get_contents( $config_path );
+
+		if ( ! $config ) {
+			return new stdClass();
+		}
+
+		$pattern = '#[\'"]([A-Z_]*?)[\'"]#';
+		$found   = preg_match_all( $pattern, $config, $results );
 		if ( $found && isset( $results[0], $results[1] ) ) {
-			foreach ( $results[1] as $index => $name ) {
-				if ( ! in_array( $name, $blacklist, true ) ) {
-					$constants[ $name ] = constant( $name );
+			$names = array_filter( $results[1] );
+			foreach ( $names as $name ) {
+				// Ensure that all found names are actually constants.
+				if ( ! defined( $name ) ) {
+					continue;
 				}
+				if ( in_array( $name, $blacklist, true ) ) {
+					continue;
+				}
+				$constants[ $name ] = constant( $name );
 			}
 		}
 
