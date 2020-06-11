@@ -31,6 +31,7 @@ class BH_Site_Migrator_Deactivate {
 
 		// Delete all data
 		BH_Site_Migrator_Options::purge();
+		delete_transient( 'bluehost_site_migrator_can_migrate' );
 	}
 
 }
