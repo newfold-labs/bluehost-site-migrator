@@ -58,8 +58,6 @@ BH_Site_Migrator_Class_Loader::register_class_map(
 	)
 );
 
-register_activation_hook( __FILE__, 'bh_site_migrator_on_activation' );
-
 // Initialize options
 BH_Site_Migrator_Options::fetch();
 add_action( 'shutdown', array( 'BH_Site_Migrator_Options', 'maybe_persist' ) );
