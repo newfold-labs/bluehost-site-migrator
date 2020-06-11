@@ -41,12 +41,12 @@ class BH_Site_Migrator_WP_Manifest extends BH_Site_Migrator_Registry {
 			'SECURE_AUTH_SALT',
 		);
 
-		$config_path = bh_site_migrator_locate_wp_config();
+		$config_path = BH_Site_Migrator_Utilities::locate_wp_config_file();
 		if ( empty( $config_path ) ) {
 			return new stdClass();
 		}
 
-		$config = file_get_contents( $config_path );
+		$config = file_get_contents( $config_path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
 		if ( ! $config ) {
 			return new stdClass();

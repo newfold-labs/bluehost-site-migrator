@@ -1,30 +1,6 @@
 <?php
 
 /**
- * Callback triggered on plugin activation.
- */
-function bh_site_migrator_on_activation() {
-	BH_Site_Migrator_Utilities::rest_api_init();
-	flush_rewrite_rules();
-}
-
-/**
- * Get the path to the wp-config.php file.
- *
- * @return string
- */
-function bh_site_migrator_locate_wp_config() {
-	$path = '';
-	if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
-		$path = ABSPATH . 'wp-config.php';
-	} elseif ( file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
-		$path = dirname( ABSPATH ) . '/wp-config.php';
-	}
-
-	return $path;
-}
-
-/**
  * Filter files used in the filter iterator.
  *
  * @param bool        $accept Whether or not to accept the file.
@@ -151,7 +127,7 @@ function bh_site_migrator_filter_directories( $accept, SplFileInfo $file ) {
 }
 
 /**
- * Dynamically replace placeholders with
+ * Dynamically replace placeholders.
  *
  * @param string $path The path in which to replace placeholders.
  *

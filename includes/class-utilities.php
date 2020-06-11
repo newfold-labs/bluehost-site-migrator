@@ -21,6 +21,22 @@ class BH_Site_Migrator_Utilities {
 	}
 
 	/**
+	 * Get the path to the wp-config.php file.
+	 *
+	 * @return string
+	 */
+	public static function locate_wp_config_file() {
+		$path = '';
+		if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
+			$path = ABSPATH . 'wp-config.php';
+		} elseif ( file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
+			$path = dirname( ABSPATH ) . '/wp-config.php';
+		}
+
+		return $path;
+	}
+
+	/**
 	 * Initialize REST API endpoints.
 	 */
 	public static function rest_api_init() {
