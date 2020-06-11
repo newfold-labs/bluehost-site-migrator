@@ -35,12 +35,12 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 	 * @return string
 	 */
 	public static function get_sql_dump() {
-		global $wpdb;
+		$db_name  = DB_NAME;
+		$password = DB_PASSWORD;
+		$host     = DB_HOST;
+		$user     = DB_USER;
 
-		$db_name    = DB_NAME;
-		$table_list = implode( ' ', $wpdb->tables() );
-
-		return `mysqldump {$db_name} {$table_list}`; // phpcs:ignore
+		return shell_exec( "mysqldump {$db_name} --user={$user} --password={$password} --host={$host}" ); // phpcs:ignore
 	}
 
 	/**
