@@ -51,8 +51,11 @@ class BH_Site_Migrator_Migration_Checks {
 			$cache_key   = 'bluehost_site_migrator_can_migrate';
 			$can_migrate = get_transient( $cache_key );
 			if ( ! $can_migrate ) {
-				$manifest    = BH_Site_Migrator_Manifest::create();
-				$payload     = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
+				$manifest = BH_Site_Migrator_Manifest::create();
+				$payload  = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					file_put_contents( BH_Site_Migrator_Utilities::get_upload_path( 'manifest.json' ), $payload ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
+				}
 				$response    = wp_remote_post(
 					'https://cwm.eigproserve.com/api/v1/manifestScan',
 					array(
