@@ -58,6 +58,9 @@ class BH_Site_Migrator_Migration_Package {
 		}
 
 		$package_data = BH_Site_Migrator_Options::get( $package_type, array() );
+		if ( ! empty( $package_data ) ) {
+			$package_data['type'] = $package_type;
+		}
 
 		return $package_data;
 	}
@@ -74,7 +77,7 @@ class BH_Site_Migrator_Migration_Package {
 			$packages[ $package_type ] = self::fetch( $package_type );
 		}
 
-		return $packages;
+		return array_filter( $packages );
 	}
 
 	/**
