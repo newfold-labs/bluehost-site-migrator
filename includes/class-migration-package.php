@@ -77,7 +77,7 @@ class BH_Site_Migrator_Migration_Package {
 			$packages[ $package_type ] = self::fetch( $package_type );
 		}
 
-		return array_filter( $packages );
+		return $packages;
 	}
 
 	/**

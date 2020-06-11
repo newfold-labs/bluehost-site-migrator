@@ -102,7 +102,7 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 	public function send_files_manifest() {
 		$migration_id = get_option( 'bh_site_migration_id' );
 		$files        = BH_Site_Migrator_Migration_Package::fetch_all();
-		$payload      = wp_json_encode( array_values( $files ), JSON_PRETTY_PRINT );
+		$payload      = wp_json_encode( array_values( array_filter( $files ) ), JSON_PRETTY_PRINT );
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			file_put_contents( BH_Site_Migrator_Utilities::get_upload_path( 'files.json' ), $payload ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 		}
