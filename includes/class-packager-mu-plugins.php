@@ -11,6 +11,10 @@ class BH_Site_Migrator_MU_Plugins_Packager implements BH_Site_Migrator_Packager 
 	 * @return string Path to the package file or an empty string on failure.
 	 */
 	public function create_package() {
+		if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
+			return '';
+		}
+
 		return BH_Site_Migrator_Utilities::zip_directory( WPMU_PLUGIN_DIR, 'mu-plugins' );
 	}
 
