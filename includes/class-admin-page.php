@@ -9,12 +9,9 @@ class BH_Site_Migrator_Admin_Page {
 	 * Add menu page.
 	 */
 	public static function add_menu_page() {
-
-		$title = __( 'Bluehost Site Migrator', 'bluehost-site-migrator' );
-
 		add_menu_page(
-			$title,
-			$title,
+			__( 'Bluehost Site Migrator', 'bluehost-site-migrator' ),
+			__( 'BH Site Migrator', 'bluehost-site-migrator' ),
 			'manage_options',
 			'bluehost-site-migrator',
 			array( __CLASS__, 'render_page' ),
