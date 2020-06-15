@@ -23,8 +23,6 @@
 	apiFetch.use(apiFetch.createNonceMiddleware(window.BHSiteMigrator.restNonce));
 	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHSiteMigrator.restRootUrl));
 
-	// TODO: Base default progress bar progress on PHP timeout?
-
 	export default {
 		components: {ProgressBar},
 		data() {
