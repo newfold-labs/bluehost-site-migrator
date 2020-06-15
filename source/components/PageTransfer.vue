@@ -46,6 +46,9 @@
 						console.error(error);
 						this.$router.push('/error');
 					})
+					.catch((error) => {
+						console.error(error);
+					})
 					.then(async (packages) => {
 						// Store existing packages
 						this.packages = packages;
@@ -60,13 +63,13 @@
 			},
 			async generateMigrationPackage(packageType) {
 				this.message = sprintf(__('Packaging %s...', 'bluehost-site-migrator'), packageType);
-				await apiFetch({
+				return await apiFetch({
 					method: 'POST',
 					path: `/bluehost-site-migrator/v1/migration-package/${packageType}`
 				})
 					.catch((error) => {
-						console.error(error);
 						this.$router.push('/error');
+						throw error;
 					})
 					.then((packageData) => {
 						this.packages[packageType] = packageData;
