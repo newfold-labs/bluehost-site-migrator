@@ -121,7 +121,7 @@ class BH_Site_Migrator_Migration_Package {
 	 * Delete orphaned migration packages.
 	 */
 	public static function delete_orphans() {
-		$packages = wp_list_pluck( self::fetch_all(), 'path' );
+		$packages = wp_list_pluck( array_filter( self::fetch_all() ), 'path' );
 
 		$directory          = BH_Site_Migrator_Utilities::get_upload_path();
 		$directory_iterator = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
