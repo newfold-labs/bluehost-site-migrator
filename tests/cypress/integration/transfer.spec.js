@@ -20,6 +20,7 @@ describe('Transfer', function () {
 		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/uploads?*', 'fx:migrationPackage').as('uploads');
 		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/migration-package/root?*', 'fx:migrationPackage').as('root');
 		cy.route('POST', '/wp-json/bluehost-site-migrator/v1/manifest/send*', true).as('sendManifest');
+		cy.route('GET', '/wp-json/bluehost-site-migrator/v1/migration-id?*', JSON.stringify('5ee2459e0d8066001c252bbd')).as('migrationId');
 
 		cy.contains('p', 'Preparing to generate package files...');
 
