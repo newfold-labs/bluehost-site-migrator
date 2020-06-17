@@ -75,7 +75,7 @@ class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 				'documentRoot'   => $_SERVER['DOCUMENT_ROOT'],
 				'freeSpace'      => disk_free_space( ABSPATH ),
 				'totalSpace'     => disk_total_space( ABSPATH ),
-				'uploadsDirSize' => recurse_dirsize( $uploads['basedir'] ),
+				'uploadsDirSize' => bh_site_migrator_get_dir_size( $uploads['basedir'] ),
 			),
 			'ipAddress'       => $_SERVER['SERVER_ADDR'],
 			'operatingSystem' => PHP_OS,
