@@ -53,8 +53,8 @@
 						console.error(error);
 						this.$router.push('/error');
 					})
-					.then((isCompatible) => {
-						this.isCompatible = isCompatible;
+					.then((response) => {
+						this.isCompatible = response.can_migrate;
 					});
 			},
 			loopMessages() {
