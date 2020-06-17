@@ -8,7 +8,7 @@ describe('Check Compatibility', function () {
 
 	it('Is Compatible', function () {
 		cy.server();
-		cy.route('/wp-json/bluehost-site-migrator/v1/can-we-migrate*', true).as('isCompatible');
+		cy.route('/wp-json/bluehost-site-migrator/v1/can-we-migrate*', {can_migrate: true}).as('isCompatible');
 		cy.contains('button', 'Check Compatibility').click();
 		cy.wait('@isCompatible');
 		cy.hash().should('eq', '#/compatible');
@@ -16,7 +16,7 @@ describe('Check Compatibility', function () {
 
 	it('Is Not Compatible', function () {
 		cy.server();
-		cy.route('/wp-json/bluehost-site-migrator/v1/can-we-migrate*', false).as('isNotCompatible');
+		cy.route('/wp-json/bluehost-site-migrator/v1/can-we-migrate*', {can_migrate: false}).as('isNotCompatible');
 		cy.contains('button', 'Check Compatibility').click();
 		cy.wait('@isNotCompatible');
 		cy.hash().should('eq', '#/incompatible');
