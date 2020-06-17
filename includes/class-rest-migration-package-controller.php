@@ -99,6 +99,10 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
+
+		// Give us extra time, if possible.
+		set_time_limit( 90 );
+
 		// Create package
 		$package_data = BH_Site_Migrator_Migration_Package::create( $request->get_param( 'type' ) );
 
