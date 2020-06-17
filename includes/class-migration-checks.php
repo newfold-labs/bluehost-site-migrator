@@ -6,6 +6,13 @@
 class BH_Site_Migrator_Migration_Checks {
 
 	/**
+	 * Store the results from the various checks.
+	 *
+	 * @var array
+	 */
+	public static $results = array();
+
+	/**
 	 * Run migration checks.
 	 *
 	 * @return bool True if migration is possible, false otherwise.
@@ -36,7 +43,10 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function can_mysqldump( $can_migrate ) {
-		return $can_migrate ? ! empty( shell_exec( 'which mysqldump' ) ) : $can_migrate; // phpcs:ignore
+		$can_mysqldump                  = bh_site_migrator_can_use_shell_exec() && ! empty( shell_exec( 'which mysqldump' ) );
+		self::$results['can_mysqldump'] = $can_mysqldump;
+
+		return $can_migrate ? $can_mysqldump : $can_migrate;
 	}
 
 	/**
@@ -69,11 +79,17 @@ class BH_Site_Migrator_Migration_Checks {
 				$body        = wp_remote_retrieve_body( $response );
 				$data        = json_decode( $body, true );
 				if ( 200 === $status_code && isset( $data, $data['feasible'], $data['migrationId'], $data['x-auth-token'] ) ) {
+					if ( isset( $data['factors'] ) ) {
+						self::$results['cwm_api'] = $data['factors'];
+					}
 					$can_migrate = (bool) $data['feasible'];
 					update_option( 'bh_site_migration_id', $data['migrationId'] );
 					update_option( 'bh_site_migration_token', $data['x-auth-token'] );
 					set_transient( $cache_key, $can_migrate, HOUR_IN_SECONDS );
 				}
+			}
+			if ( ! array_key_exists( 'cwm_api', self::$results ) ) {
+				self::$results['cwm_api'] = $can_migrate;
 			}
 		}
 
@@ -88,7 +104,10 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function has_zip_archive( $can_migrate ) {
-		return $can_migrate ? class_exists( 'ZipArchive' ) : $can_migrate;
+		$has_zip_archive                  = class_exists( 'ZipArchive' );
+		self::$results['has_zip_archive'] = $has_zip_archive;
+
+		return $can_migrate ? $has_zip_archive : $can_migrate;
 	}
 
 	/**
@@ -99,7 +118,10 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function is_content_directory_writable( $can_migrate ) {
-		return $can_migrate ? wp_is_writable( WP_CONTENT_DIR ) : $can_migrate;
+		$is_writeable                  = wp_is_writable( WP_CONTENT_DIR );
+		self::$results['is_writeable'] = $is_writeable;
+
+		return $can_migrate ? $is_writeable : $can_migrate;
 	}
 
 	/**
@@ -110,7 +132,10 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function is_not_multisite( $can_migrate ) {
-		return $can_migrate ? ! is_multisite() : $can_migrate;
+		$is_multisite                  = is_multisite();
+		self::$results['is_multisite'] = $is_multisite;
+
+		return $can_migrate ? ! $is_multisite : $can_migrate;
 	}
 
 }
