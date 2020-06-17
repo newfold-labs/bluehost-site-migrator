@@ -1,6 +1,35 @@
 <?php
 
 /**
+ * Get a directory size.
+ *
+ * @param string $path The directory path.
+ *
+ * @return int
+ */
+function bh_site_migrator_get_dir_size( $path ) {
+	set_time_limit( 90 );
+	$bytes = 0;
+	$path  = realpath( $path );
+	if ( $path && file_exists( $path ) ) {
+		foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path, FilesystemIterator::SKIP_DOTS ) ) as $object ) {
+			$bytes += $object->getSize();
+		}
+	}
+
+	return $bytes;
+}
+
+/**
+ * Check if the shell_exec function is available.
+ *
+ * @return bool
+ */
+function bh_site_migrator_can_use_shell_exec() {
+	return is_callable( 'shell_exec' ) && false === stripos( ini_get( 'disable_functions' ), 'shell_exec' );
+}
+
+/**
  * Filter files used in the filter iterator.
  *
  * @param bool        $accept Whether or not to accept the file.
