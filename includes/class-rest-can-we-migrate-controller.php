@@ -46,7 +46,14 @@ class BH_Site_Migrator_REST_Can_We_Migrate_Controller extends WP_REST_Controller
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
-		return rest_ensure_response( BH_Site_Migrator_Migration_Checks::run() );
+		$can_migrate = BH_Site_Migrator_Migration_Checks::run();
+
+		return rest_ensure_response(
+			array(
+				'can_migrate' => $can_migrate,
+				'results'     => BH_Site_Migrator_Migration_Checks::$results,
+			)
+		);
 	}
 
 	/**
