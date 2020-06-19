@@ -43,7 +43,7 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function can_mysqldump( $can_migrate ) {
-		$can_mysqldump                  = bh_site_migrator_can_use_shell_exec() && ! empty( shell_exec( 'which mysqldump' ) );
+		$can_mysqldump                  = bh_site_migrator_can_use_shell_exec() && ! empty( shell_exec( 'which mysqldump' ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.system_calls_shell_exec
 		self::$results['can_mysqldump'] = $can_mysqldump;
 
 		return $can_migrate ? $can_mysqldump : $can_migrate;
