@@ -78,14 +78,6 @@ class BH_Site_Migrator_Migration_Checks {
 				$status_code = (int) wp_remote_retrieve_response_code( $response );
 				$body        = wp_remote_retrieve_body( $response );
 				$data        = json_decode( $body, true );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					$debug = array(
-						'response' => $response,
-						'status'   => $status_code,
-						'data'     => $data,
-					);
-					file_put_contents( BH_Site_Migrator_Utilities::get_upload_path( 'manifestScanApiResponse.json' ), wp_json_encode( $debug, JSON_PRETTY_PRINT ) ); // phpcs:ignore
-				}
 				if ( 200 === $status_code && isset( $data, $data['feasible'], $data['migrationId'], $data['x-auth-token'] ) ) {
 					if ( isset( $data['factors'] ) ) {
 						self::$results['cwm_api'] = $data['factors'];
