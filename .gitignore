@@ -1,4 +1,5 @@
-node_modules
 /assets
+/languages/bluehost-site-migrator.php
+/node_modules
 /vendor
 cypress.env.json

@@ -25,6 +25,7 @@ readme.md
 README.md
 wp-cli.local.yml
 webpack.config.js
+/languages/bluehost-site-migrator.php
 
 # File Types
 *.log
