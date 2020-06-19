@@ -66,13 +66,14 @@ class BH_Site_Migrator_Migration_Checks {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					file_put_contents( BH_Site_Migrator_Utilities::get_upload_path( 'manifest.json' ), $payload ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 				}
-				$response    = wp_remote_post(
+				$response = wp_remote_post(
 					'https://cwm.eigproserve.com/api/v1/manifestScan',
 					array(
-						'headers' => array(
+						'headers'   => array(
 							'Content-Type' => 'application/json',
 						),
-						'body'    => $payload,
+						'body'      => $payload,
+						'sslverify' => is_ssl(),
 					)
 				);
 				if ( is_wp_error( $response ) ) {
