@@ -23,6 +23,10 @@
   "require-dev": {
     "bluehost/wp-php-standards": "^1.1"
   },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
   "scripts": {
     "fix": [
       "vendor/bin/phpcbf . --standard=Bluehost"
