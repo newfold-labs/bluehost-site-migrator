@@ -75,6 +75,11 @@ class BH_Site_Migrator_Migration_Checks {
 						'body'    => $payload,
 					)
 				);
+				if ( is_wp_error( $response ) ) {
+					self::$results['cwm_api'] = $response->get_error_message();
+
+					return $can_migrate;
+				}
 				$status_code = (int) wp_remote_retrieve_response_code( $response );
 				$body        = wp_remote_retrieve_body( $response );
 				$data        = json_decode( $body, true );
