@@ -12,7 +12,7 @@
  * Plugin URI:        https://wordpress.org/plugins/bluehost-site-migrator
  * Description:       Quickly and easily migrate your website to Bluehost.
  * Version:           1.0
- * Requires PHP:      5.3
+ * Requires PHP:      5.6
  * Requires at least: 4.7
  * Author:            Bluehost
  * Author URI:        https://www.bluehost.com/
@@ -34,7 +34,7 @@ global $pagenow;
 if ( 'plugins.php' === $pagenow ) {
 	$plugin_check = new WP_Forge_Plugin_Check( __FILE__ );
 
-	$plugin_check->min_php_version    = '5.3';
+	$plugin_check->min_php_version    = '5.6';
 	$plugin_check->min_wp_version     = '4.7';
 	$plugin_check->req_php_extensions = array( 'json', 'zlib' );
 

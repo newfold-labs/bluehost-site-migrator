@@ -21,15 +21,6 @@ function bh_site_migrator_get_dir_size( $path ) {
 }
 
 /**
- * Check if the shell_exec function is available.
- *
- * @return bool
- */
-function bh_site_migrator_can_use_shell_exec() {
-	return is_callable( 'shell_exec' ) && false === stripos( ini_get( 'disable_functions' ), 'shell_exec' );
-}
-
-/**
  * Filter files used in the filter iterator.
  *
  * @param bool        $accept Whether or not to accept the file.

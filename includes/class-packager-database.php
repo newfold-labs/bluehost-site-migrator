@@ -1,5 +1,8 @@
 <?php
 
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+
 /**
  * Class BH_Site_Migrator_Database_Packager
  */
@@ -33,6 +36,7 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 	 * Create a MySQL dump of the database.
 	 *
 	 * @return string
+	 * @throws ProcessFailedException If process fails.
 	 */
 	public static function get_sql_dump() {
 		$db_name  = DB_NAME;
@@ -40,7 +44,14 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 		$host     = DB_HOST;
 		$user     = DB_USER;
 
-		return shell_exec( "mysqldump {$db_name} --user={$user} --password={$password} --host={$host}" ); // phpcs:ignore
+		$process = new Process( "mysqldump {$db_name} --user={$user} --password='{$password}' --host={$host}" );
+		$process->run();
+
+		if ( ! $process->isSuccessful() ) {
+			throw new ProcessFailedException( $process );
+		}
+
+		return $process->getOutput();
 	}
 
 	/**

@@ -18,6 +18,7 @@
   "require": {
     "ext-json": "*",
     "ext-zip": "*",
+    "symfony/process": "^3.4",
     "wp-forge/wp-plugin-check": "^1.0",
     "wpscholar/github-archive-installer": "^1.1"
   },

@@ -103,13 +103,22 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 		// Give us extra time, if possible.
 		set_time_limit( 90 );
 
-		// Create package
-		$package_data = BH_Site_Migrator_Migration_Package::create( $request->get_param( 'type' ) );
+		try {
 
-		// Remove any unreferenced packages
-		BH_Site_Migrator_Migration_Package::delete_orphans();
+			// Create package
+			$package_data = BH_Site_Migrator_Migration_Package::create( $request->get_param( 'type' ) );
 
-		return rest_ensure_response( $package_data );
+			// Remove any unreferenced packages
+			BH_Site_Migrator_Migration_Package::delete_orphans();
+
+			return rest_ensure_response( $package_data );
+
+		} catch ( Exception $e ) {
+
+			return rest_ensure_response( new WP_Error( 'package_error', $e->getMessage() ) );
+
+		}
+
 	}
 
 
