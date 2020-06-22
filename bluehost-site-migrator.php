@@ -1,17 +1,25 @@
 <?php
 /**
- * Plugin Name:  Bluehost Site Migrator
- * Plugin URI:   https://wordpress.org/plugins/bluehost-migration-pugin
- * Description:  Quickly and easily migrate your website to Bluehost.
- * Version:      1.0
- * Author:       Bluehost
- * Author URI:   https://www.bluehost.com/
- * License:      GPL2
- * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:  bluehost-site-migrator
- * Domain Path:  /languages
+ * Bluehost Site Migrator
  *
- * @package bluehost-site-migrator
+ * @package           BluehostSiteMigrator
+ * @author            Bluehost
+ * @copyright         Copyright 2020 by Bluehost - All rights reserved.
+ * @license           GPL2.0-or-later
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Bluehost Site Migrator
+ * Plugin URI:        https://wordpress.org/plugins/bluehost-site-migrator
+ * Description:       Quickly and easily migrate your website to Bluehost.
+ * Version:           1.0
+ * Requires PHP:      5.3
+ * Requires at least: 4.7
+ * Author:            Bluehost
+ * Author URI:        https://www.bluehost.com/
+ * Text Domain:       bluehost-site-migrator
+ * Domain Path:       /languages
+ * License:           GPL V2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 define( 'BH_SITE_MIGRATOR_VERSION', '1.0' );
