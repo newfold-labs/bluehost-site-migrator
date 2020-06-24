@@ -7,29 +7,20 @@
 node_modules
 source
 tests
-vendor
 
 # Files
 .distignore
-.gitattributes
 .gitignore
-composer.json
-composer.lock
-cypress.json
-package.json
-package-lock.json
-phpunit.xml
-phpunit.xml.dist
-phpcs.xml
-readme.md
-README.md
-wp-cli.local.yml
 webpack.config.js
 /languages/bluehost-site-migrator.php
 
 # File Types
+*.json
+*.lock
 *.log
+*.md
 *.sql
 *.tar.gz
 *.xml
+*.yml
 *.zip
