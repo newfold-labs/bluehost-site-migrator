@@ -12,7 +12,9 @@ Automatically transfer your site to Bluehost.
 
 == Description ==
 
-This plugin transfers your WordPress website to a Bluehost account. It's easy, fast, and free. We'll check to make sure your website is compatible with auto migration, transfer it, and send you a link for review.
+This plugin is designed by the WordPress experts at Bluehost, one of the world’s top WordPress providers.  It was created to make migration easier and faster by only requiring you to install this plugin and follow the simple steps.  Once you’ve completed your compatibility check, this plugin will create a secure copy of your website and begin the transfer to your Bluehost hosting account.  
+
+Important:  You will need a Bluehost hosting account for this plugin to complete the migration.  It is not intended for migrations to other hosting providers.
 
 == Installation ==
 
