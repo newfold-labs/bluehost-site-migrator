@@ -16,7 +16,7 @@
   "dependencies": {
     "@wordpress/api-fetch": "^3.16.0",
     "@wordpress/i18n": "^3.13.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vue": "^2.6.11",
     "vue-router": "^3.3.2"
   },
