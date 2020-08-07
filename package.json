@@ -16,7 +16,7 @@
   "dependencies": {
     "@wordpress/api-fetch": "^3.16.0",
     "@wordpress/i18n": "^3.13.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vue": "^2.6.11",
     "vue-router": "^3.3.2"
   },
@@ -29,7 +29,7 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^3.5.3",
-    "cypress": "^4.8.0",
+    "cypress": "^4.12.1",
     "file-loader": "^5.1.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.9",
