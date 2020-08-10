@@ -2,8 +2,8 @@
 Contributors: bluehost, wpscholar
 Tags: migrate, migration
 Requires at least: 4.7
-Tested up to: 5.4
-Stable tag: 1.0
+Tested up to: 5.5
+Stable tag: 1.0.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,16 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 2. Activate the plugin.
 3. Click on the "Site Migrator" link on the left-hand menu in the WordPress admin to get started!
 
+== Upgrade Notice ==
+
+= 1.0.1 =
+* Minor security patch. Compatible with WordPress 5.5.
+
 == Changelog ==
+
+= 1.0.1 =
+* Security Patch: Update Lodash version
+* Maintenance: Remove debug code
 
 = 1.0 =
 * Initial version
