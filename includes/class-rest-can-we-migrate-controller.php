@@ -63,7 +63,11 @@ class BH_Site_Migrator_REST_Can_We_Migrate_Controller extends WP_REST_Controller
 	 */
 	public function check_permission() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to access this endpoint.', 'bluehost-site-migrator' ), array( 'status' => rest_authorization_required_code() ) );
+			return new \WP_Error(
+				'rest_forbidden_context',
+				__( 'Sorry, you are not allowed to access this endpoint.', 'bluehost-site-migrator' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		return true;
