@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    "."
+  ],
+  "port": 8767,
+  "testsPort": 8768,
+  "config": {
+    "SCRIPT_DEBUG": false
+  }
+}

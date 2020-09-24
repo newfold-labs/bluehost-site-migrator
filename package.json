@@ -46,7 +46,7 @@
     "yaml-lint": "^1.2.4"
   },
   "scripts": {
-    "build": "webpack -p",
+    "build": "webpack && webpack -p",
     "cypress": "npx cypress open",
     "i18n": "wpvuei18n makepot --exclude=node_modules,assets",
     "lint": "yamllint --ignore=node_modules/** **/*.yml",
