@@ -101,8 +101,8 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 	 */
 	public function send_files_manifest() {
 		$migration_id = get_option( 'bh_site_migration_id' );
-		$files        = BH_Site_Migrator_Migration_Package::fetch_all();
-		$payload      = wp_json_encode( array_values( array_filter( $files ) ), JSON_PRETTY_PRINT );
+		$files        = array_values( array_filter( BH_Site_Migrator_Migration_Package::fetch_all() ) );
+		$payload      = wp_json_encode( $files, JSON_PRETTY_PRINT );
 		$response     = wp_remote_post(
 			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/files",
 			array(
@@ -130,7 +130,12 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 		BH_Site_Migrator_Options::set( 'isComplete', true );
 		BH_Site_Migrator_Scheduled_Events::schedule_migration_package_purge();
 
-		return rest_ensure_response( true );
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'files'   => $files,
+			)
+		);
 	}
 
 	/**
