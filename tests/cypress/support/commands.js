@@ -26,6 +26,7 @@ Cypress.Commands.add('navigateTo', (path) => {
 	cy.window().then(win => {
 		if (win.location.hash !== `#${path}`) {
 			win.BHSiteMigrator.App.$router.push(path)
+			cy.wait(1000);
 		}
 	});
 });
