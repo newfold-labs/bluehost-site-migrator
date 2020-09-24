@@ -23,6 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
+    "@testing-library/cypress": "^7.0.1",
     "@wordpress/babel-plugin-makepot": "^3.5.0",
     "@wordpress/browserslist-config": "^2.6.0",
     "@wordpress/env": "^2.0.1",

@@ -4,6 +4,8 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+import '@testing-library/cypress/add-commands';
+
 Cypress.Commands.add('login', (username, password) => {
 	cy.getCookies().then(cookies => {
 		let hasMatch = false;
