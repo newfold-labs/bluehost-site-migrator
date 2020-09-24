@@ -104,7 +104,7 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 		$files        = BH_Site_Migrator_Migration_Package::fetch_all();
 		$payload      = wp_json_encode( array_values( array_filter( $files ) ), JSON_PRETTY_PRINT );
 		$response     = wp_remote_post(
-			"https://cwm.eigproserve.com/api/v1/migration/{$migration_id}/files",
+			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/files",
 			array(
 				'headers'   => array(
 					'Content-Type' => 'application/json',

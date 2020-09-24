@@ -70,7 +70,7 @@ class BH_Site_Migrator_Migration_Checks {
 				$manifest = BH_Site_Migrator_Manifest::create();
 				$payload  = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
 				$response = wp_remote_post(
-					'https://cwm.eigproserve.com/api/v1/manifestScan',
+					BH_SITE_MIGRATOR_API_BASEURL . '/manifestScan',
 					array(
 						'headers'   => array(
 							'Content-Type' => 'application/json',
