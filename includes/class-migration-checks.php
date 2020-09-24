@@ -102,6 +102,11 @@ class BH_Site_Migrator_Migration_Checks {
 			}
 		}
 
+		// Always return the manifest in response for debugging purposes
+		if ( ! array_key_exists( 'manifest', self::$results ) ) {
+			self::$results['manifest'] = BH_Site_Migrator_Manifest::fetch();
+		}
+
 		return $can_migrate;
 	}
 
