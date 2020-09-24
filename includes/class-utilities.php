@@ -17,6 +17,10 @@ class BH_Site_Migrator_Utilities {
 		$directory = $uploads['basedir'] . DIRECTORY_SEPARATOR . 'bluehost-site-migrator' . DIRECTORY_SEPARATOR;
 		wp_mkdir_p( $directory );
 
+		if ( ! file_exists( $directory . '/index.php' ) ) {
+			file_put_contents( $directory . '/index.php', '<?php // Silence is golden.' );
+		}
+
 		return $directory . ltrim( $path, DIRECTORY_SEPARATOR );
 	}
 
