@@ -3,7 +3,7 @@ name: Cypress Tests
 on:
   push:
     branches:
-      - micah/updates
+      - master
     paths-ignore:
       - '.github/**'
       - '.wporg/**'
