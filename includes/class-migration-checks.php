@@ -70,7 +70,7 @@ class BH_Site_Migrator_Migration_Checks {
 				$manifest = BH_Site_Migrator_Manifest::create();
 				$payload  = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
 				$response = wp_remote_post(
-					'https://cwm.eigproserve.com/api/v1/manifestScan',
+					BH_SITE_MIGRATOR_API_BASEURL . '/manifestScan',
 					array(
 						'headers'   => array(
 							'Content-Type' => 'application/json',
@@ -100,6 +100,11 @@ class BH_Site_Migrator_Migration_Checks {
 			if ( ! array_key_exists( 'cwm_api', self::$results ) ) {
 				self::$results['cwm_api'] = $can_migrate;
 			}
+		}
+
+		// Always return the manifest in response for debugging purposes
+		if ( ! array_key_exists( 'manifest', self::$results ) ) {
+			self::$results['manifest'] = BH_Site_Migrator_Manifest::fetch();
 		}
 
 		return $can_migrate;

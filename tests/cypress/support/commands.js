@@ -4,6 +4,8 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+import '@testing-library/cypress/add-commands';
+
 Cypress.Commands.add('login', (username, password) => {
 	cy.getCookies().then(cookies => {
 		let hasMatch = false;
@@ -24,6 +26,7 @@ Cypress.Commands.add('navigateTo', (path) => {
 	cy.window().then(win => {
 		if (win.location.hash !== `#${path}`) {
 			win.BHSiteMigrator.App.$router.push(path)
+			cy.wait(1000);
 		}
 	});
 });

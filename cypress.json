@@ -1,5 +1,9 @@
 {
-  "baseUrl": "http://localhost:8080",
+  "baseUrl": "http://localhost:8767",
+  "env": {
+    "wpUsername": "admin",
+    "wpPassword": "password"
+  },
   "wpUsername": "admin",
   "wpPassword": "password",
   "fixturesFolder": "tests/cypress/fixtures",

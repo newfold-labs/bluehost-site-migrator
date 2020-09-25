@@ -1,21 +1,37 @@
 /// <reference types="cypress" />
 
-describe('Compatible', function () {
+describe(
+	'Compatible',
+	function () {
 
-	before(() => {
-		cy.navigateTo('/compatible');
-	});
+		before(
+			() => {
+				cy.navigateTo('/compatible');
+			}
+		);
 
-	it('Can initiate transfer', () => {
-		cy.server({delay: 500, status: 200});
-		cy.contains('button', 'Start Transfer').click();
-		cy.wait(1000);
-		cy.hash().should('eq', '#/transfer');
-	});
+		beforeEach(
+			() => {
+				cy.server({delay: 1000, status: 200});
+				cy.route('POST', '**/bluehost-site-migrator/v1/migration-package/*', 'fx:migrationPackage');
+			}
+		);
 
-	it('Can cancel transfer', () => {
-		cy.contains('button', 'Cancel Transfer').click();
-		cy.hash().should('eq', '#/compatible');
-	});
+		it(
+			'Can initiate transfer',
+			() => {
+				cy.contains('button', 'Start Transfer').scrollIntoView().click();
+				cy.wait(500);
+				cy.hash().should('eq', '#/transfer');
+			}
+		);
 
-});
+		it('Can cancel transfer',
+			() => {
+				cy.contains('button', 'Cancel Transfer').scrollIntoView().click();
+				cy.hash().should('eq', '#/compatible');
+			}
+		);
+
+	}
+);

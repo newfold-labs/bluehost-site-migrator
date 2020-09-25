@@ -3,6 +3,10 @@
 require BH_SITE_MIGRATOR_DIR . 'includes/functions.php';
 require BH_SITE_MIGRATOR_DIR . 'includes/wp-compatibility.php';
 
+if ( ! defined( 'BH_SITE_MIGRATOR_API_BASEURL' ) ) {
+	define( 'BH_SITE_MIGRATOR_API_BASEURL', 'https://cwm.eigproserve.com/api/v1' );
+}
+
 // Initialize options
 BH_Site_Migrator_Options::fetch();
 add_action( 'shutdown', array( 'BH_Site_Migrator_Options', 'maybe_persist' ) );
