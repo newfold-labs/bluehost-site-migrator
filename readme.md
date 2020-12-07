@@ -3,7 +3,8 @@
 </a>
 
 # Bluehost Site Migrator
-![Deploy to WordPress.org](https://github.com/bluehost/bluehost-site-migrator/workflows/Deploy%20to%20WordPress.org/badge.svg?branch=master&event=push)
+![Deploy to WordPress.org](https://github.com/bluehost/bluehost-site-migrator/workflows/Deploy%20to%20WordPress.org/badge.svg)
+![Release Version](https://img.shields.io/github/v/release/bluehost/bluehost-site-migrator?labelColor=CF8070&color=FFBFAB)
 ![Required PHP Version](https://img.shields.io/wordpress/plugin/required-php/bluehost-site-migrator?labelColor=AF92DF&color=B8B0E5)
 ![Required WordPress Version](https://img.shields.io/wordpress/plugin/wp-version/bluehost-site-migrator?labelColor=21A0ED&color=7DC2FF)
 ![Tested WordPress Version](https://img.shields.io/wordpress/plugin/tested/bluehost-site-migrator?labelColor=00C2BA&color=ABF2E3)
