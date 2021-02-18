@@ -3,7 +3,7 @@ Contributors: bluehost, wpscholar
 Tags: migrate, migration
 Requires at least: 4.7
 Tested up to: 5.6
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,8 +24,11 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 
 == Upgrade Notice ==
 
-= 1.0.2 =
-* Performance improvement
+= 1.0.4 =
+* Minor security updates
+
+= 1.0.3 =
+* Performance improvements
 
 = 1.0.2 =
 * Minor maintenance release and security patch.
@@ -34,6 +37,10 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 * Minor security patch. Compatible with WordPress 5.5.
 
 == Changelog ==
+
+= 1.0.4 =
+* Applied minor JavaScript dependency security patches
+* Update a URL reference on final migration screen
 
 = 1.0.3 =
 * Performance improvement: Image optimization
