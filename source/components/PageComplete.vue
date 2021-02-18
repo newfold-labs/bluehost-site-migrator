@@ -46,7 +46,7 @@
 	export default {
 		computed: {
 			accountCreationUrl() {
-				return `https://www.bluehost.com/wordpress-site-migration?migrationId=${this.migrationId}`;
+				return `https://www.bluehost.com/web-hosting/signup?migrationId=${this.migrationId}`;
 			},
 			siteMigrationUrl() {
 				return `https://my.bluehost.com/cgi/site_migration/?migrationId=${this.migrationId}`;
