@@ -17,7 +17,7 @@ describe('Complete', function () {
 	it('Has "Create Account" Link', () => {
 		cy.findByRole('link', {name: 'Create account'})
 			.should('have.attr', 'href')
-			.and('include', 'https://www.bluehost.com/wordpress-site-migration?migrationId=');
+			.and('include', 'https://www.bluehost.com/web-hosting/signup?migrationId=');
 	});
 
 });
