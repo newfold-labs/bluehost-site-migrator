@@ -32,26 +32,68 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 		return $package;
 	}
 
+	 /**
+         * Raw PHP MySQL dump of the database. Does not rely on mysqldump or Symfony Process Component
+         *
+         * @return string
+         */
+	public static function get_sql_dump_legacy(){
+       		global $wpdb;
+	        $output="";
+	        $tables=$wpdb->get_col("show tables");
+	        foreach ($tables as $table) {
+	        	$result = $wpdb->get_results("SELECT * FROM {$table}", ARRAY_N);
+			$row2 = $wpdb->get_row('SHOW CREATE TABLE ' . $table, ARRAY_N);
+	        	$output .= "\n\n" . $row2[1] . ";\n\n";
+			for ($i = 0; $i < count($result); $i++) {
+	           		$row = $result[$i];
+	           		$output .= 'insert into ' . $table . ' VALUES(';
+	           		for ($j = 0; $j < count($result[0]); $j++) {
+	           			$row[$j] = $wpdb->_real_escape($row[$j]);
+	           			$output .= (isset($row[$j])) ? '"' . $row[$j] . '"' : '""';
+	                		if ($j < (count($result[0]) - 1)) {
+	                 			$output .= ',';
+	                		}
+	            		}
+
+	            		$output .= ");\n";
+	        	}
+
+	        	$output .= "\n";
+		}
+	            
+	    return $output;       
+	}
+
 	/**
 	 * Create a MySQL dump of the database.
 	 *
+	 * If can_mysqldump is false or fails use Legacy sql dump
+	 *
 	 * @return string
-	 * @throws ProcessFailedException If process fails.
 	 */
 	public static function get_sql_dump() {
-		$db_name  = DB_NAME;
-		$password = DB_PASSWORD;
-		$host     = DB_HOST;
-		$user     = DB_USER;
+		if(BH_Site_Migrator_Migration_Checks::can_mysqldump(true)){
+			$db_name  = DB_NAME;
+			$password = DB_PASSWORD;
+			$host     = DB_HOST;
+			$user     = DB_USER;
 
-		$process = new Process( "mysqldump {$db_name} --user={$user} --password='{$password}' --host={$host}" );
-		$process->run();
+			$process = new Process( "mysqldump {$db_name} --user={$user} --password='{$password}' --host={$host}" );
+			$process->run();
 
-		if ( ! $process->isSuccessful() ) {
-			throw new ProcessFailedException( $process );
+			if ( $process->isSuccessful() ) {
+				$output=$process->getOutput();
+			}
+        		else {
+		                $output=BH_Site_Migrator_Database_Packager::get_sql_dump_legacy();
+		        }
 		}
 
-		return $process->getOutput();
+		else{
+                $output=BH_Site_Migrator_Database_Packager::get_sql_dump_legacy();
+             }
+		return $output;
 	}
 
 	/**

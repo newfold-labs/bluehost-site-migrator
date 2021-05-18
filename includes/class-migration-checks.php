@@ -31,7 +31,7 @@ class BH_Site_Migrator_Migration_Checks {
 	 * Register migration checks.
 	 */
 	public static function register() {
-		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_mysqldump' ), 5 );
+		//add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_mysqldump' ), 5 );
 		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_we_migrate_api' ), 10 );
 		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'has_zip_archive' ), 5 );
 		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'is_content_directory_writable' ), 5 );
