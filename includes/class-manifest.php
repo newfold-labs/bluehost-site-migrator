@@ -59,7 +59,29 @@ class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 		$this->set( 'domain', wp_parse_url( get_home_url(), PHP_URL_HOST ) );
 		$this->set( 'timestamp', time() );
 		$this->set( 'env', $this->env() );
+		$this->set( 'geo', $this->geo() );
 		$this->set( 'wp', $this->wp() );
+	}
+
+	/**
+	 * Geo manifest.
+	 *
+	 * @return array
+	 */
+	protected function geo() {
+		$geo = array();
+
+		$response = wp_remote_get( 'https://geolocation.bluehost.workers.dev/' );
+
+		if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
+			$body = wp_remote_retrieve_body( $response );
+			$data = json_decode( $body );
+			if ( $data ) {
+				$geo = (array) $data;
+			}
+		}
+
+		return $geo;
 	}
 
 	/**
