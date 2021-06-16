@@ -186,3 +186,74 @@ function bh_site_migrator_load_plugin_textdomain() {
 	$plugin_dir = basename( dirname( BH_SITE_MIGRATOR_FILE ) );
 	load_plugin_textdomain( $plugin_dir, false, $plugin_dir . '/languages/' );
 }
+
+/**
+ * Get geolocation data from Cloudflare.
+ *
+ * Sample response:
+ * {
+ *   "message": "success",
+ *   "ip": "107.129.251.90",
+ *   "country": {
+ *     "code": "US",
+ *     "name": "United States"
+ *   },
+ *   "airportCode": "ATL",
+ *   "continent": "NA",
+ *   "city": "Snellville",
+ *   "lat": "33.85740",
+ *   "lng": "-84.01300",
+ *   "postalCode": "30078",
+ *   "region": "Georgia",
+ *   "regionCode": "GA",
+ *   "timezone": "America/New_York"
+ * }
+ *
+ * @return array
+ */
+function bh_site_migrator_get_geo_data() {
+	$geo     = array();
+	$request = wp_remote_get( 'https://geolocation.wpscholar.workers.dev' );
+	if ( wp_remote_retrieve_response_code( $request ) === 200 ) {
+		$body = wp_remote_retrieve_body( $request );
+		$data = json_decode( $body, true );
+		if ( $data && is_array( $data ) ) {
+			$geo = $data;
+		}
+	}
+
+	return $geo;
+}
+
+/**
+ * Get a value from an object or an array.  Allows the ability to fetch a nested value from a
+ * heterogeneous multidimensional collection using dot notation.
+ *
+ * @param array|object $data    Data to fetch from.
+ * @param string       $key     Key as a string, optionally using dot notation.
+ * @param mixed        $default The fallback value if a value doesn't exist.
+ *
+ * @return mixed
+ */
+function bh_site_migrator_data_get( $data, $key, $default = null ) {
+	$value = $default;
+	if ( is_array( $data ) && array_key_exists( $key, $data ) ) {
+		$value = $data[ $key ];
+	} elseif ( is_object( $data ) && property_exists( $data, $key ) ) {
+		$value = $data->$key;
+	} else {
+		$segments = explode( '.', $key );
+		foreach ( $segments as $segment ) {
+			if ( is_array( $data ) && array_key_exists( $segment, $data ) ) {
+				$value = $data = $data[ $segment ]; // phpcs:ignore
+			} elseif ( is_object( $data ) && property_exists( $data, $segment ) ) {
+				$value = $data = $data->$segment; // phpcs:ignore
+			} else {
+				$value = $default;
+				break;
+			}
+		}
+	}
+
+	return $value;
+}

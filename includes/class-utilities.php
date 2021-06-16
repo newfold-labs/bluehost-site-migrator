@@ -48,6 +48,7 @@ class BH_Site_Migrator_Utilities {
 			'BH_Site_Migrator_REST_Can_We_Migrate_Controller',
 			'BH_Site_Migrator_REST_Manifest_Controller',
 			'BH_Site_Migrator_REST_Migration_Id_Controller',
+			'BH_Site_Migrator_REST_Migration_Regions_Controller',
 			'BH_Site_Migrator_REST_Migration_Package_Controller',
 		);
 

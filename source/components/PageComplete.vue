@@ -1,77 +1,118 @@
 <template>
-	<div class="page --complete">
+  <div class="page --complete">
 
-		<div class="content">
+    <div class="flash-message" v-if="message">
+      <div class="flash-message__content">
+        <div class="flash-message__type">Success</div>
+        {{ message }}
+      </div>
+      <button class="flash-message__close" v-on:click="closeFlashMessage">
+        <img v-bind:src="closeIcon" />
+      </button>
+    </div>
 
-			<h1>{{__("Welcome to the Bluehost family!", 'bluehost-site-migrator')}}</h1>
+    <div class="content">
 
-			<p>
-				{{__("You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account so you can review it.", 'bluehost-site-migrator')}}
-			</p>
+      <h1>{{ __("Welcome to the Bluehost family!", 'bluehost-site-migrator') }}</h1>
 
-			<a class="button"
-			   v-bind:href="siteMigrationUrl"
-			   target="_blank"
-			   rel="noreferrer noopener"
-			>
-				{{__("Login to Bluehost", 'bluehost-site-migrator')}}
-			</a>
+      <p>
+        {{
+          __("You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account so you can review it.", 'bluehost-site-migrator')
+        }}
+      </p>
 
-			<p>
-				<span class="text-disabled">{{__("Don't have an account?", 'bluehost-site-migrator')}}</span>&nbsp;&nbsp;
-				<a
-					v-bind:href="accountCreationUrl"
-					target="_blank"
-					rel="noreferrer noopener"
-				>
-					{{__("Create account", 'bluehost-site-migrator')}}
-				</a>
-			</p>
+      <a class="button"
+         v-bind:href="loginUrl"
+         target="_blank"
+         rel="noreferrer noopener"
+      >
+        {{ __("Login to Bluehost", 'bluehost-site-migrator') }}
+      </a>
 
-			<img v-bind:src="imageSrc"/>
+      <p>
+        <span class="text-disabled">{{ __("Don't have an account?", 'bluehost-site-migrator') }}</span>&nbsp;&nbsp;
+        <a
+            v-bind:href="signupUrl"
+            target="_blank"
+            rel="noreferrer noopener"
+        >
+          {{ __("Create account", 'bluehost-site-migrator') }}
+        </a>
+      </p>
 
-		</div>
+      <p class="text-disabled" v-if="Object.keys(regions).length > 1">
+        {{ __("Wrong location? Choose your country:", 'bluehost-site-migrator') }}
+        <select v-model="countryCode">
+          <option v-for="option in options" v-bind:value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </p>
 
-		<div class="footer"></div>
+      <img class="main-image" v-bind:src="imageSrc" />
 
-	</div>
+    </div>
+
+    <div class="footer"></div>
+
+  </div>
 </template>
 
 <script>
-	import apiFetch from '@wordpress/api-fetch';
+import apiFetch from '@wordpress/api-fetch';
 
-	apiFetch.use(apiFetch.createNonceMiddleware(window.BHSiteMigrator.restNonce));
-	apiFetch.use(apiFetch.createRootURLMiddleware(window.BHSiteMigrator.restRootUrl));
+apiFetch.use(apiFetch.createNonceMiddleware(window.BHSiteMigrator.restNonce));
+apiFetch.use(apiFetch.createRootURLMiddleware(window.BHSiteMigrator.restRootUrl));
 
-	export default {
-		computed: {
-			accountCreationUrl() {
-				return `https://www.bluehost.com/web-hosting/signup?migrationId=${this.migrationId}`;
-			},
-			siteMigrationUrl() {
-				return `https://my.bluehost.com/cgi/site_migration/?migrationId=${this.migrationId}`;
-			}
-		},
-		data() {
-			return {
-				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default,
-				migrationId: null
-			}
-		},
-		methods: {
-			getMigrationId() {
-				apiFetch({path: '/bluehost-site-migrator/v1/migration-id'})
-					.catch((error) => {
-						console.error(error);
-						this.$router.push('/error');
-					})
-					.then((migrationId) => {
-						this.migrationId = migrationId;
-					});
-			}
-		},
-		mounted() {
-			this.getMigrationId();
-		}
-	}
+export default {
+  data() {
+    return {
+      closeIcon: window.BHSiteMigrator.pluginUrl + require('@/images/close.svg').default,
+      countryCode: 'US',
+      imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default,
+      loginUrl: '',
+      message: '',
+      migrationId: null,
+      options: [],
+      regions: {},
+      signupUrl: '',
+    }
+  },
+  watch: {
+    countryCode: function (countryCode) {
+      this.loginUrl = this.regions[countryCode].loginUrl;
+      this.signupUrl = this.regions[countryCode].signupUrl;
+      this.message = `Country updated to ${ countryCode }!`;
+    }
+  },
+  methods: {
+    closeFlashMessage() {
+      this.message = '';
+    },
+    getMigrationData() {
+      apiFetch({path: '/bluehost-site-migrator/v1/migration-regions'})
+          .catch((error) => {
+            console.error(error);
+            this.$router.push('/error');
+          })
+          .then(({countryCode, migrationId, regions}) => {
+            this.migrationId = migrationId;
+            this.signupUrl = `https://www.bluehost.com/web-hosting/signup?migrationId=${ migrationId }`;
+            this.loginUrl = `https://my.bluehost.com/cgi/site_migration/?migrationId=${ migrationId }`;
+            regions.forEach((region) => {
+              const {countryCode} = region;
+              this.regions[countryCode] = region;
+              this.options.push({
+                value: countryCode,
+                text: countryCode,
+              });
+            });
+            this.countryCode = countryCode;
+          });
+    },
+  },
+  mounted() {
+    this.getMigrationData();
+  }
+}
 </script>

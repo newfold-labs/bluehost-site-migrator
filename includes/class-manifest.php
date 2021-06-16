@@ -69,17 +69,10 @@ class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 	 * @return array
 	 */
 	protected function geo() {
-		$geo = array();
+		$geo = bh_site_migrator_get_geo_data();
 
-		$response = wp_remote_get( 'https://geolocation.bluehost.workers.dev/' );
-
-		if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
-			$body = wp_remote_retrieve_body( $response );
-			$data = json_decode( $body );
-			if ( $data ) {
-				$geo = (array) $data;
-			}
-		}
+		// Store country code for future use.
+		update_option( 'bh_site_migration_country_code', bh_site_migrator_data_get( $geo, 'country.code', 'US' ) );
 
 		return $geo;
 	}

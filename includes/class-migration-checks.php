@@ -92,6 +92,7 @@ class BH_Site_Migrator_Migration_Checks {
 						self::$results['cwm_api'] = $data['factors'];
 					}
 					$can_migrate = (bool) $data['feasible'];
+					update_option( 'bh_site_migration_region_urls', bh_site_migrator_data_get( $data, 'regionUrls', array() ) );
 					update_option( 'bh_site_migration_id', $data['migrationId'] );
 					update_option( 'bh_site_migration_token', $data['x-auth-token'] );
 					set_transient( $cache_key, $can_migrate, HOUR_IN_SECONDS );

@@ -6,6 +6,43 @@
   grid-template-rows: auto auto 1fr;
   min-height: calc(100vh - 32px);
 
+  .flash-message {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+    border-left: 6px solid green;
+    position: fixed;
+    bottom: 40px;
+    left: 60px;
+    background: white;
+    color: black;
+    font-size: 20px;
+    padding: 30px 40px;
+    z-index: 99;
+    min-width: 500px;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__content {
+      color: grey;
+    }
+
+    &__type {
+      color: black;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    &__close {
+      width: 44px;
+      height: 44px;
+      line-height: 1;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
   .content {
     grid-area: 1 / 1 / 2 / 2;
     justify-self: center;
@@ -24,7 +61,7 @@
     }
   }
 
-  img {
+  .main-image {
     margin-top: 48px;
     flex-grow: 1;
     object-fit: contain;
