@@ -41,7 +41,7 @@
       </p>
 
       <p class="text-disabled" v-if="Object.keys(regions).length > 1">
-        {{ __("Wrong location? Choose your country:", 'bluehost-site-migrator') }}
+        {{ __("Choose your country:", 'bluehost-site-migrator') }}
         <select v-model="countryCode">
           <option v-for="option in options" v-bind:value="option.value">
             {{ option.text }}
@@ -82,7 +82,7 @@ export default {
     countryCode: function (countryCode) {
       this.loginUrl = this.regions[countryCode].loginUrl;
       this.signupUrl = this.regions[countryCode].signupUrl;
-      this.message = `Country updated to ${ countryCode }!`;
+      this.message = `Country updated to ${ this.regions[countryCode].countryName }!`;
     }
   },
   methods: {
