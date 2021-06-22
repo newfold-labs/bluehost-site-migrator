@@ -100,11 +100,11 @@ export default {
             this.signupUrl = `https://www.bluehost.com/web-hosting/signup?migrationId=${ migrationId }`;
             this.loginUrl = `https://my.bluehost.com/cgi/site_migration/?migrationId=${ migrationId }`;
             regions.forEach((region) => {
-              const {countryCode} = region;
+              const {countryCode, countryName} = region;
               this.regions[countryCode] = region;
               this.options.push({
                 value: countryCode,
-                text: countryCode,
+                text: countryName,
               });
             });
             this.countryCode = countryCode;
