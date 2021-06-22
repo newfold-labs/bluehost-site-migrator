@@ -46,7 +46,7 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function can_mysqldump( $can_migrate ) {
-		$process = new Process( 'which mysqldump' );
+		$process = new Process( array( 'which', 'mysqldump' ) );
 		$process->run();
 		$can_mysqldump = ! empty( $process->getOutput() );
 

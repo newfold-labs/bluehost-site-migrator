@@ -44,7 +44,15 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 		$host     = DB_HOST;
 		$user     = DB_USER;
 
-		$process = new Process( "mysqldump {$db_name} --user={$user} --password='{$password}' --host={$host}" );
+		$process = new Process(
+			array(
+				'mysqldump',
+				$db_name,
+				'--user=' . $user,
+				'--password=' . $password,
+				'--host=' . $host,
+			)
+		);
 		$process->run();
 
 		if ( ! $process->isSuccessful() ) {
