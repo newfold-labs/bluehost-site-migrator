@@ -49,7 +49,7 @@ class BH_Site_Migrator_REST_Migration_Regions_Controller extends WP_REST_Control
 		return rest_ensure_response(
 			array(
 				'regions'     => get_option( 'bh_site_migration_region_urls', null ),
-				'countryCode' => get_option( 'bh_site_migration_country_code', 'US' ),
+				'countryCode' => get_option( 'bh_site_migration_country_code', '' ),
 				'migrationId' => get_option( 'bh_site_migration_id', null ),
 			)
 		);

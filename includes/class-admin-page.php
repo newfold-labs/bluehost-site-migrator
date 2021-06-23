@@ -35,6 +35,7 @@ class BH_Site_Migrator_Admin_Page {
 				'restNonce'    => wp_create_nonce( 'wp_rest' ),
 				'pluginUrl'    => plugins_url( '/', dirname( __FILE__ ) ),
 				'restRootUrl'  => esc_url_raw( rest_url() ),
+				'countryCode'  => get_option( 'bh_site_migration_country_code', '' ),
 			)
 		);
 		echo '<div id="bluehost-site-migrator"></div>';
