@@ -72,7 +72,7 @@ class BH_Site_Migrator_Manifest extends BH_Site_Migrator_Registry {
 		$geo = bh_site_migrator_get_geo_data();
 
 		// Store country code for future use.
-		update_option( 'bh_site_migration_country_code', bh_site_migrator_data_get( $geo, 'country.code', 'US' ) );
+		update_option( 'bh_site_migration_country_code', bh_site_migrator_data_get( $geo, 'country.code', '' ) );
 
 		return $geo;
 	}
