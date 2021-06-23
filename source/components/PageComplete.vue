@@ -68,10 +68,11 @@ export default {
   data() {
     return {
       closeIcon: window.BHSiteMigrator.pluginUrl + require('@/images/close.svg').default,
-      countryCode: 'US',
+      countryCode: window.BHSiteMigrator.countryCode,
       imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default,
       loginUrl: '',
       message: '',
+      showMessage: true,
       migrationId: null,
       options: [],
       regions: {},
@@ -80,14 +81,39 @@ export default {
   },
   watch: {
     countryCode: function (countryCode) {
-      this.loginUrl = this.regions[countryCode].loginUrl;
-      this.signupUrl = this.regions[countryCode].signupUrl;
-      this.message = `Country updated to ${ this.regions[countryCode].countryName }!`;
+      this.setUrls(countryCode);
+      if (this.showMessage) {
+        this.message = `Country updated to ${ this.regions[countryCode].countryName }!`;
+      }
     }
   },
   methods: {
     closeFlashMessage() {
       this.message = '';
+    },
+    getValidCountryCode(countryCode) {
+      // If country code exists, use it
+      if (this.regions.hasOwnProperty(countryCode)) {
+        return countryCode;
+      }
+      // If country code doesn't exist, use an empty string (if valid)
+      if (this.regions.hasOwnProperty('')) {
+        return '';
+      }
+      // Otherwise, default to the first key
+      return Object.keys(this.regions)[0];
+    },
+    setCountryCode(countryCode) {
+      // This function is only called for initial update via API, so we don't want to show toast message.
+      this.showMessage = false;
+      // If country code is valid, use it
+      this.countryCode = this.getValidCountryCode(countryCode);
+      // Ensure toast message is enabled for all future updates to country code made by the user.
+      this.showMessage = true;
+    },
+    setUrls(countryCode) {
+      this.loginUrl = this.regions[this.getValidCountryCode(countryCode)].loginUrl;
+      this.signupUrl = this.regions[this.getValidCountryCode(countryCode)].signupUrl;
     },
     getMigrationData() {
       apiFetch({path: '/bluehost-site-migrator/v1/migration-regions'})
@@ -107,7 +133,8 @@ export default {
                 text: countryName,
               });
             });
-            this.countryCode = countryCode;
+            this.setCountryCode(countryCode);
+            this.setUrls(countryCode);
           });
     },
   },
