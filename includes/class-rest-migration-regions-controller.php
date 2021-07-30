@@ -48,27 +48,11 @@ class BH_Site_Migrator_REST_Migration_Regions_Controller extends WP_REST_Control
 	public function get_item( $request ) {
 		return rest_ensure_response(
 			array(
-				'regions'     => $this->get_regions(),
+				'regions'     => get_option( 'bh_site_migration_region_urls', null ),
 				'countryCode' => get_option( 'bh_site_migration_country_code', '' ),
 				'migrationId' => get_option( 'bh_site_migration_id', null ),
 			)
 		);
-	}
-
-	/**
-	 * Get active regions.
-	 *
-	 * @return array
-	 */
-	public function get_regions() {
-		$regions = array();
-		$items   = get_option( 'bh_site_migration_region_urls', null );
-		foreach ( $items as $item ) {
-			if ( isset( $item['enabled'] ) && true === $item['enabled'] ) {
-				$regions[] = $item;
-			}
-		}
-		return $regions;
 	}
 
 	/**
