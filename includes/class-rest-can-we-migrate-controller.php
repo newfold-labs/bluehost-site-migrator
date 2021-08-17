@@ -29,7 +29,7 @@ class BH_Site_Migrator_REST_Can_We_Migrate_Controller extends WP_REST_Controller
 			'/' . $this->rest_base,
 			array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'get_item' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
@@ -46,6 +46,11 @@ class BH_Site_Migrator_REST_Can_We_Migrate_Controller extends WP_REST_Controller
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
+
+		$geo = $request->get_json_params();
+		update_option( 'bh_site_migration_geo_data', $geo );
+		update_option( 'bh_site_migration_country_code', bh_site_migrator_data_get( $geo, 'country.code', '' ) );
+
 		$can_migrate = BH_Site_Migrator_Migration_Checks::run();
 
 		return rest_ensure_response(

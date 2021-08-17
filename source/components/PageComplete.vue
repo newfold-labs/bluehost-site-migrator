@@ -72,7 +72,7 @@ export default {
       imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default,
       loginUrl: '',
       message: '',
-      showMessage: true,
+      showMessage: false,
       migrationId: null,
       options: [],
       regions: {},

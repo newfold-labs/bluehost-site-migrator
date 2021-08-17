@@ -31,6 +31,11 @@ class BH_Site_Migrator_Deactivate {
 
 		// Delete all data
 		BH_Site_Migrator_Options::purge();
+		delete_option( 'bh_site_migration_country_code' );
+		delete_option( 'bh_site_migration_geo_data' );
+		delete_option( 'bh_site_migration_region_urls' );
+		delete_option( 'bh_site_migration_id' );
+		delete_option( 'bh_site_migration_token' );
 		delete_transient( 'bluehost_site_migrator_can_migrate' );
 	}
 
