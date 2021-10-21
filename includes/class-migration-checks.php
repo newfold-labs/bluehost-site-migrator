@@ -31,6 +31,9 @@ class BH_Site_Migrator_Migration_Checks {
 	 * Register migration checks.
 	 */
 	public static function register() {
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'has_proc_open' ), 5 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'has_disk_free_space' ), 5 );
+		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'has_disk_total_space' ), 5 );
 		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_mysqldump' ), 5 );
 		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'can_we_migrate_api' ), 10 );
 		add_filter( 'bluehost_site_migrator_can_migrate', array( __CLASS__, 'has_zip_archive' ), 5 );
@@ -46,7 +49,12 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function can_mysqldump( $can_migrate ) {
-		$process = new Process( array( 'which', 'mysqldump' ) );
+		$can_mysqldump = function_exists( 'proc_open' );
+		if( ! $can_mysqldump ) {
+			self::$results['can_mysqldump']= $can_mysqldump;
+			return $can_mysqldump;
+		}
+		$process = new Process( 'which mysqldump' );
 		$process->run();
 		$can_mysqldump = ! empty( $process->getOutput() );
 
@@ -109,6 +117,48 @@ class BH_Site_Migrator_Migration_Checks {
 		}
 
 		return $can_migrate;
+	}
+
+	/**
+	 * Check if the proc_open function is present. We rely on this for generating the site migration package.
+	 *
+	 * @param bool $can_migrate Whether or not we can migrate the site.
+	 *
+	 * @return bool
+	 */
+	public static function has_proc_open( $can_migrate ) {
+		$has_proc_open                  = function_exists('proc_open');
+		self::$results['has_proc_open'] = $has_proc_open;
+
+		return $can_migrate ? $has_proc_open : $can_migrate;
+	}
+
+	/**
+	 * Check if the disk_free_space function is present. We rely on this for generating the site migration package.
+	 *
+	 * @param bool $can_migrate Whether or not we can migrate the site.
+	 *
+	 * @return bool
+	 */
+	public static function has_disk_free_space( $can_migrate ) {
+		$has_disk_free_space                  = function_exists('disk_free_space');
+		self::$results['has_disk_free_space'] = $has_disk_free_space;
+
+		return $can_migrate ? $has_disk_free_space : $can_migrate;
+	}
+
+	/**
+	 * Check if the disk_total_space function is present. We rely on this for generating the site migration package.
+	 *
+	 * @param bool $can_migrate Whether or not we can migrate the site.
+	 *
+	 * @return bool
+	 */
+	public static function has_disk_total_space( $can_migrate ) {
+		$has_disk_total_space                  = function_exists('disk_total_space');
+		self::$results['has_disk_total_space'] = $has_disk_total_space;
+
+		return $can_migrate ? $has_disk_total_space : $can_migrate;
 	}
 
 	/**
