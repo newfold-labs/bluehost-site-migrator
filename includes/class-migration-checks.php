@@ -49,12 +49,7 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function can_mysqldump( $can_migrate ) {
-		$can_mysqldump = function_exists( 'proc_open' );
-		if( ! $can_mysqldump ) {
-			self::$results['can_mysqldump']= $can_mysqldump;
-			return $can_mysqldump;
-		}
-		$process = new Process( 'which mysqldump' );
+		$process = new Process( array( 'which', 'mysqldump' ) );
 		$process->run();
 		$can_mysqldump = ! empty( $process->getOutput() );
 
@@ -127,7 +122,8 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function has_proc_open( $can_migrate ) {
-		$has_proc_open                  = function_exists('proc_open');
+		$has_proc_open = function_exists( 'proc_open' );
+
 		self::$results['has_proc_open'] = $has_proc_open;
 
 		return $can_migrate ? $has_proc_open : $can_migrate;
@@ -141,7 +137,8 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function has_disk_free_space( $can_migrate ) {
-		$has_disk_free_space                  = function_exists('disk_free_space');
+		$has_disk_free_space = function_exists( 'disk_free_space' );
+
 		self::$results['has_disk_free_space'] = $has_disk_free_space;
 
 		return $can_migrate ? $has_disk_free_space : $can_migrate;
@@ -155,7 +152,8 @@ class BH_Site_Migrator_Migration_Checks {
 	 * @return bool
 	 */
 	public static function has_disk_total_space( $can_migrate ) {
-		$has_disk_total_space                  = function_exists('disk_total_space');
+		$has_disk_total_space = function_exists( 'disk_total_space' );
+
 		self::$results['has_disk_total_space'] = $has_disk_total_space;
 
 		return $can_migrate ? $has_disk_total_space : $can_migrate;
