@@ -3,7 +3,7 @@ Contributors: bluehost, wpscholar
 Tags: migrate, migration
 Requires at least: 4.7
 Tested up to: 5.8
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,6 +24,9 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 
 == Upgrade Notice ==
 
+= 1.0.7 =
+* Additional checks for presence of required functions.
+
 = 1.0.6 =
 * Fix for geolocation functionality
 
@@ -43,6 +46,9 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 * Minor security patch. Compatible with WordPress 5.5.
 
 == Changelog ==
+
+= 1.0.7 =
+* Additional checks for presence of required functions.
 
 = 1.0.6 =
 * Fix for geolocation functionality
