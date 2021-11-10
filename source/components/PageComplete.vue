@@ -21,6 +21,12 @@
         }}
       </p>
 
+      <p class="text-disabled">
+        *{{
+          __('Migrations involving VPS and Dedicated servers are ineligible at this time.', 'bluehost-site-migrator')
+        }}
+      </p>
+
       <a class="button"
          v-bind:href="loginUrl"
          target="_blank"
