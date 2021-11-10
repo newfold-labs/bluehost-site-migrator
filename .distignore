@@ -3,6 +3,7 @@
 # Directories
 .git
 .github
+.husky
 .wporg
 node_modules
 source
@@ -11,6 +12,7 @@ tests
 # Files
 .distignore
 .gitignore
+.huskyrc.json
 webpack.config.js
 /languages/bluehost-site-migrator.php
 

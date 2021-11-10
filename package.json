@@ -54,12 +54,8 @@
     "i18n": "wpvuei18n makepot --exclude=node_modules,assets",
     "lint": "yamllint --ignore=node_modules/** **/*.yml",
     "start": "webpack --watch",
-    "test": "npx cypress run"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "test": "npx cypress run",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.yml": [
