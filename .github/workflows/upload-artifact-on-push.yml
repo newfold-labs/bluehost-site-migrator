@@ -54,7 +54,7 @@ jobs:
         run: npm install
 
       - name: Run build
-        run: npx webpack && npx webpack -p
+        run: npx webpack && npx webpack --mode=production
 
       - name: Generate .pot file
         run: npm run i18n
