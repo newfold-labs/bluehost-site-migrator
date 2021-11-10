@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       geo: {},
-      imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-loaded.svg').default,
+      imageSrc: require('@/images/moving-truck-loaded.svg'),
       isButtonDisabled: false,
       isCompatible: null,
       isSpinnerVisible: false,
@@ -73,6 +73,7 @@ export default {
           .catch((error) => {
             console.error(error);
             this.$router.push('/error');
+            return {can_migrate: false}
           })
           .then(
               ({can_migrate}) => {

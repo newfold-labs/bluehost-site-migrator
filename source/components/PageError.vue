@@ -26,7 +26,7 @@
 	export default {
 		data() {
 			return {
-				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-with-cones.svg').default
+				imageSrc: require('@/images/moving-truck-with-cones.svg')
 			}
 		}
 	}

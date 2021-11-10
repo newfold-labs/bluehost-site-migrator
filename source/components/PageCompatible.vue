@@ -17,7 +17,7 @@
 	export default {
 		data() {
 			return {
-				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/computer-transfer.svg').default
+				imageSrc: require('@/images/computer-transfer.svg')
 			}
 		}
 	}

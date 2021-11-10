@@ -12,8 +12,28 @@ describe(
 
 		beforeEach(
 			() => {
-				cy.server({delay: 1000, status: 200});
-				cy.route('POST', '**/bluehost-site-migrator/v1/migration-package/*', 'fx:migrationPackage');
+				cy.intercept(
+					{
+						method: 'POST',
+						url: `**${ encodeURIComponent('/bluehost-site-migrator/v1/migration-package/') }*`
+					},
+					{
+						fixture: 'migrationPackage',
+						delay: 500
+					}
+				);
+
+				cy.intercept(
+					{
+						method: 'POST',
+						url: `**${ encodeURIComponent('/bluehost-site-migrator/v1/manifest/send') }*`
+					},
+					{
+						fixture: 'manifestSend'
+					}
+				)
+					.as('sendManifest');
+
 			}
 		);
 
@@ -21,7 +41,6 @@ describe(
 			'Can initiate transfer',
 			() => {
 				cy.contains('button', 'Start Transfer').scrollIntoView().click();
-				cy.wait(500);
 				cy.hash().should('eq', '#/transfer');
 			}
 		);

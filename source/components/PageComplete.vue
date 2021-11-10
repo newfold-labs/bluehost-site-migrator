@@ -67,9 +67,9 @@ apiFetch.use(apiFetch.createRootURLMiddleware(window.BHSiteMigrator.restRootUrl)
 export default {
   data() {
     return {
-      closeIcon: window.BHSiteMigrator.pluginUrl + require('@/images/close.svg').default,
+      closeIcon: require('@/images/close.svg'),
       countryCode: window.BHSiteMigrator.countryCode,
-      imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/moving-truck-unloaded.svg').default,
+      imageSrc: require('@/images/moving-truck-unloaded.svg'),
       loginUrl: '',
       message: '',
       showMessage: false,

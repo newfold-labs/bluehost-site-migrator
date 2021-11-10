@@ -27,7 +27,7 @@
 		components: {ProgressBar},
 		data() {
 			return {
-				imageSrc: window.BHSiteMigrator.pluginUrl + require('@/images/boxed-up.svg').default,
+				imageSrc: require('@/images/boxed-up.svg'),
 				isComplete: null,
 				message: __('Preparing to generate package files...', 'bluehost-site-migrator'),
 				progressPercentage: 100,

@@ -37,13 +37,15 @@ module.exports = function (env, options) {
 		postCss: {
 			loader: 'postcss-loader',
 			options: {
-				plugins: [
-					autoprefixer({
-						overrideBrowserslist: browsers,
-						flexbox: 'no-2009',
-					}),
-				],
-				sourceMap: true,
+				postcssOptions: {
+					plugins: [
+						autoprefixer({
+							overrideBrowserslist: browsers,
+							flexbox: 'no-2009',
+						}),
+					],
+					sourceMap: true,
+				}
 			},
 		},
 		sass: {
@@ -59,7 +61,7 @@ module.exports = function (env, options) {
 		entry,
 		output: {
 			path: path.join(__dirname, '/'),
-			filename: `${paths.js}[name]${extPrefix}.js`,
+			filename: `${ paths.js }[name]${ extPrefix }.js`,
 		},
 		resolve: {
 			alias: {
@@ -71,19 +73,21 @@ module.exports = function (env, options) {
 			rules: [
 				{
 					test: /\.js|.es6/,
-					loader: 'babel-loader',
-					query: {
-						presets: [
-							[
-								'@babel/preset-env',
-								{
-									targets: browsers,
-								}
+					use: {
+						loader: 'babel-loader',
+						options: {
+							presets: [
+								[
+									'@babel/preset-env',
+									{
+										targets: browsers,
+									}
+								],
 							],
-						],
-						plugins: [
-							'transform-class-properties',
-						],
+							plugins: [
+								'transform-class-properties',
+							],
+						}
 					},
 					exclude: /(node_modules|bower_components)/,
 				},
@@ -108,27 +112,24 @@ module.exports = function (env, options) {
 				},
 				{
 					test: /\.(png|jpg|svg)$/,
-					loader: 'file-loader',
-					options: {
-						name: '[name].[ext]',
-						outputPath: paths.img,
-					},
-					exclude: /(node_modules|bower_components)/,
-				},
-				{
-					test: /\.html$/,
-					loader: 'raw-loader',
-					exclude: /(node_modules|bower_components)/,
+					type: 'asset/resource',
+					generator: {
+						filename: 'assets/img/[name][ext]'
+					}
 				},
 				{
 					test: /\.vue$/,
 					use: 'vue-loader'
-				}
+				},
+				{
+					test: /\.html$/,
+					type: 'asset/resource'
+				},
 			]
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: `${paths.css}[name]${extPrefix}.css`,
+				filename: `${ paths.css }[name]${ extPrefix }.css`,
 			}),
 			new VueLoaderPlugin(),
 		],
