@@ -3,7 +3,7 @@ Contributors: bluehost, wpscholar
 Tags: migrate, migration
 Requires at least: 4.7
 Tested up to: 5.8
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -23,6 +23,9 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 3. Click on the "Site Migrator" link on the left-hand menu in the WordPress admin to get started!
 
 == Upgrade Notice ==
+
+= 1.0.8 =
+* Updated dependencies and copy regarding compatible hosting plans.
 
 = 1.0.7 =
 * Additional checks for presence of required functions.
@@ -46,6 +49,9 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 * Minor security patch. Compatible with WordPress 5.5.
 
 == Changelog ==
+
+= 1.0.8 =
+* Updated dependencies and copy regarding compatible hosting plans.
 
 = 1.0.7 =
 * Additional checks for presence of required functions.
