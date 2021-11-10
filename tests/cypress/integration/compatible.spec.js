@@ -14,8 +14,19 @@ describe(
 			() => {
 				cy.intercept(
 					{
+						method: 'GET',
+						url: `**${ encodeURIComponent('/bluehost-site-migrator/v1/migration-package/') }*%2Fis-valid*`
+					},
+					{
+						body: true,
+						delay: 500
+					}
+				);
+
+				cy.intercept(
+					{
 						method: 'POST',
-						url: `**${ encodeURIComponent('/bluehost-site-migrator/v1/migration-package/') }*`
+						url: `**${ encodeURIComponent('/bluehost-site-migrator/v1/migration-package') }*`
 					},
 					{
 						fixture: 'migrationPackage',
