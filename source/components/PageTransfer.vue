@@ -35,8 +35,14 @@
 			}
 		},
 		methods: {
+			async sleep(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms));
+			},
 			async isValidPackage(packageType) {
 				return await apiFetch({path: `/bluehost-site-migrator/v1/migration-package/${packageType}/is-valid`});
+			},
+			async queuePackagingTasks() {
+				await apiFetch({ path: '/bluehost-site-migrator/v1/migration-package/queue-tasks' });
 			},
 			fetchExistingMigrationPackages() {
 				apiFetch({path: '/bluehost-site-migrator/v1/migration-package'})
@@ -52,25 +58,21 @@
 						this.packages = packages;
 						// Generate packages that are missing
 						for (const packageType in packages) {
-							if (!await this.isValidPackage(packageType)) {
-								await this.generateMigrationPackage(packageType);
+							this.message = sprintf(__('Packaging %s...', 'bluehost-site-migrator'), packageType);
+							let timeInterval = 3000;
+							let success = await this.isValidPackage(packageType);
+							while (!success) {
+								try {
+									timeInterval += 5000;
+									await fetch('/wp-cron.php');
+									await this.sleep(timeInterval);
+									success = await this.isValidPackage(packageType);
+								} catch (exception) {
+									console.log(exception);
+								}
 							}
 						}
 						this.sendUpdatedManifestFile();
-					});
-			},
-			async generateMigrationPackage(packageType) {
-				this.message = sprintf(__('Packaging %s...', 'bluehost-site-migrator'), packageType);
-				return await apiFetch({
-					method: 'POST',
-					path: `/bluehost-site-migrator/v1/migration-package/${packageType}`
-				})
-					.catch((error) => {
-						this.$router.push('/error');
-						throw error;
-					})
-					.then((packageData) => {
-						this.packages[packageType] = packageData;
 					});
 			},
 			sendUpdatedManifestFile() {
@@ -93,6 +95,7 @@
 			},
 		},
 		mounted() {
+			this.queuePackagingTasks();
 			this.fetchExistingMigrationPackages();
 		},
 	}

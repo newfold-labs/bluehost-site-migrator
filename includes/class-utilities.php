@@ -1,5 +1,7 @@
 <?php
 
+use NewfoldLabs\WP\Module\Tasks\Models\Data\Task;
+
 /**
  * Class BH_Site_Migrator_Utilities
  */
@@ -104,4 +106,59 @@ class BH_Site_Migrator_Utilities {
 		return '';
 	}
 
+	/**
+	 * A function to queue in all the required tasks for packaging
+	 */
+	public static function queue_packaging_tasks() {
+		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
+		// Set an option indicating that we actually have started the packaging process
+		BH_Site_Migrator_Options::set( 'queued_packaging_tasks', 1 );
+		foreach ( $package_types as $package_type ) {
+			// Add a task to package that type with 2 num retries
+			new Task(
+				null,
+				'package_' . $package_type,
+				__FILE__,
+				'create_package_task',
+				array( 'package_type' => $package_type ),
+				2,
+				null,
+				10
+			);
+		}
+	}
+
+}
+
+/**
+ * A task to package and record results in the db
+ *
+ * @param array $args the package type in form of an array with package type as key
+ */
+function create_package_task( $args ) {
+	$package_type = $args['package_type'];
+	$package_data = array();
+
+	if ( ! BH_Site_Migrator_Migration_Package::is_valid_type( $package_type ) ) {
+		return $package_data;
+	}
+
+	$packager = BH_Site_Migrator_Packager_Factory::create( $package_type );
+	$package  = $packager->create_package();
+
+	if ( ! empty( $package ) ) {
+
+		$uploads = wp_get_upload_dir();
+
+		$package_data = array(
+			'hash'      => md5_file( $package ),
+			'path'      => $package,
+			'size'      => filesize( $package ),
+			'timestamp' => time(),
+			'url'       => str_replace( $uploads['basedir'], $uploads['baseurl'], $package ),
+		);
+
+		BH_Site_Migrator_Options::set( $package_type, $package_data );
+
+	}
 }

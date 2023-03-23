@@ -13,6 +13,20 @@
     {
       "type": "composer",
       "url": "https://bluehost.github.io/satis/"
+    },
+    {
+      "type": "composer",
+      "url": "https://newfold-labs.github.io/satis/",
+      "only": [
+        "newfold-labs/*"
+      ]
+    },
+    {
+      "type": "path",
+      "url": "../wp-module-tasks/",
+      "options": {
+        "symlink": true
+      }
     }
   ],
   "require": {
@@ -22,21 +36,25 @@
     "wp-forge/wp-plugin-check": "^1.0"
   },
   "require-dev": {
-    "bluehost/wp-php-standards": "^1.1"
+    "newfold-labs/wp-php-standards": "^1.1",
+    "newfold-labs/wp-module-tasks": "@dev"
   },
   "autoload": {
     "classmap": ["includes/"]
   },
   "config": {
     "optimize-autoloader": true,
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "scripts": {
     "fix": [
-      "vendor/bin/phpcbf . --standard=Bluehost"
+      "vendor/bin/phpcbf . --standard=Newfold"
     ],
     "lint": [
-      "vendor/bin/phpcs . --standard=Bluehost -s"
+      "vendor/bin/phpcs . --standard=Newfold -s"
     ]
   },
   "scripts-descriptions": {

@@ -43,6 +43,18 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 
 		register_rest_route(
 			$this->namespace,
+			"/{$this->rest_base}/queue-tasks",
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'queue_tasks' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
 			"/{$this->rest_base}/(?P<type>[\w-]+)",
 			array(
 				'args' => array(
@@ -162,6 +174,27 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 		}
 
 		return rest_ensure_response( $packages );
+	}
+
+	/**
+	 * Queue in packaging tasks if not already queued.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function queue_tasks( $request ) {
+		try {
+			$queued_packaging_tasks = BH_Site_Migrator_Options::get( 'queued_packaging_tasks', 0 );
+
+			if ( ! $queued_packaging_tasks ) {
+				BH_Site_Migrator_Utilities::queue_packaging_tasks();
+			}
+
+			return rest_ensure_response( true );
+		} catch ( Exception $e ) {
+			return rest_ensure_response( new WP_Error( 'queue-error', $e->getMessage() ) );
+		}
 	}
 
 	/**
