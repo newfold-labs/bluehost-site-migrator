@@ -1,7 +1,9 @@
 <template>
 	<div class="page --transfer">
 		<div class="content">
-			<h2>{{__("Transferring your website", 'bluehost-site-migrator')}}</h2>
+			<h1>{{__("Cloning your website", 'bluehost-site-migrator')}}</h1>
+			<p>{{ __("Please wait for the cloning process to complete, once completed, we ", 'bluehost-site-migrator') }}</p>
+			<p>{{ __("will issue you your transfer key.", 'bluehost-site-migrator') }}</p>
 			<div class="modal">
 				<p>{{message}}</p>
 				<ProgressBar :isAnimated="true" :progressPercentage="progressPercentage"/>
