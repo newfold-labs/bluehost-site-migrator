@@ -2,7 +2,7 @@
 Contributors: bluehost, wpscholar
 Tags: migrate, migration
 Requires at least: 4.7
-Tested up to: 5.9
+Tested up to: 6.2
 Stable tag: 1.0.8
 Requires PHP: 5.6
 License: GPLv2 or later
