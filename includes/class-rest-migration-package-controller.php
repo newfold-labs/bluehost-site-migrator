@@ -1,5 +1,7 @@
 <?php
 
+use NewfoldLabs\WP\Module\Tasks\Models\Data\Task;
+
 /**
  * Class BH_Site_Migrator_REST_Migration_Package_Controller
  */
@@ -101,6 +103,24 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 			)
 		);
 
+		register_rest_route(
+			$this->namespace,
+			"/{$this->rest_base}/(?P<type>[\w-]+)/is-scheduled",
+			array(
+				'args' => array(
+					'type' => array(
+						'validate_callback' => function ( $param ) {
+							return BH_Site_Migrator_Migration_Package::is_valid_type( $param );
+						},
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'is_package_scheduled' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -185,10 +205,11 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 	 */
 	public function queue_tasks( $request ) {
 		try {
-			$queued_packaging_tasks = BH_Site_Migrator_Options::get( 'queued_packaging_tasks', 0 );
+			$queued_packaging_tasks = BH_Site_Migrator_Options::get( 'queued_packaging_tasks', false );
 
 			if ( ! $queued_packaging_tasks ) {
 				BH_Site_Migrator_Utilities::queue_packaging_tasks();
+				BH_Site_Migrator_Options::set( 'queued_packaging_tasks', true );
 			}
 
 			return rest_ensure_response( true );
@@ -215,6 +236,21 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 	 */
 	public function is_package_valid( $request ) {
 		return rest_ensure_response( BH_Site_Migrator_Migration_Package::is_valid_package( $request->get_param( 'type' ) ) );
+	}
+
+	/**
+	 * Check if the task to migrate the package is scheduled
+	 *
+	 * @param WP_REST_Request $request Request object
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function is_package_scheduled( $request ) {
+		// Try to get any task scheduled for the package
+		$scheduled_tasks_for_package = Task::get_tasks_with_name( 'package_' . $request->get_param( 'type' ) );
+		$scheduled                   = count( $scheduled_tasks_for_package ) > 0;
+
+		return rest_ensure_response( $scheduled );
 	}
 
 	/**

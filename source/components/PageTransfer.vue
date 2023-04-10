@@ -43,6 +43,9 @@
 			async isValidPackage(packageType) {
 				return await apiFetch({path: `/bluehost-site-migrator/v1/migration-package/${packageType}/is-valid`});
 			},
+			async isPackageScheduled(packageType) {
+				return await apiFetch({path: `/bluehost-site-migrator/v1/migration-package/${packageType}/is-scheduled`});
+			},
 			async queuePackagingTasks() {
 				await apiFetch({ path: '/bluehost-site-migrator/v1/migration-package/queue-tasks' });
 			},
@@ -68,6 +71,13 @@
 									timeInterval += 5000;
 									await fetch('/wp-cron.php');
 									await this.sleep(timeInterval);
+									const scheduled = await this.isPackageScheduled(packageType);
+									if (!scheduled) {
+										// Break the loop and redirect to failed state
+										this.$router.push('/error');
+										success = false;
+										return;
+									}
 									success = await this.isValidPackage(packageType);
 								} catch (exception) {
 									console.log(exception);

@@ -111,8 +111,6 @@ class BH_Site_Migrator_Utilities {
 	 */
 	public static function queue_packaging_tasks() {
 		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
-		// Set an option indicating that we actually have started the packaging process
-		BH_Site_Migrator_Options::set( 'queued_packaging_tasks', 1 );
 		foreach ( $package_types as $package_type ) {
 			// Add a task to package that type with 2 num retries
 			new Task(
