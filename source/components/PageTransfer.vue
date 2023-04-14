@@ -69,8 +69,7 @@
 							while (!success) {
 								try {
 									timeInterval += 5000;
-									await fetch('/wp-cron.php');
-									await this.sleep(timeInterval);
+									success = await this.isValidPackage(packageType);
 									const scheduled = await this.isPackageScheduled(packageType);
 									if (!scheduled) {
 										// Break the loop and redirect to failed state
@@ -78,7 +77,8 @@
 										success = false;
 										return;
 									}
-									success = await this.isValidPackage(packageType);
+									await fetch('/wp-cron.php');
+									await this.sleep(timeInterval);
 								} catch (exception) {
 									console.log(exception);
 								}
