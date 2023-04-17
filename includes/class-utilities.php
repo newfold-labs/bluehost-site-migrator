@@ -126,6 +126,18 @@ class BH_Site_Migrator_Utilities {
 		}
 	}
 
+	/**
+	 * A function to get all the packaging task names
+	 */
+	public static function get_packaging_task_names() {
+		$task_names    = array();
+		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
+		foreach ( $package_types as $package_type ) {
+			array_push( $task_names, 'package_' . $package_type );
+		}
+		return $task_names;
+	}
+
 }
 
 /**

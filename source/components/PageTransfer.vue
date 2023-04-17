@@ -49,6 +49,12 @@
 			async queuePackagingTasks() {
 				await apiFetch({ path: '/bluehost-site-migrator/v1/migration-package/queue-tasks' });
 			},
+			async sendErrorLogs() {
+				await apiFetch({
+					method: 'POST',
+					path: '/bluehost-site-migrator/v1/manifest/reportErrors'
+				});
+			},
 			fetchExistingMigrationPackages() {
 				apiFetch({path: '/bluehost-site-migrator/v1/migration-package'})
 					.catch((error) => {
@@ -73,6 +79,7 @@
 									const scheduled = await this.isPackageScheduled(packageType);
 									if (!scheduled) {
 										// Break the loop and redirect to failed state
+										await this.sendErrorLogs();
 										this.$router.push('/error');
 										success = false;
 										return;
