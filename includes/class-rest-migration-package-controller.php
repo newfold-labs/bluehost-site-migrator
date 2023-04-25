@@ -1,6 +1,7 @@
 <?php
 
 use NewfoldLabs\WP\Module\Tasks\Models\Data\Task;
+use NewfoldLabs\WP\Module\Tasks\Models\Data\TaskResult;
 
 /**
  * Class BH_Site_Migrator_REST_Migration_Package_Controller
@@ -248,7 +249,8 @@ class BH_Site_Migrator_REST_Migration_Package_Controller extends WP_REST_Control
 	public function is_package_scheduled( $request ) {
 		// Try to get any task scheduled for the package
 		$scheduled_tasks_for_package = Task::get_tasks_with_name( 'package_' . $request->get_param( 'type' ) );
-		$scheduled                   = count( $scheduled_tasks_for_package ) > 0;
+		$failed_tasks_for_package    = TaskResult::get_failed_tasks_by_name( 'package_' . $request->get_param( 'type' ) );
+		$scheduled                   = count( $scheduled_tasks_for_package ) > 0 || count( $failed_tasks_for_package ) === 0;
 
 		return rest_ensure_response( $scheduled );
 	}

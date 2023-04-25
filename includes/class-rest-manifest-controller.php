@@ -62,7 +62,7 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/reportErrors',
+			'/' . $this->rest_base . '/report-errors',
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -182,8 +182,8 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$payload      = wp_json_encode( $relevant_failed_tasks, JSON_PRETTY_PRINT );
-		$response     = wp_remote_post(
+		$payload  = wp_json_encode( $relevant_failed_tasks, JSON_PRETTY_PRINT );
+		$response = wp_remote_post(
 			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/reportFailed",
 			array(
 				'headers'   => array(

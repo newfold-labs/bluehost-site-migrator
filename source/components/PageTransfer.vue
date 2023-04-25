@@ -52,7 +52,7 @@
 			async sendErrorLogs() {
 				await apiFetch({
 					method: 'POST',
-					path: '/bluehost-site-migrator/v1/manifest/reportErrors'
+					path: '/bluehost-site-migrator/v1/manifest/report-errors'
 				});
 			},
 			fetchExistingMigrationPackages() {
