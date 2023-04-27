@@ -93,7 +93,6 @@ describe("Transfer", function () {
     cy.navigateTo("/transfer");
 
     packages.forEach(function (packageName) {
-      cy.wait(`@${packageName}`);
       cy.contains("p", `Packaging ${packageName}...`);
     });
 
