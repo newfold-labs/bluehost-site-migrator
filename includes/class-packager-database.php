@@ -59,7 +59,7 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 		$required_tables = $wpdb->get_results( 'SHOW TABLE STATUS' );
 		foreach ( $required_tables as $table_datum ) {
 			if ( ! preg_match( '#^' . preg_quote( $wpdb->prefix, '#' ) . '#', $table_datum->{'Name'} ) ) {
-				array_push( $process_command_array, '--ignore_table=' . $db_name . $table_datum->{'Name'} );
+				array_push( $process_command_array, '--ignore_table=' . $db_name . '.' . $table_datum->{'Name'} );
 			}
 		}
 
