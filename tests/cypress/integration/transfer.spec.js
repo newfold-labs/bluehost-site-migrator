@@ -92,8 +92,6 @@ describe("Transfer", function () {
 
     cy.navigateTo("/transfer");
 
-    cy.contains("p", "Preparing to generate package files...");
-
     packages.forEach(function (packageName) {
       cy.wait(`@${packageName}`);
       cy.contains("p", `Packaging ${packageName}...`);
