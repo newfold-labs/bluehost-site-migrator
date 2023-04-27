@@ -1,7 +1,9 @@
 <template>
 	<div class="page --transfer">
 		<div class="content">
-			<h2>{{__("Transferring your website", 'bluehost-site-migrator')}}</h2>
+			<h1>{{__("Cloning your website", 'bluehost-site-migrator')}}</h1>
+			<p>{{ __("Please wait for the cloning process to complete, once completed, we ", 'bluehost-site-migrator') }}</p>
+			<p>{{ __("will issue you your transfer key.", 'bluehost-site-migrator') }}</p>
 			<div class="modal">
 				<p>{{message}}</p>
 				<ProgressBar :isAnimated="true" :progressPercentage="progressPercentage"/>
@@ -35,8 +37,23 @@
 			}
 		},
 		methods: {
+			async sleep(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms));
+			},
 			async isValidPackage(packageType) {
 				return await apiFetch({path: `/bluehost-site-migrator/v1/migration-package/${packageType}/is-valid`});
+			},
+			async isPackageScheduled(packageType) {
+				return await apiFetch({path: `/bluehost-site-migrator/v1/migration-package/${packageType}/is-scheduled`});
+			},
+			async queuePackagingTasks() {
+				await apiFetch({ path: '/bluehost-site-migrator/v1/migration-package/queue-tasks' });
+			},
+			async sendErrorLogs() {
+				await apiFetch({
+					method: 'POST',
+					path: '/bluehost-site-migrator/v1/manifest/report-errors'
+				});
 			},
 			fetchExistingMigrationPackages() {
 				apiFetch({path: '/bluehost-site-migrator/v1/migration-package'})
@@ -52,25 +69,29 @@
 						this.packages = packages;
 						// Generate packages that are missing
 						for (const packageType in packages) {
-							if (!await this.isValidPackage(packageType)) {
-								await this.generateMigrationPackage(packageType);
+							this.message = sprintf(__('Packaging %s...', 'bluehost-site-migrator'), packageType);
+							let timeInterval = 3000;
+							let success = await this.isValidPackage(packageType);
+							while (!success) {
+								try {
+									timeInterval += 5000;
+									success = await this.isValidPackage(packageType);
+									const scheduled = await this.isPackageScheduled(packageType);
+									if (!scheduled) {
+										// Break the loop and redirect to failed state
+										await this.sendErrorLogs();
+										this.$router.push('/error');
+										success = false;
+										return;
+									}
+									await fetch('/wp-cron.php');
+									await this.sleep(timeInterval);
+								} catch (exception) {
+									console.log(exception);
+								}
 							}
 						}
 						this.sendUpdatedManifestFile();
-					});
-			},
-			async generateMigrationPackage(packageType) {
-				this.message = sprintf(__('Packaging %s...', 'bluehost-site-migrator'), packageType);
-				return await apiFetch({
-					method: 'POST',
-					path: `/bluehost-site-migrator/v1/migration-package/${packageType}`
-				})
-					.catch((error) => {
-						this.$router.push('/error');
-						throw error;
-					})
-					.then((packageData) => {
-						this.packages[packageType] = packageData;
 					});
 			},
 			sendUpdatedManifestFile() {
@@ -93,6 +114,7 @@
 			},
 		},
 		mounted() {
+			this.queuePackagingTasks();
 			this.fetchExistingMigrationPackages();
 		},
 	}

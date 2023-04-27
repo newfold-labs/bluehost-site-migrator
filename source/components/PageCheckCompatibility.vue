@@ -3,11 +3,9 @@
     <div class="content">
       <h1>{{ __("Bluehost Site Migrator", 'bluehost-site-migrator') }}</h1>
       <p><strong>{{ __("Let's get this truck rolling:", 'bluehost-site-migrator') }}</strong></p>
-      <ul>
-        <li>{{ __("First we'll check to see if your website is compatible.", 'bluehost-site-migrator') }}</li>
-        <li>{{ __("If it's compatible, we'll transfer your site.", 'bluehost-site-migrator') }}</li>
-        <li>{{ __("And then send you a link for review.", 'bluehost-site-migrator') }}</li>
-      </ul>
+      <p>{{ __("A website compatibility check needs to be performed before the", 'bluehost-site-migrator') }}</p>
+      <p>{{ __("transfer process can begin to verify that your website can be transferred.", 'bluehost-site-migrator') }}</p>
+      <p>{{ __("transferred.", 'bluehost-site-migrator') }}</p>
       <button v-on:click="checkCompatibility" v-bind:class="this.buttonClasses">
         {{ __("Check Compatibility", 'bluehost-site-migrator') }}
         <spinner color="white" v-bind:is-visible="this.isSpinnerVisible" size="18" />

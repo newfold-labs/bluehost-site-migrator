@@ -13,27 +13,36 @@
 
     <div class="content">
 
-      <h1>{{ __("Welcome to the Bluehost family!", 'bluehost-site-migrator') }}</h1>
+      <h1>{{ __("Great news, your website has ", 'bluehost-site-migrator') }}</h1>
+      <h1>{{ __("been cloned successfully! ", 'bluehost-site-migrator') }}</h1>
 
       <p>
         {{
-          __("You've transferred your website to Bluehost. Now we just need to get it set up on your Bluehost account so you can review it.", 'bluehost-site-migrator')
+          __("Your site has been cloned and is now ready for transfer. To initiate the transfer, you need to copy the transfer key and paste it into the Migration Services page.", 'bluehost-site-migrator')
         }}
       </p>
 
-      <p class="text-disabled">
-        *{{
-          __('Migrations involving VPS and Dedicated servers are ineligible at this time.', 'bluehost-site-migrator')
-        }}
-      </p>
+      <div class="migration-id-container">
+        <h2>{{ migrationId }}</h2>
+      </div>
 
       <a class="button"
-         v-bind:href="loginUrl"
          target="_blank"
+         @click="copyText"
          rel="noreferrer noopener"
       >
-        {{ __("Login to Bluehost", 'bluehost-site-migrator') }}
+        {{ __("Copy transfer key", 'bluehost-site-migrator') }}
       </a>
+
+      <p>
+        <a
+            v-bind:href="loginUrl"
+            target="_blank"
+            rel="noreferrer noopener"
+        >
+          {{ __("Login to Bluehost", 'bluehost-site-migrator') }}
+        </a>
+      </p>
 
       <p>
         <span class="text-disabled">{{ __("Don't have an account?", 'bluehost-site-migrator') }}</span>&nbsp;&nbsp;
@@ -94,6 +103,10 @@ export default {
     }
   },
   methods: {
+    async copyText() {
+      await navigator.clipboard.writeText(this.migrationId);
+      this.message = "Copied transfer key to clipboard";
+    },
     closeFlashMessage() {
       this.message = '';
     },

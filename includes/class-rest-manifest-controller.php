@@ -1,5 +1,7 @@
 <?php
 
+use NewfoldLabs\WP\Module\Tasks\Models\TaskResult;
+
 /**
  * Class BH_Site_Migrator_REST_Manifest_Controller
  */
@@ -53,6 +55,18 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'send_files_manifest' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/report-errors',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'report_failed_migration' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			)
@@ -134,6 +148,71 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 			array(
 				'success' => true,
 				'files'   => $files,
+			)
+		);
+	}
+
+	/**
+	 * Send files manifest to Bluehost.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function report_failed_migration() {
+		$migration_id = get_option( 'bh_site_migration_id' );
+
+		// Get all failed tasks
+		$failed_tasks          = TaskResult::get_failed_tasks();
+		$relevant_failed_tasks = array();
+
+		$package_task_names = BH_Site_Migrator_Utilities::get_packaging_task_names();
+
+		foreach ( $failed_tasks as $failed_task ) {
+			if ( in_array( $failed_task->task_name, $package_task_names, true ) ) {
+				array_push( $relevant_failed_tasks, $failed_task );
+			}
+		}
+
+		if ( empty( $relevant_failed_tasks ) ) {
+			return new WP_Error(
+				'migration_error_log_failure',
+				__( 'No failed tasks found.', 'bluehost-site-migrator' ),
+				array(
+					'status_code' => 404,
+				)
+			);
+		}
+
+		$payload  = wp_json_encode( $relevant_failed_tasks, JSON_PRETTY_PRINT );
+		$response = wp_remote_post(
+			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/reportFailed",
+			array(
+				'headers'   => array(
+					'Content-Type' => 'application/json',
+					'x-auth-token' => get_option( 'bh_site_migration_token' ),
+				),
+				'body'      => $payload,
+				'sslverify' => is_ssl(),
+			)
+		);
+
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+
+		if ( 200 !== $status_code ) {
+			return new WP_Error(
+				'migration_payload_failure',
+				__( 'An error occured when delivering the migration payload.', 'bluehost-site-migrator' ),
+				array(
+					'status_code' => $status_code,
+				)
+			);
+		}
+
+		BH_Site_Migrator_Scheduled_Events::schedule_migration_package_purge();
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'errors'  => wp_json_encode( $relevant_failed_tasks ),
 			)
 		);
 	}

@@ -1,5 +1,7 @@
 <?php
 
+use NewfoldLabs\WP\Module\Tasks\Models\Task;
+
 /**
  * Class BH_Site_Migrator_Utilities
  */
@@ -104,4 +106,65 @@ class BH_Site_Migrator_Utilities {
 		return '';
 	}
 
+	/**
+	 * A task to package and record results in the db
+	 *
+	 * @param array $args the package type in form of an array with package type as key
+	 */
+	public static function create_package_task( $args ) {
+		$package_type = $args['package_type'];
+		$package_data = array();
+
+		if ( ! BH_Site_Migrator_Migration_Package::is_valid_type( $package_type ) ) {
+			return $package_data;
+		}
+
+		$packager = BH_Site_Migrator_Packager_Factory::create( $package_type );
+		$package  = $packager->create_package();
+
+		if ( ! empty( $package ) ) {
+
+			$uploads = wp_get_upload_dir();
+
+			$package_data = array(
+				'hash'      => md5_file( $package ),
+				'path'      => $package,
+				'size'      => filesize( $package ),
+				'timestamp' => time(),
+				'url'       => str_replace( $uploads['basedir'], $uploads['baseurl'], $package ),
+			);
+
+			BH_Site_Migrator_Options::set( $package_type, $package_data );
+
+		}
+	}
+
+	/**
+	 * A function to queue in all the required tasks for packaging
+	 */
+	public static function queue_packaging_tasks() {
+		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
+		foreach ( $package_types as $package_type ) {
+			// Add a task to package that type with 2 num retries
+			$task = new Task();
+			$task->set_args( array( 'package_type' => $package_type ) )
+				->set_task_name( 'package_' . $package_type )
+				->set_task_execute( 'BH_Site_Migrator_Utilities::create_package_task' )
+				->set_num_retries( 2 )
+				->set_task_priority( 10 );
+			$task->queue_task();
+		}
+	}
+
+	/**
+	 * A function to get all the packaging task names
+	 */
+	public static function get_packaging_task_names() {
+		$task_names    = array();
+		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
+		foreach ( $package_types as $package_type ) {
+			array_push( $task_names, 'package_' . $package_type );
+		}
+		return $task_names;
+	}
 }

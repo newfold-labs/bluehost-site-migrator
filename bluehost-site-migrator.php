@@ -29,6 +29,9 @@ define( 'BH_SITE_MIGRATOR_URL', plugin_dir_url( __FILE__ ) );
 
 require dirname( __FILE__ ) . '/vendor/autoload.php';
 
+register_activation_hook( __FILE__, 'nfd_tasks_setup_tables' );
+register_deactivation_hook( __FILE__, 'nfd_tasks_purge_tables' );
+
 // Check plugin requirements
 global $pagenow;
 if ( 'plugins.php' === $pagenow ) {

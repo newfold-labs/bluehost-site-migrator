@@ -22,7 +22,8 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 
 		$zip = new ZipArchive();
 		if ( true === $zip->open( $zip_path, ZipArchive::CREATE ) ) {
-			$exists = $zip->addFromString( 'database.sql', self::get_sql_dump() ) && $zip->close();
+			self::get_sql_dump();
+			$exists = $zip->addFile( 'database.sql' ) && $zip->close();
 
 			if ( $exists ) {
 				$package = $zip_path;
@@ -35,31 +36,45 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 	/**
 	 * Create a MySQL dump of the database.
 	 *
-	 * @return string
 	 * @throws ProcessFailedException If process fails.
 	 */
 	public static function get_sql_dump() {
+		global $wpdb;
+
 		$db_name  = DB_NAME;
 		$password = DB_PASSWORD;
 		$host     = DB_HOST;
 		$user     = DB_USER;
 
+		$process_command_array = array(
+			'mysqldump',
+			$db_name,
+			'--user=' . $user,
+			'--password=' . $password,
+			'--host=' . $host,
+			'--max_allowed_packet=512M',
+			'--result-file=database.sql',
+		);
+
+		$required_tables = $wpdb->get_results( 'SHOW TABLE STATUS' );
+		foreach ( $required_tables as $table_datum ) {
+			if ( ! preg_match( '#^' . preg_quote( $wpdb->prefix, '#' ) . '#', $table_datum->{'Name'} ) ) {
+				array_push( $process_command_array, '--ignore_table=' . $db_name . '.' . $table_datum->{'Name'} );
+			}
+		}
+
 		$process = new Process(
-			array(
-				'mysqldump',
-				$db_name,
-				'--user=' . $user,
-				'--password=' . $password,
-				'--host=' . $host,
-			)
+			$process_command_array,
+			null,
+			null,
+			null,
+			300
 		);
 		$process->run();
 
 		if ( ! $process->isSuccessful() ) {
 			throw new ProcessFailedException( $process );
 		}
-
-		return $process->getOutput();
 	}
 
 	/**
