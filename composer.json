@@ -20,24 +20,17 @@
       "only": [
         "newfold-labs/*"
       ]
-    },
-    {
-      "type": "path",
-      "url": "../wp-module-tasks/",
-      "options": {
-        "symlink": true
-      }
     }
   ],
   "require": {
     "ext-json": "*",
     "ext-zip": "*",
     "symfony/process": "^3.4",
-    "wp-forge/wp-plugin-check": "^1.0"
+    "wp-forge/wp-plugin-check": "^1.0",
+    "newfold-labs/wp-module-tasks": "^1.0.2"
   },
   "require-dev": {
-    "newfold-labs/wp-php-standards": "^1.1",
-    "newfold-labs/wp-module-tasks": "@dev"
+    "newfold-labs/wp-php-standards": "^1.1"
   },
   "autoload": {
     "classmap": ["includes/"]

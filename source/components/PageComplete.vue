@@ -36,7 +36,7 @@
 
       <p>
         <a
-            v-bind:href="signupUrl"
+            v-bind:href="loginUrl"
             target="_blank"
             rel="noreferrer noopener"
         >
