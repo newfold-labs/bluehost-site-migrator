@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "614d925e6f5378f874ca711c8ab69eb1",
+    "content-hash": "9308cc390cd246fbb68bd75742d34a1b",
     "packages": [
         {
             "name": "newfold-labs/container",
@@ -92,16 +92,16 @@
         },
         {
             "name": "newfold-labs/wp-module-tasks",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/newfold-labs/wp-module-tasks.git",
-                "reference": "e9373a403102e60048c5a4d7f309bc195cd49299"
+                "reference": "85c63c4094ac0a18f774bee02974c2eab9e69380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/newfold-labs/wp-module-tasks/zipball/e9373a403102e60048c5a4d7f309bc195cd49299",
-                "reference": "e9373a403102e60048c5a4d7f309bc195cd49299",
+                "url": "https://api.github.com/repos/newfold-labs/wp-module-tasks/zipball/85c63c4094ac0a18f774bee02974c2eab9e69380",
+                "reference": "85c63c4094ac0a18f774bee02974c2eab9e69380",
                 "shasum": ""
             },
             "require": {
@@ -138,10 +138,10 @@
             ],
             "description": "A task system for wordpress, can be used for periodic and one-off tasks",
             "support": {
-                "source": "https://github.com/newfold-labs/wp-module-tasks/tree/1.0.2",
+                "source": "https://github.com/newfold-labs/wp-module-tasks/tree/1.0.3",
                 "issues": "https://github.com/newfold-labs/wp-module-tasks/issues"
             },
-            "time": "2023-04-27T14:21:50+00:00"
+            "time": "2023-04-27T20:30:47+00:00"
         },
         {
             "name": "symfony/process",
