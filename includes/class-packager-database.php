@@ -39,21 +39,32 @@ class BH_Site_Migrator_Database_Packager implements BH_Site_Migrator_Packager {
 	 * @throws ProcessFailedException If process fails.
 	 */
 	public static function get_sql_dump() {
+		global $wpdb;
+
 		$db_name  = DB_NAME;
 		$password = DB_PASSWORD;
 		$host     = DB_HOST;
 		$user     = DB_USER;
 
+		$process_command_array = array(
+			'mysqldump',
+			$db_name,
+			'--user=' . $user,
+			'--password=' . $password,
+			'--host=' . $host,
+			'--max_allowed_packet=512M',
+			'--result-file=database.sql',
+		);
+
+		$required_tables = $wpdb->get_results( 'SHOW TABLE STATUS' );
+		foreach ( $required_tables as $table_datum ) {
+			if ( ! preg_match( '#^' . preg_quote( $wpdb->prefix, '#' ) . '#', $table_datum->{'Name'} ) ) {
+				array_push( $process_command_array, '--ignore_table=' . $db_name . $table_datum->{'Name'} );
+			}
+		}
+
 		$process = new Process(
-			array(
-				'mysqldump',
-				$db_name,
-				'--user=' . $user,
-				'--password=' . $password,
-				'--host=' . $host,
-				'--max_allowed_packet=512M',
-				'--result-file=database.sql',
-			),
+			$process_command_array,
 			null,
 			null,
 			null,
