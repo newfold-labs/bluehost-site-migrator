@@ -1,6 +1,6 @@
 <?php
 
-use NewfoldLabs\WP\Module\Tasks\Models\Data\Task;
+use NewfoldLabs\WP\Module\Tasks\Models\Task;
 
 /**
  * Class BH_Site_Migrator_Utilities

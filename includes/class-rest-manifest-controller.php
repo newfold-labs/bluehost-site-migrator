@@ -1,6 +1,6 @@
 <?php
 
-use NewfoldLabs\WP\Module\Tasks\Models\Data\TaskResult;
+use NewfoldLabs\WP\Module\Tasks\Models\TaskResult;
 
 /**
  * Class BH_Site_Migrator_REST_Manifest_Controller

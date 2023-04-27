@@ -1,7 +1,7 @@
 <?php
 
-use NewfoldLabs\WP\Module\Tasks\Models\Data\Task;
-use NewfoldLabs\WP\Module\Tasks\Models\Data\TaskResult;
+use NewfoldLabs\WP\Module\Tasks\Models\Task;
+use NewfoldLabs\WP\Module\Tasks\Models\TaskResult;
 
 /**
  * Class BH_Site_Migrator_REST_Migration_Package_Controller
