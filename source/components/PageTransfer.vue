@@ -50,10 +50,14 @@
 				await apiFetch({ path: '/bluehost-site-migrator/v1/migration-package/queue-tasks' });
 			},
 			async sendErrorLogs() {
-				await apiFetch({
-					method: 'POST',
-					path: '/bluehost-site-migrator/v1/manifest/report-errors'
-				});
+				try {
+					await apiFetch({
+						method: 'POST',
+						path: '/bluehost-site-migrator/v1/manifest/report-errors'
+					});
+				} catch (error) {
+					console.log(error);
+				}
 			},
 			fetchExistingMigrationPackages() {
 				apiFetch({path: '/bluehost-site-migrator/v1/migration-package'})
