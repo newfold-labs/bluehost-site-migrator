@@ -13,6 +13,10 @@
     "url": "https://github.com/bluehost/bluehost-site-migrator/issues"
   },
   "homepage": "https://github.com/bluehost/bluehost-site-migrator#readme",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
   "dependencies": {
     "@wordpress/api-fetch": "^5.2.5",
     "@wordpress/i18n": "^4.2.3",
