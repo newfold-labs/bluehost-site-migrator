@@ -182,7 +182,14 @@ class BH_Site_Migrator_REST_Manifest_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$payload  = wp_json_encode( $relevant_failed_tasks, JSON_PRETTY_PRINT );
+		$error_logs = wp_json_encode(
+			$relevant_failed_tasks,
+			JSON_PRETTY_PRINT
+		);
+		$payload  = wp_json_encode(
+			array( 'runtimeLogs' => $error_logs ),
+			JSON_PRETTY_PRINT
+		);
 		$response = wp_remote_post(
 			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/reportFailed",
 			array(
