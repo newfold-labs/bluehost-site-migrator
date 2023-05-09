@@ -34,7 +34,7 @@
         {{ __("Copy transfer key", 'bluehost-site-migrator') }}
       </a>
 
-      <p>
+      <!-- <p>
         <a
             v-bind:href="loginUrl"
             target="_blank"
@@ -42,7 +42,7 @@
         >
           {{ __("Login to Bluehost", 'bluehost-site-migrator') }}
         </a>
-      </p>
+      </p> -->
 
       <p>
         <span class="text-disabled">{{ __("Don't have an account?", 'bluehost-site-migrator') }}</span>&nbsp;&nbsp;
