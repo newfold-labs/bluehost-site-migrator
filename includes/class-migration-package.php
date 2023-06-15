@@ -75,7 +75,7 @@ class BH_Site_Migrator_Migration_Package {
 		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
 		foreach ( $package_types as $package_type ) {
 			$package_data = self::fetch( $package_type );
-			if ( $package_data['path'] == "done" ) {
+			if ( 'done' === $package_data['path'] ) {
 				continue;
 			}
 			$packages[ $package_type ] = self::fetch( $package_type );
@@ -192,7 +192,7 @@ class BH_Site_Migrator_Migration_Package {
 			return false;
 		}
 
-		if ( $data['path'] == 'done' ) {
+		if ( 'done' === $data['path'] ) {
 			$instance = BH_Site_Migrator_Packager_Factory::create( $package_type );
 			return $instance->is_package_valid( $data );
 		}
