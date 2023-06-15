@@ -74,6 +74,10 @@ class BH_Site_Migrator_Migration_Package {
 		$packages      = array();
 		$package_types = BH_Site_Migrator_Packager_Factory::get_package_types();
 		foreach ( $package_types as $package_type ) {
+			$package_data = self::fetch( $package_type );
+			if ( 'done' === $package_data['path'] ) {
+				continue;
+			}
 			$packages[ $package_type ] = self::fetch( $package_type );
 		}
 
@@ -186,6 +190,11 @@ class BH_Site_Migrator_Migration_Package {
 		// Make sure data exists
 		if ( empty( $data ) ) {
 			return false;
+		}
+
+		if ( 'done' === $data['path'] ) {
+			$instance = BH_Site_Migrator_Packager_Factory::create( $package_type );
+			return $instance->is_package_valid( $data );
 		}
 
 		// Make sure all keys are present

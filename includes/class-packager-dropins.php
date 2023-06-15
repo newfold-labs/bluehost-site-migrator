@@ -40,6 +40,10 @@ class BH_Site_Migrator_Dropins_Packager implements BH_Site_Migrator_Packager {
 			}
 		}
 
+		if ( empty( $package ) ) {
+			return 'done';
+		}
+
 		return $package;
 	}
 
