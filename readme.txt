@@ -3,7 +3,7 @@ Contributors: bluehost, wpscholar
 Tags: migrate, migration
 Requires at least: 4.7
 Tested up to: 6.2
-Stable tag: 1.0.9
+Stable tag: 1.0.12
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -23,6 +23,15 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 3. Click on the "Site Migrator" link on the left-hand menu in the WordPress admin to get started!
 
 == Upgrade Notice ==
+
+= 1.0.12 =
+* Bump up latest tested version for public view.
+
+= 1.0.11 =
+* Release workflow updates.
+
+= 1.0.10 =
+* Fixes migrations stuck on packaging dropins and plugins.
 
 = 1.0.9 =
 * Maintenance update and performance improvements.
