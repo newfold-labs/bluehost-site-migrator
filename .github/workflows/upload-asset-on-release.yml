@@ -3,7 +3,7 @@ name: Package Plugin
 on:
   release:
     types:
-      - created
+      - published
       - updated
 
 jobs:
