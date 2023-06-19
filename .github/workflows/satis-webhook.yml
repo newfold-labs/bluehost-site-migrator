@@ -3,7 +3,7 @@ name: Trigger Satis Build
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   webhook:
