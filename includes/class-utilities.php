@@ -77,30 +77,19 @@ class BH_Site_Migrator_Utilities {
 		$filename = BH_Site_Migrator_Migration_Package::generate_name( $name );
 		$zip_path = self::get_upload_path( $filename );
 
-		$zip = new ZipArchive();
-		if ( true === $zip->open( $zip_path, ZipArchive::CREATE ) ) {
+		header( 'Content-Type: application/octet-stream' );
+		header( 'Content-disposition: attachment; filename="' . $zip_path . '"' );
 
-			$dir_iterator    = new RecursiveDirectoryIterator( $directory, RecursiveDirectoryIterator::SKIP_DOTS );
-			$filter_iterator = new BH_Site_Migrator_Filter_Iterator( $dir_iterator );
-			$files           = new RecursiveIteratorIterator( $filter_iterator, RecursiveIteratorIterator::SELF_FIRST );
+		$fp       = popen( 'zip -r ' . $directory, 'r' );
+		$buffsize = 8192;
+		$buff     = 0;
+		while ( ! feof( $fp ) ) {
+			$buff = fread( $fp, $buffsize );
+		}
+		$success = pclose( $fp );
 
-			foreach ( $files as $file_name => $file ) {
-				// Get real and relative path for current file
-				$absolute_path = $file->getRealPath();
-				$relative_path = ltrim( substr( $absolute_path, strlen( $directory ) ), DIRECTORY_SEPARATOR );
-
-				if ( $file->isDir() ) {
-					$zip->addEmptyDir( $relative_path );
-				} else {
-					$zip->addFile( $absolute_path, $relative_path );
-				}
-			}
-
-			$success = $zip->close();
-
-			if ( $success ) {
-				return $zip_path;
-			}
+		if ( $success ) {
+			return $zip_path;
 		}
 
 		return '';
