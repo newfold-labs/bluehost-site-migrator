@@ -1,57 +1,55 @@
 {
-  "name": "bluehost/bluehost-site-migrator",
-  "description": "A WordPress plugin to help you quickly and easily migrate your website to Bluehost.",
-  "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Micah Wood",
-      "homepage": "https://wpscholar.com"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://bluehost.github.io/satis/"
-    },
-    {
-      "type": "composer",
-      "url": "https://newfold-labs.github.io/satis/",
-      "only": [
-        "newfold-labs/*"
-      ]
-    }
-  ],
-  "require": {
-    "ext-json": "*",
-    "ext-zip": "*",
-    "symfony/process": "^3.4",
-    "wp-forge/wp-plugin-check": "^1.0",
-    "newfold-labs/wp-module-tasks": "^1.0.3"
-  },
-  "require-dev": {
-    "newfold-labs/wp-php-standards": "^1.1"
-  },
-  "autoload": {
-    "classmap": ["includes/"]
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "sort-packages": true,
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  },
-  "scripts": {
-    "fix": [
-      "vendor/bin/phpcbf . --standard=Newfold"
-    ],
-    "lint": [
-      "vendor/bin/phpcs . --standard=Newfold -s"
-    ]
-  },
-  "scripts-descriptions": {
-    "fix": "Automatically fix coding standards issues where possible.",
-    "lint": "Check files against coding standards."
-  }
+	"name": "bluehost/bluehost-site-migrator",
+	"description": "A WordPress plugin to help you quickly and easily migrate your website to Bluehost.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Micah Wood",
+			"homepage": "https://wpscholar.com"
+		},
+		{
+			"name": "Amartya Gaur"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://newfold-labs.github.io/satis/",
+			"only": [
+				"newfold-labs/*"
+			]
+		}
+	],
+	"require": {
+		"wp-forge/wp-plugin-check": "^1.0",
+		"newfold-labs/wp-module-tasks": "^1.0.3"
+	},
+	"require-dev": {
+		"newfold-labs/wp-php-standards": "^1.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"BluehostSiteMigrator\\": "includes/"
+		}
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"fix": [
+			"vendor/bin/phpcbf . --standard Newfold"
+		],
+		"lint": [
+			"vendor/bin/phpcs . --standard Newfold"
+		]
+	},
+	"scripts-descriptions": {
+		"fix": "Automatically fix coding standards issues where possible.",
+		"lint": "Check files against coding standards."
+	}
 }

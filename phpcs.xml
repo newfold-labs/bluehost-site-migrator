@@ -2,5 +2,17 @@
 <ruleset name="Project Rules">
     <rule ref="Newfold" />
     <config name="testVersion" value="7.0-" />
-    <config name="minimum_supported_wp_version" value="5.7" />
+    <config name="minimum_supported_wp_version" value="5.8" />
+
+    <!-- Don't worry about not suppressing errors -->
+    <rule ref="WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_apache_setenv">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Don't worry about not suppressing
+    errors -->
+    <rule ref="WordPress.WP.AlternativeFunctions">
+        <severity>0</severity>
+    </rule>
+
 </ruleset>

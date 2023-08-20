@@ -22,12 +22,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-define( 'BH_SITE_MIGRATOR_VERSION', '1.0.12' );
-define( 'BH_SITE_MIGRATOR_FILE', __FILE__ );
-define( 'BH_SITE_MIGRATOR_DIR', plugin_dir_path( __FILE__ ) );
-define( 'BH_SITE_MIGRATOR_URL', plugin_dir_url( __FILE__ ) );
-
 require dirname( __FILE__ ) . '/vendor/autoload.php';
+require dirname( __FILE__ ) . '/constants.php';
 
 register_activation_hook( __FILE__, 'nfd_tasks_setup_tables' );
 register_deactivation_hook( __FILE__, 'nfd_tasks_purge_tables' );
@@ -43,5 +39,3 @@ if ( 'plugins.php' === $pagenow ) {
 
 	$plugin_check->check_plugin_requirements();
 }
-
-require dirname( __FILE__ ) . '/includes/bootstrap.php';
