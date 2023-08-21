@@ -1,17 +1,19 @@
 <?php
 
-namespace BluehostSiteMigrator\Utils\Database;
+namespace BluehostSiteMigrator\Database;
 
 /**
  * Provide methods for interacting with database for packaging.
  * Uses the deprecated mysqli methods.
  */
-class DatabaseMysql extends DatabaseBase {
+class DatabaseMysqli extends DatabaseBase {
 	/**
 	 * Run MySQL query
 	 *
 	 * @param  string $input SQL query
 	 * @return mixed
+	 *
+	 * @throws \Exception If we are unable to connect to db.
 	 */
 	public function query( $input ) {
 		if ( ! \mysqli_real_query( $this->wpdb->dbh, $input ) ) {

@@ -15,4 +15,8 @@
         <severity>0</severity>
     </rule>
 
+    <rule ref="WordPress.DB.RestrictedFunctions">
+        <severity>0</severity>
+    </rule>
+
 </ruleset>

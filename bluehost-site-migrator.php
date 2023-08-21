@@ -22,8 +22,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-require dirname( __FILE__ ) . '/vendor/autoload.php';
-require dirname( __FILE__ ) . '/constants.php';
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/constants.php';
 
 register_activation_hook( __FILE__, 'nfd_tasks_setup_tables' );
 register_deactivation_hook( __FILE__, 'nfd_tasks_purge_tables' );
@@ -39,3 +39,11 @@ if ( 'plugins.php' === $pagenow ) {
 
 	$plugin_check->check_plugin_requirements();
 }
+
+// Initialize the Admin page
+new BluehostSiteMigrator\WP_Admin();
+
+// Initialize options
+BluehostSiteMigrator\Utils\Options::fetch();
+// persist options on shutdown
+add_action( 'shutdown', array( 'BluehostSiteMigrator\Utils\Options', 'maybe_persist' ) );

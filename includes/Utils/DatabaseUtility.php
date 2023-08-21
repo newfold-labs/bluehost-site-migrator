@@ -2,6 +2,9 @@
 
 namespace BluehostSiteMigrator\Utils;
 
+/**
+ * Utility functions for database.
+ */
 class DatabaseUtility {
 
 	/**
@@ -34,9 +37,9 @@ class DatabaseUtility {
 	 */
 	public static function replace_serialized_values( $from = array(), $to = array(), $data = '', $serialized = false ) {
 		try {
-
 			// Some unserialized data cannot be re-serialized eg. SimpleXMLElements
-			if ( is_serialized( $data ) && ( $unserialized = @unserialize( $data ) ) !== false ) {
+			$unserialized = unserialize( $data );
+			if ( is_serialized( $data ) && ( false !== $unserialized ) ) {
 				$data = self::replace_serialized_values( $from, $to, $unserialized, true );
 			} elseif ( is_array( $data ) ) {
 				$tmp = array();
@@ -71,6 +74,7 @@ class DatabaseUtility {
 				return serialize( $data );
 			}
 		} catch ( \Exception $e ) {
+			// Gracefully pass errors, do not break execution.
 		}
 
 		return $data;

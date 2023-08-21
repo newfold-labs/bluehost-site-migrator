@@ -1,6 +1,6 @@
 <?php
 
-namespace BluehostSiteMigrator\Utils\Database;
+namespace BluehostSiteMigrator\Database;
 
 use BluehostSiteMigrator\Utils\DatabaseUtility;
 

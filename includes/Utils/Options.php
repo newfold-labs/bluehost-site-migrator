@@ -6,13 +6,6 @@ namespace BluehostSiteMigrator\Utils;
  * Save the tasks state, other config in options
  */
 class Options {
-		/**
-	 * Plugin option name.
-	 *
-	 * @var string
-	 */
-	const OPTION_NAME = 'bluehost_site_migrator';
-
 	/**
 	 * Whether or not changes were made to the options.
 	 *
@@ -80,14 +73,14 @@ class Options {
 	 * Fetch the options from the database and store locally.
 	 */
 	public static function fetch() {
-		self::$options = get_option( self::OPTION_NAME, array() );
+		self::$options = get_option( BH_SITE_MIGRATOR_OPTION_NAME, array() );
 	}
 
 	/**
 	 * Save the local options to the database.
 	 */
 	public static function persist() {
-		update_option( self::OPTION_NAME, self::$options, true );
+		update_option( BH_SITE_MIGRATOR_OPTION_NAME, self::$options, true );
 	}
 
 	/**
@@ -103,7 +96,7 @@ class Options {
 	 * Nuke all options in the database.
 	 */
 	public static function purge() {
-		delete_option( self::OPTION_NAME );
+		delete_option( BH_SITE_MIGRATOR_OPTION_NAME );
 	}
 
 	/**

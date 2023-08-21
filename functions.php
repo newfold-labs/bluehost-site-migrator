@@ -121,3 +121,94 @@ function nfd_bhsm_write( $handle, $content ) {
 
 	return $write_result;
 }
+
+/**
+ * Check whether blog ID is main site
+ *
+ * @param  integer $blog_id Blog ID
+ * @return boolean
+ */
+function nfd_bhsm_is_mainsite( $blog_id = null ) {
+	return null === $blog_id || 0 === $blog_id || 1 === $blog_id;
+}
+
+/**
+ * Get WordPress table prefix by blog ID
+ *
+ * @param  integer $blog_id Blog ID
+ * @return string
+ */
+function nfd_bhsm_table_prefix( $blog_id = null ) {
+	global $wpdb;
+
+	// Set base table prefix
+	if ( nfd_bhsm_is_mainsite( $blog_id ) ) {
+		return $wpdb->base_prefix;
+	}
+
+	return $wpdb->base_prefix . $blog_id . '_';
+}
+
+/**
+ * Get the base storage directory
+ */
+function nfd_bhsm_storage_path() {
+	$uploads   = wp_get_upload_dir();
+	$directory = $uploads['basedir'] . DIRECTORY_SEPARATOR . 'bluehost-site-migrator' . DIRECTORY_SEPARATOR;
+	wp_mkdir_p( $directory );
+
+	return $directory;
+}
+
+/**
+ * Get hashed file name
+ *
+ * @param string $name The file name.
+ * @param string $type The file type.
+ * @param string $ext  The file extensions.
+ */
+function nfd_bhsm_get_hashed_file_name( $name, $type, $ext ) {
+	$base      = nfd_bhsm_storage_path();
+	$date      = gmdate( 'Y-m-d-His' );
+	$site_name = strtolower( preg_replace( '#[^a-zA-Z0-9]#', '-', get_bloginfo( 'name' ) ) );
+	$unique_id = uniqid();
+
+	return $base . "{$type}-{$date}-{$site_name}-{$unique_id}-{$name}.{$ext}";
+}
+
+/**
+ * Get the full path to a file using filename
+ *
+ * @param string $name The file name.
+ * @param string $type The file type.
+ * @param string $ext  The file extensions.
+ */
+function nfd_bhsm_get_hashed_file_path( $name, $type, $ext ) {
+	$filename  = nfd_bhsm_get_hashed_file_name( $name, $type, $ext );
+	$directory = nfd_bhsm_storage_path();
+	if ( ! file_exists( $directory . '/index.php' ) ) {
+		file_put_contents( $directory . '/index.php', '<?php // Silence is golden.' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
+	}
+
+	return $directory . ltrim( $filename, DIRECTORY_SEPARATOR );
+}
+
+/**
+ * Write fields to a file
+ *
+ * @param  resource $handle File handle to write to
+ * @param  array    $fields Fields to write to the file
+ * @return integer
+ * @throws \Exception When we are unable to write.
+ */
+function nfd_bhsm_putcsv( $handle, $fields ) {
+	$write_result = fputcsv( $handle, $fields );
+	if ( false === $write_result ) {
+		$meta = stream_get_meta_data( $handle );
+		if ( $meta ) {
+			throw new \Exception( sprintf( 'Unable to write to: %s. ', $meta['uri'] ) );
+		}
+	}
+
+	return $write_result;
+}
