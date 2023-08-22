@@ -21,15 +21,21 @@
 		"@wordpress/eslint-plugin": "^15.0.0",
 		"@wordpress/prettier-config": "^2.23.0",
 		"@wordpress/scripts": "^26.11.0",
+		"autoprefixer": "^10.4.15",
+		"postcss": "^8.4.28",
+		"postcss-cli": "^10.1.0",
+		"postcss-import": "^15.1.0",
+		"postcss-safe-important": "^1.2.1",
 		"tailwindcss": "^3.3.3",
 		"webpack-merge": "^5.9.0"
 	},
 	"scripts": {
-		"build": "wp-scripts build ./src/bh-site-migrator.js",
+		"build": "yarn run utils && wp-scripts build ./src/bh-site-migrator.js",
 		"format": "wp-scripts format ./src",
-		"start": "wp-scripts start ./src/bh-site-migrator.js",
+		"start": "yarn run utils && wp-scripts start ./src/bh-site-migrator.js",
 		"lint:js": "wp-scripts lint-js ./src",
-		"lint:js:fix": "wp-scripts lint-js ./src --fix"
+		"lint:js:fix": "wp-scripts lint-js ./src --fix",
+		"utils": "postcss ./src/styles/app.css -o ./assets/styles/app.css"
 	},
 	"dependencies": {
 		"@newfold/ui-component-library": "^0.1.1-3",

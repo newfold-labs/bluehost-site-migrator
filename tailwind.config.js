@@ -1,4 +1,4 @@
-import { TAILWINDCSS_PRESET } from '@newfold/ui-component-library';
+const { TAILWINDCSS_PRESET } = require( '@newfold/ui-component-library' );
 
 module.exports = {
 	presets: [ TAILWINDCSS_PRESET ],
@@ -7,4 +7,5 @@ module.exports = {
 		...TAILWINDCSS_PRESET.content,
 		'./src/**/*.{js,jsx,ts,tsx}',
 	],
+	prefix: 'bh-sma-',
 };

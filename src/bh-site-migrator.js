@@ -1,6 +1,7 @@
 import domReady from '@wordpress/dom-ready';
 import { createRoot, render } from '@wordpress/element';
 
+import './styles/app.css';
 import App from './app';
 
 const BH_SITE_MIGRATOR_PAGE_ROOT_ELEMENT = 'bh-sm-app';

@@ -38,12 +38,12 @@ function nfd_bhsm_crypt_iv_length() {
 /**
  * Encrypts a string with a key
  *
- * @param string $string String to encrypt
- * @param string $key    Key to encrypt the string with
+ * @param string $str String to encrypt
+ * @param string $key Key to encrypt the string with
  * @return string
  * @throws \Exception When we are unable to encrypt the data.
  */
-function nfd_bhsm_encrypt_string( $string, $key ) {
+function nfd_bhsm_encrypt_string( $str, $key ) {
 	$iv_length = nfd_bhsm_crypt_iv_length();
 	$key       = substr( sha1( $key, true ), 0, $iv_length );
 
@@ -52,7 +52,7 @@ function nfd_bhsm_encrypt_string( $string, $key ) {
 		throw new \Exception( 'Unable to generate random bytes.' );
 	}
 
-	$encrypted_string = openssl_encrypt( $string, BH_SITE_MIGRATOR_CIPHER_NAME, $key, OPENSSL_RAW_DATA, $iv );
+	$encrypted_string = openssl_encrypt( $str, BH_SITE_MIGRATOR_CIPHER_NAME, $key, OPENSSL_RAW_DATA, $iv );
 	if ( false === $encrypted_string ) {
 		throw new \Exception( 'Unable to encrypt data.' );
 	}
@@ -85,7 +85,7 @@ function nfd_bhsm_open( $file, $mode ) {
 	$file_handle = fopen( $file, $mode );
 	if ( false === $file_handle ) {
 		throw new \Exception(
-			sprintf( 'Unable to open %s with mode %s.', $file, $mode )
+			sprintf( 'Unable to open %s with mode %s.', esc_xml( $file ), esc_xml( $mode ) )
 		);
 	}
 
@@ -108,14 +108,14 @@ function nfd_bhsm_write( $handle, $content ) {
 	if ( false === $write_result ) {
 		$meta = stream_get_meta_data( $handle );
 		if ( $meta ) {
-			throw new \Exception( sprintf( 'Unable to write to: %s.', $meta['uri'] ) );
+			throw new \Exception( sprintf( 'Unable to write to: %s.', esc_xml( $meta['uri'] ) ) );
 		}
 	} elseif ( null === $write_result ) {
 		return strlen( $content );
 	} elseif ( strlen( $content ) !== $write_result ) {
 		$meta = stream_get_meta_data( $handle );
 		if ( $meta ) {
-			throw new \Exception( sprintf( 'Out of disk space. Unable to write to: %s', $meta['uri'] ) );
+			throw new \Exception( sprintf( 'Out of disk space. Unable to write to: %s', esc_xml( $meta['uri'] ) ) );
 		}
 	}
 
@@ -206,7 +206,7 @@ function nfd_bhsm_putcsv( $handle, $fields ) {
 	if ( false === $write_result ) {
 		$meta = stream_get_meta_data( $handle );
 		if ( $meta ) {
-			throw new \Exception( sprintf( 'Unable to write to: %s. ', $meta['uri'] ) );
+			throw new \Exception( sprintf( 'Unable to write to: %s. ', esc_xml( $meta['uri'] ) ) );
 		}
 	}
 
