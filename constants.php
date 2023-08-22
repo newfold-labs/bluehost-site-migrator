@@ -2,8 +2,10 @@
 
 define( 'BH_SITE_MIGRATOR_VERSION', '1.0.12' );
 define( 'BH_SITE_MIGRATOR_CIPHER_NAME', 'AES-256-CBC' );
-define( 'BH_SITE_MIGRATOR_DIR', __DIR__ );
-define( 'BH_SITE_MIGRATOR_BUILD_DIR', __DIR__ . '/build/' . BH_SITE_MIGRATOR_VERSION );
+define( 'BH_SITE_MIGRATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'BH_SITE_MIGRATOR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'BH_SITE_MIGRATOR_PLUGIN_BUILD_DIR', plugin_dir_path( __FILE__ ) . '/build/' . BH_SITE_MIGRATOR_VERSION );
+define( 'BH_SITE_MIGRATOR_PLUGIN_BUILD_URL', plugin_dir_url( __FILE__ ) . '/build/' . BH_SITE_MIGRATOR_VERSION );
 
 if ( ! defined( 'BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES' ) ) {
 	define( 'BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES', 1000 );
