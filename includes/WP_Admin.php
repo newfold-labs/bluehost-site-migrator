@@ -42,7 +42,7 @@ final class WP_Admin {
 	 * Register built assets with WordPress
 	 */
 	public static function register_assets() {
-		$asset_file = BH_SITE_MIGRATOR_PLUGIN_BUILD_URL . '/bh-site-migrator.asset.php';
+		$asset_file = BH_SITE_MIGRATOR_PLUGIN_DIR . '/bh-site-migrator.asset.php';
 
 		if ( is_readable( $asset_file ) ) {
 			$asset = include_once $asset_file;
