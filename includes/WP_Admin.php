@@ -58,21 +58,12 @@ final class WP_Admin {
 			\wp_register_style(
 				self::$slug,
 				BH_SITE_MIGRATOR_PLUGIN_BUILD_URL . '/bh-site-migrator.css',
-				array_merge( $asset['dependencies'], array() ),
-				$asset['version'],
-				true
+				array(),
+				$asset['version']
 			);
 
-			\wp_register_style(
-				self::$slug,
-				BH_SITE_MIGRATOR_PLUGIN_BUILD_URL . '/style-bh-site-migrator.css',
-				array_merge( $asset['dependencies'], array() ),
-				$asset['version'],
-				true
-			);
-
-			\wp_enqueue_script( self::$slug );
 			\wp_enqueue_style( self::$slug );
+			\wp_enqueue_script( self::$slug );
 		}
 	}
 

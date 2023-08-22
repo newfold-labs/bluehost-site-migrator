@@ -1,11 +1,10 @@
-const { TAILWINDCSS_PRESET } = require( '@newfold/ui-component-library' );
+import { TAILWINDCSS_PRESET } from '@newfold/ui-component-library';
 
 module.exports = {
 	presets: [ TAILWINDCSS_PRESET ],
 	content: [
 		// Include all JS files inside the UI library in your content.
 		...TAILWINDCSS_PRESET.content,
-		'./src/**/*.{js,jsx,ts,tsx}',
+		'./path/to/your/content/**/*.js',
 	],
-	prefix: 'bh-sma-',
 };
