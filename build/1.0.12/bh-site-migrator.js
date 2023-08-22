@@ -1771,11 +1771,12 @@ var __webpack_exports__ = {};
   !*** ./src/bh-site-migrator.js ***!
   \*********************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app */ "./src/app.js");
+
 
 
 
@@ -1783,15 +1784,15 @@ const BH_SITE_MIGRATOR_PAGE_ROOT_ELEMENT = 'bh-sm-app';
 const RenderBluehostSiteMigrator = () => {
   const DOM_ELEMENT = document.getElementById(BH_SITE_MIGRATOR_PAGE_ROOT_ELEMENT);
   if (null !== DOM_ELEMENT) {
-    if ('undefined' !== typeof _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot) {
+    if ('undefined' !== typeof _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createRoot) {
       // WP 6.2+ only
-      (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(DOM_ELEMENT).render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_app__WEBPACK_IMPORTED_MODULE_2__["default"], null));
-    } else if ('undefined' !== typeof _wordpress_element__WEBPACK_IMPORTED_MODULE_1__.render) {
-      (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_app__WEBPACK_IMPORTED_MODULE_2__["default"], null), DOM_ELEMENT);
+      (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createRoot)(DOM_ELEMENT).render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_app__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+    } else if ('undefined' !== typeof _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render) {
+      (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_app__WEBPACK_IMPORTED_MODULE_2__["default"], null), DOM_ELEMENT);
     }
   }
 };
-_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(RenderBluehostSiteMigrator);
+_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(RenderBluehostSiteMigrator);
 }();
 ((window.newfold = window.newfold || {}).BluehostSiteMigrator = window.newfold.BluehostSiteMigrator || {})["bh-site-migrator"] = __webpack_exports__;
 /******/ })()

@@ -1,5 +1,5 @@
 import domReady from '@wordpress/dom-ready';
-import { createElement, createRoot, render } from '@wordpress/element';
+import { createRoot, render } from '@wordpress/element';
 
 import App from './app';
 
@@ -13,7 +13,7 @@ const RenderBluehostSiteMigrator = () => {
 	if ( null !== DOM_ELEMENT ) {
 		if ( 'undefined' !== typeof createRoot ) {
 			// WP 6.2+ only
-			createElement( DOM_ELEMENT ).render( <App /> );
+			createRoot( DOM_ELEMENT ).render( <App /> );
 		} else if ( 'undefined' !== typeof render ) {
 			render( <App />, DOM_ELEMENT );
 		}
