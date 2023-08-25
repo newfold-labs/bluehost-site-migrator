@@ -76,7 +76,7 @@ final class WP_Admin {
 		echo PHP_EOL;
 		echo '<!-- BH:SITE:MIGRATOR -->';
 		echo PHP_EOL;
-		echo '<div id="bh-sm-app"></div>';
+		echo '<div id="bh-sm-app" class="bh-sm"></div>';
 		echo PHP_EOL;
 		echo '<!-- /BH:SITE:MIGRATOR -->';
 		echo PHP_EOL;

@@ -40,10 +40,21 @@ if ( 'plugins.php' === $pagenow ) {
 	$plugin_check->check_plugin_requirements();
 }
 
+
+// Include functions
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'functions.php';
+
 // Initialize the Admin page
 new BluehostSiteMigrator\WP_Admin();
 
+// Initialize the REST APIs
+new BluehostSiteMigrator\RestApi\RestApi();
+
 // Initialize options
 BluehostSiteMigrator\Utils\Options::fetch();
+
+// Add the migration check filters
+BluehostSiteMigrator\MigrationChecks\Checker::register();
+
 // persist options on shutdown
 add_action( 'shutdown', array( 'BluehostSiteMigrator\Utils\Options', 'maybe_persist' ) );

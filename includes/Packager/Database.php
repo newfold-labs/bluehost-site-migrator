@@ -12,24 +12,9 @@ use BluehostSiteMigrator\Utils\Status;
 class Database extends PackagerBase {
 
 	/**
-	 * The path for generated archive.
-	 *
-	 * @var string
-	 */
-	protected $archive_path;
-
-	/**
-	 * Constructor to specify the package name, and priority
-	 */
-	public function __construct() {
-		$this->name         = 'db';
-		$this->archive_path = $this->generate_archive_name();
-	}
-
-	/**
 	 * Get the parameters for database packaging
 	 */
-	public function get_database_params() {
+	public static function get_database_params() {
 		return Options::get( 'database_task_params' );
 	}
 
@@ -38,24 +23,24 @@ class Database extends PackagerBase {
 	 *
 	 * @param array $params The updated database params
 	 */
-	public function set_database_params( $params ) {
+	public static function set_database_params( $params ) {
 		Options::set( 'database_task_params', $params );
 	}
 
 	/**
 	 * Get the table list file path
 	 */
-	public function get_table_list_file_path() {
+	public static function get_table_list_file_path() {
 		return nfd_bhsm_get_hashed_file_path( 'tables', 'config', 'list' );
 	}
 
 	/**
 	 * Prepare the packaging, populate parameters
 	 */
-	public function prepare() {
+	public static function prepare() {
 		global $wpdb;
 
-		$database_task_params = $this->get_database_params();
+		$database_task_params = self::get_database_params();
 
 		// Get the total tables count or initialize
 		if ( isset( $database_task_params['total_tables_count'] ) ) {
@@ -65,7 +50,7 @@ class Database extends PackagerBase {
 		}
 
 		// Set the status message and stage
-		Status::set_status( 'Retrieving a list of WordPress database tables ', null, BH_SITE_MIGRATOR_STAGE_DATABASE );
+		Status::set_status( 'Retrieving a list of WordPress database tables ', 5, BH_SITE_MIGRATOR_STAGE_DATABASE );
 
 		// Get the database client
 		$mysql = new DatabaseMysqli( $wpdb );
@@ -95,29 +80,33 @@ class Database extends PackagerBase {
 		}
 
 		// Dump the tables list in a file
-		$table_list_file_path = $this->get_table_list_file_path();
-		$tables_list          = nfd_bhsm_open( $table_list_file_path, 'w' );
+		$table_list_file_path                    = self::get_table_list_file_path();
+		$tables_list                             = nfd_bhsm_open( $table_list_file_path, 'w' );
+		$database_task_params['table_list_path'] = $table_list_file_path;
 
 		// Write table line
 		foreach ( $mysql->get_tables() as $table_name ) {
 			if ( nfd_bhsm_putcsv( $tables_list, array( $table_name ) ) ) {
-				$total_tables_count ++;
+				++$total_tables_count;
 			}
 		}
 
-		Status::set_status( 'Done retrieving the WordPress database tables', null, BH_SITE_MIGRATOR_STAGE_DATABASE );
+		Status::set_status( 'Done retrieving the WordPress database tables', 8, BH_SITE_MIGRATOR_STAGE_DATABASE );
 
 		$database_task_params['total_tables_count'] = $total_tables_count;
-		$this->set_database_params( $database_task_params );
+		self::set_database_params( $database_task_params );
 	}
 
 	/**
 	 * The packager function
 	 */
-	public function execute() {
+	public static function execute() {
 		global $wpdb;
 
-		$params = $this->get_database_params();
+		// Prepare the params for this task
+		self::prepare();
+
+		$params = self::get_database_params();
 
 		// Set query offset
 		if ( isset( $params['query_offset'] ) ) {
@@ -154,23 +143,26 @@ class Database extends PackagerBase {
 			$total_tables_count = 1;
 		}
 
+		// Set the table list file path
+		if ( isset( $params['table_list_path'] ) ) {
+			$table_list_file_path = $params['table_list_path'];
+		} else {
+			$table_list_file_path = '';
+		}
+
 		// What percent of tables have we processed?
 		$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
-		Status::set_status( 'Exporting database ', $progress, BH_SITE_MIGRATOR_STAGE_DATABASE );
+		Status::set_status(
+			'Exporting database ... ' . strval( $progress ) . '%',
+			10,
+			BH_SITE_MIGRATOR_STAGE_DATABASE
+		);
 
-		$table_list_file_path = $this->get_table_list_file_path();
-		$tables_list          = nfd_bhsm_open( $table_list_file_path, 'r' );
+		$tables_list = nfd_bhsm_open( $table_list_file_path, 'r' );
 
 		// Loop over the tables
-		$tables      = array();
-		$table_names = fgetcsv( $tables_list );
-		foreach ( $table_names as $table_name ) {
-			if (
-				NFD_MODULE_TASKS_TASK_TABLE_NAME === $table_name ||
-				NFD_MODULE_TASKS_TASK_RESULTS_TABLE_NAME === $table_name
-			) {
-				continue;
-			}
+		$tables = array();
+		while ( list( $table_name ) = fgetcsv( $tables_list ) ) { // phpcs:ignore
 			$tables[] = $table_name;
 		}
 
@@ -182,12 +174,20 @@ class Database extends PackagerBase {
 		// Exclude site options
 		$mysql->set_table_where_query(
 			nfd_bhsm_table_prefix() . 'options',
-			sprintf( "`option_name` NOT IN ('%s')", BH_SITE_MIGRATOR_STAGE_DATABASE )
+			sprintf(
+				"`option_name` NOT IN ('%s', '%s', '%s', '%s', '%s', '%s')",
+				BH_SITE_MIGRATOR_OPTION_NAME,
+				BH_SITE_MIGRATOR_REGIONS_OPTION,
+				BH_SITE_MIGRATOR_GEO_DATA_OPTION,
+				BH_SITE_MIGRATOR_TOKEN_OPTION,
+				BH_SITE_MIGRATOR_MIGRATION_ID_OPTION,
+				BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION,
+			)
 		);
 
 		// Try exporting the database
 		$completed = $mysql->export(
-			nfd_bhsm_get_hashed_file_path( 'db', 'backup', 'zip' ),
+			nfd_bhsm_get_hashed_file_path( 'db', 'backup', 'sql' ),
 			$query_offset,
 			$table_index,
 			$table_offset,
@@ -195,7 +195,7 @@ class Database extends PackagerBase {
 		);
 
 		if ( $completed ) {
-			Status::set_status( 'Done exporting the database', null, BH_SITE_MIGRATOR_STAGE_DATABASE );
+			Status::set_status( 'Done creating the database dump', 13, BH_SITE_MIGRATOR_STAGE_DATABASE );
 
 			// Unset query offset
 			unset( $params['query_offset'] );
@@ -216,7 +216,7 @@ class Database extends PackagerBase {
 			unset( $params['completed'] );
 
 			// Persist the options in the database
-			$this->set_database_params( $params );
+			self::set_database_params( $params );
 		} else {
 			// What percent of tables have we processed?
 			$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
@@ -243,8 +243,8 @@ class Database extends PackagerBase {
 			$params['completed'] = false;
 
 			// Persist the params and try again after some time
-			$this->set_database_params( $params );
-			$this->execute();
+			self::set_database_params( $params );
+			self::execute();
 		}
 	}
 }

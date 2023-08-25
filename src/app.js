@@ -1,12 +1,11 @@
-import { Alert, Root } from '@newfold/ui-component-library';
+import { HashRouter } from 'react-router-dom';
+import Routes from './routes';
 
 function App() {
 	return (
-		<Root context={ { isRtl: false } }>
-			<Alert variant="success">
-				Congratulations you have setup the UI library
-			</Alert>
-		</Root>
+		<HashRouter>
+			<Routes />
+		</HashRouter>
 	);
 }
 

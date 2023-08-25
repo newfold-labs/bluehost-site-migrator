@@ -168,12 +168,11 @@ function nfd_bhsm_storage_path() {
  * @param string $ext  The file extensions.
  */
 function nfd_bhsm_get_hashed_file_name( $name, $type, $ext ) {
-	$base      = nfd_bhsm_storage_path();
 	$date      = gmdate( 'Y-m-d-His' );
 	$site_name = strtolower( preg_replace( '#[^a-zA-Z0-9]#', '-', get_bloginfo( 'name' ) ) );
 	$unique_id = uniqid();
 
-	return $base . "{$type}-{$date}-{$site_name}-{$unique_id}-{$name}.{$ext}";
+	return "{$type}-{$date}-{$site_name}-{$unique_id}-{$name}.{$ext}";
 }
 
 /**
@@ -211,4 +210,58 @@ function nfd_bhsm_putcsv( $handle, $fields ) {
 	}
 
 	return $write_result;
+}
+
+
+/**
+ * Get a directory size.
+ *
+ * @param string $path The directory path.
+ *
+ * @return int
+ */
+function nfd_bhsm_get_dir_size( $path ) {
+	set_time_limit( 90 );
+	$bytes = 0;
+	$path  = realpath( $path );
+	if ( $path && file_exists( $path ) ) {
+		foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path, FilesystemIterator::SKIP_DOTS ) ) as $object ) {
+			$bytes += $object->getSize();
+		}
+	}
+
+	return $bytes;
+}
+
+/**
+ * Get a value from an object or an array.  Allows the ability to fetch a nested value from a
+ * heterogeneous multidimensional collection using dot notation.
+ *
+ * @param array|object $data    Data to fetch from.
+ * @param string       $key     Key as a string, optionally using dot notation.
+ * @param mixed        $default The fallback value if a value doesn't exist.
+ *
+ * @return mixed
+ */
+function nfd_bhsm_data_get( $data, $key, $default = null ) {
+	$value = $default;
+	if ( is_array( $data ) && array_key_exists( $key, $data ) ) {
+		$value = $data[ $key ];
+	} elseif ( is_object( $data ) && property_exists( $data, $key ) ) {
+		$value = $data->$key;
+	} else {
+		$segments = explode( '.', $key );
+		foreach ( $segments as $segment ) {
+			if ( is_array( $data ) && array_key_exists( $segment, $data ) ) {
+				$value = $data = $data[ $segment ]; // phpcs:ignore
+			} elseif ( is_object( $data ) && property_exists( $data, $segment ) ) {
+				$value = $data = $data->$segment; // phpcs:ignore
+			} else {
+				$value = $default;
+				break;
+			}
+		}
+	}
+
+	return $value;
 }

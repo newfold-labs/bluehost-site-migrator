@@ -403,20 +403,18 @@ abstract class DatabaseBase {
 								$prefix_filter[1]
 							);
 						}
-					} else {
-						if ( $lower_case_table_names ) {
+					} elseif ( $lower_case_table_names ) {
 							$where_query[] = sprintf(
 								"`Tables_in_%s` REGEXP '^%s'",
 								$this->wpdb->dbname,
 								$prefix_filter[0]
 							);
-						} else {
-							$where_query[] = sprintf(
-								"CAST(`Tables_in_%s` AS BINARY) REGEXP BINARY '^%s'",
-								$this->wpdb->dbname,
-								$prefix_filter[0]
-							);
-						}
+					} else {
+						$where_query[] = sprintf(
+							"CAST(`Tables_in_%s` AS BINARY) REGEXP BINARY '^%s'",
+							$this->wpdb->dbname,
+							$prefix_filter[0]
+						);
 					}
 				}
 			} else {
@@ -479,20 +477,18 @@ abstract class DatabaseBase {
 								$prefix_filter[1]
 							);
 						}
-					} else {
-						if ( $lower_case_table_names ) {
+					} elseif ( $lower_case_table_names ) {
 							$where_query[] = sprintf(
 								"`Tables_in_%s` REGEXP '^%s'",
 								$this->wpdb->dbname,
 								$prefix_filter[0]
 							);
-						} else {
-							$where_query[] = sprintf(
-								"CAST(`Tables_in_%s` AS BINARY) REGEXP BINARY '^%s'",
-								$this->wpdb->dbname,
-								$prefix_filter[0]
-							);
-						}
+					} else {
+						$where_query[] = sprintf(
+							"CAST(`Tables_in_%s` AS BINARY) REGEXP BINARY '^%s'",
+							$this->wpdb->dbname,
+							$prefix_filter[0]
+						);
 					}
 				}
 			} else {
@@ -621,7 +617,7 @@ abstract class DatabaseBase {
 					}
 
 					// Set curent table index
-					$table_index++;
+					++$table_index;
 
 					// Set current table offset
 					$table_offset = 0;
@@ -658,9 +654,6 @@ abstract class DatabaseBase {
 
 					// Get column types
 					$column_types = $this->get_column_types( $table_name );
-
-					// Get prefix columns
-					$prefix_columns = $this->get_table_prefix_columns( $table_name );
 
 					do {
 
@@ -751,10 +744,10 @@ abstract class DatabaseBase {
 								nfd_bhsm_write( $file_handler, $table_insert );
 
 								// Set current table offset
-								$table_offset++;
+								++$table_offset;
 
 								// Set current table rows
-								$table_rows++;
+								++$table_rows;
 
 								// Write end of transaction
 								if ( $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES === 0 ) {
@@ -771,7 +764,7 @@ abstract class DatabaseBase {
 							}
 
 							// Set curent table index
-							$table_index++;
+							++$table_index;
 
 							// Set current table offset
 							$table_offset = 0;
@@ -1010,7 +1003,7 @@ abstract class DatabaseBase {
 		// Get column types
 		$result = $this->query( "SHOW COLUMNS FROM `{$table_name}`" );
 		$row    = $this->fetch_assoc( $result );
-		while ( $row  ) {
+		while ( $row ) {
 			if ( isset( $row['Field'] ) ) {
 				$column_names[ strtolower( $row['Field'] ) ] = $row['Field'];
 			}
@@ -1095,7 +1088,7 @@ abstract class DatabaseBase {
 	/**
 	 * Replace base64 values callback (Visual Composer)
 	 *
-	 * @param  array  $matches List of matches
+	 * @param  array $matches List of matches
 	 * @return string
 	 */
 	protected function replace_visual_composer_values_callback( $matches ) {
@@ -1115,7 +1108,7 @@ abstract class DatabaseBase {
 	/**
 	 * Replace base64 values callback (Oxygen Builder)
 	 *
-	 * @param  array  $matches List of matches
+	 * @param  array $matches List of matches
 	 * @return string
 	 */
 	protected function replace_oxygen_builder_values_callback( $matches ) {
@@ -1135,7 +1128,7 @@ abstract class DatabaseBase {
 	/**
 	 * Replace base64 values callback (BeTheme Responsive and Optimize Press)
 	 *
-	 * @param  array  $matches List of matches
+	 * @param  array $matches List of matches
 	 * @return string
 	 */
 	protected function replace_base64_values_callback( $matches ) {
@@ -1184,7 +1177,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is transient query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_transient_query( $input ) {
@@ -1194,7 +1187,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is site transient query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_site_transient_query( $input ) {
@@ -1204,7 +1197,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is WooCommerce session query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_wc_session_query( $input ) {
@@ -1214,7 +1207,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is START TRANSACTION query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_start_transaction_query( $input ) {
@@ -1224,7 +1217,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is COMMIT query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_commit_query( $input ) {
@@ -1234,7 +1227,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is DROP TABLE query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_drop_table_query( $input ) {
@@ -1244,7 +1237,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is CREATE TABLE query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_create_table_query( $input ) {
@@ -1254,8 +1247,8 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is INSERT INTO query
 	 *
-	 * @param  string  $input      SQL statement
-	 * @param  string  $table_name Table name (case insensitive)
+	 * @param  string $input      SQL statement
+	 * @param  string $table_name Table name (case insensitive)
 	 * @return boolean
 	 */
 	protected function is_insert_into_query( $input, $table_name ) {
@@ -1265,7 +1258,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is cache query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	public function is_cache_query( $input ) {
@@ -1286,7 +1279,7 @@ abstract class DatabaseBase {
 	/**
 	 * Check whether input is atomic query
 	 *
-	 * @param  string  $input SQL statement
+	 * @param  string $input SQL statement
 	 * @return boolean
 	 */
 	protected function is_atomic_query( $input ) {
@@ -1466,7 +1459,7 @@ abstract class DatabaseBase {
 	/**
 	 * Run MySQL query
 	 *
-	 * @param  string   $input SQL query
+	 * @param  string $input SQL query
 	 * @return resource
 	 */
 	abstract public function query( $input );

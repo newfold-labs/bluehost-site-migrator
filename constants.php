@@ -22,3 +22,27 @@ if ( ! defined( 'BH_SITE_MIGRATOR_STAGE_DATABASE' ) ) {
 if ( ! defined( 'BH_SITE_MIGRATOR_OPTION_NAME' ) ) {
 	define( 'BH_SITE_MIGRATOR_OPTION_NAME', 'bluehost_site_migrator' );
 }
+
+if ( ! defined( 'BH_SITE_MIGRATOR_REGIONS_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_REGIONS_OPTION', 'bh_site_migration_region_urls' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_MIGRATION_ID_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_MIGRATION_ID_OPTION', 'bh_site_migration_id' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_TOKEN_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_TOKEN_OPTION', 'bh_site_migration_token' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_GEO_DATA_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_GEO_DATA_OPTION', 'bh_site_migration_geo_data' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION', 'bh_site_migration_country_code' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_API_BASEURL' ) ) {
+	define( 'BH_SITE_MIGRATOR_API_BASEURL', 'http://localhost:4040/api/v1' );
+}

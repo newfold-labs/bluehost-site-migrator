@@ -20,10 +20,13 @@
     "files.autoSave": "off",
     "beautify.config": "",
     "cSpell.words": [
+        "absint",
+        "ABSPATH",
         "bhsm",
         "bluehost",
         "Bluehost",
         "newfold",
+        "phpcs",
         "TAILWINDCSS",
         "wpdb"
     ]
