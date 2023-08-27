@@ -3,6 +3,7 @@
 namespace BluehostSiteMigrator\Archiver;
 
 use BluehostSiteMigrator\Archiver\Archiver;
+use Throwable;
 
 /**
  * Extends archiver to allow creating zips for the necessary files.
@@ -24,13 +25,14 @@ class Compressor extends Archiver {
 	 * @param string $new_file_name Write the file with a different name
 	 * @param int    $file_written  File written (in bytes)
 	 * @param int    $file_offset   File offset (in bytes)
+	 * @param bool   $encrypt       Whether to encrypt the file or not.
+	 * @param string $encrypt_pass  The password to be used for encryption.
 	 *
 	 * @throws \Exception On errors out of space and other errors with file.
 	 *
 	 * @return bool
 	 */
-	public function add_file( $file_name, $new_file_name = '', &$file_written = 0, &$file_offset = 0 ) {
-		global $nfd_bhsm_params;
+	public function add_file( $file_name, $new_file_name = '', $file_written = 0, $file_offset = 0, $encrypt = false, $encrypt_pass = 'pass' ) {
 
 		$file_written = 0;
 
@@ -66,7 +68,7 @@ class Compressor extends Archiver {
 					}
 				}
 
-				// Set file offset
+					// Set file offset
 				if ( fseek( $file_handle, $file_offset, SEEK_SET ) !== -1 ) {
 
 					// Read the file in 512KB chunks
@@ -76,11 +78,12 @@ class Compressor extends Archiver {
 						$file_content = fread( $file_handle, 512000 );
 						if ( false !== $file_content ) {
 							// Don't encrypt package.json
-							if ( isset( $nfd_bhsm_params['options']['encrypt_backups'] ) && basename( $file_name ) !== 'package.json' ) {
-								$file_content = nfd_bhsm_encrypt_string( $file_content, $nfd_bhsm_params['options']['encrypt_password'] );
+							if ( $encrypt && basename( $file_name ) !== 'package.json' ) {
+								$file_content = nfd_bhsm_encrypt_string( $file_content, $encrypt_pass );
 							}
 
 							$file_bytes = fwrite( $this->file_handle, $file_content );
+
 							if ( false !== $file_bytes ) {
 								if ( strlen( $file_content ) !== $file_bytes ) {
 									throw new \Exception( sprintf( 'Out of disk space. Unable to write content to file. File: %s', $this->file_name ) );

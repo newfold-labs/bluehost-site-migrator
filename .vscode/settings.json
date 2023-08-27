@@ -25,9 +25,12 @@
         "bhsm",
         "bluehost",
         "Bluehost",
+        "Dropins",
         "newfold",
         "phpcs",
+        "skipdots",
         "TAILWINDCSS",
+        "untrailingslashit",
         "wpdb"
     ]
 }

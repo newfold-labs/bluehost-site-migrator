@@ -4127,6 +4127,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/api */ "./src/utils/api.js");
 /* harmony import */ var _compatibility_Check__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./compatibility/Check */ "./src/components/compatibility/Check.js");
 /* harmony import */ var _transfer_TransferStatus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./transfer/TransferStatus */ "./src/components/transfer/TransferStatus.js");
+/* harmony import */ var _transfer_TransferSuccess__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./transfer/TransferSuccess */ "./src/components/transfer/TransferSuccess.js");
+
 
 
 
@@ -4162,13 +4164,21 @@ const Migration = () => {
         loading: false,
         compatible: response.compatible,
         checked: response.checked,
-        transferQueued: response.transfer_queued
+        transferQueued: response.transfer_queued,
+        packagedSuccess: response.packaged_success,
+        packagedFailed: response.packaged_failed
       });
     };
     getCurrentStep();
   }, []);
   if (stepResult.loading) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_LoadingSpinner__WEBPACK_IMPORTED_MODULE_1__.LoadingSpinner, null);
+  }
+  if (stepResult.packagedSuccess) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_transfer_TransferSuccess__WEBPACK_IMPORTED_MODULE_7__.TransferSuccess, null);
+  }
+  if (stepResult.packagedFailed) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null);
   }
   if (stepResult.transferQueued) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_transfer_TransferStatus__WEBPACK_IMPORTED_MODULE_6__.TransferStatus, null);
@@ -4258,20 +4268,20 @@ const LoadingSpinner = () => {
 
 /***/ }),
 
-/***/ "./src/components/common/ProgressBar.js":
-/*!**********************************************!*\
-  !*** ./src/components/common/ProgressBar.js ***!
-  \**********************************************/
+/***/ "./src/components/common/TransferProgressIndicator.js":
+/*!************************************************************!*\
+  !*** ./src/components/common/TransferProgressIndicator.js ***!
+  \************************************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ProgressBar: function() { return /* binding */ ProgressBar; }
+/* harmony export */   TransferProgressIndicator: function() { return /* binding */ TransferProgressIndicator; }
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
-const ProgressBar = ({
+const TransferProgressIndicator = ({
   progress,
   message
 }) => {
@@ -4282,9 +4292,9 @@ const ProgressBar = ({
   }, message), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "flex justify-center"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "rounded-xl w-4/5 bg-neutral-200 dark:bg-neutral-600"
+    className: "animate-pulse rounded-xl w-4/5 bg-neutral-200 dark:bg-neutral-600"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "rounded-xl bg-[#3575D3] h-5 p-0.5 text-center text-xs font-medium leading-none text-primary-100",
+    className: "ease-in duration-300 rounded-xl bg-[#3575D3] h-5 p-0.5 text-center text-xs font-medium leading-none text-primary-100",
     style: {
       width: `${progress}%`
     }
@@ -4420,6 +4430,43 @@ const BeginTransfer = () => {
 
 /***/ }),
 
+/***/ "./src/components/transfer/TransferFailed.js":
+/*!***************************************************!*\
+  !*** ./src/components/transfer/TransferFailed.js ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TransferFailed: function() { return /* binding */ TransferFailed; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+const TransferFailed = () => {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "transfer-success-div"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-16"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
+    className: "text-5xl text-center font-bold  w-3/5"
+  }, "It looks like your site didn't transfer.")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-4"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "text-center text-lg mt-6 w-3/5"
+  }, "We might have gotten disconnected , or there could be something else going on. Let's figure it out.")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-4"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "text-center text-lg mt-6 w-3/5"
+  }, "Call us at 888-401-4678")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-1"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "action-button"
+  }, "Try again")));
+};
+
+/***/ }),
+
 /***/ "./src/components/transfer/TransferStatus.js":
 /*!***************************************************!*\
   !*** ./src/components/transfer/TransferStatus.js ***!
@@ -4432,12 +4479,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common_ProgressBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/ProgressBar */ "./src/components/common/ProgressBar.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _common_TransferProgressIndicator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/TransferProgressIndicator */ "./src/components/common/TransferProgressIndicator.js");
+/* harmony import */ var _utils_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/hooks */ "./src/utils/hooks.js");
+/* harmony import */ var _utils_apiCall__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/apiCall */ "./src/utils/apiCall.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/api */ "./src/utils/api.js");
+
+
+
+
 
 
 
 const TransferStatus = () => {
-  const [progress] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(10);
+  const initialStatus = {
+    message: 'Preparing environment for packaging',
+    progress: 2,
+    stage: 'initial',
+    packagedFailed: false,
+    packagedSuccess: false
+  };
+  const [transferStatus, setTransferStatus] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(initialStatus);
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
+  const getTransferStatus = async () => {
+    const status = await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_3__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_4__.SiteMigratorAPIs)().migrationTasks.getTransferStatus
+    });
+    if (!status) {
+      setTransferStatus(initialStatus);
+    }
+    setTransferStatus({
+      message: status?.status?.message,
+      progress: status?.status?.progress,
+      stage: status?.status?.stage,
+      packagedFailed: status?.packaged_failed,
+      packagedSuccess: status?.packaged_success
+    });
+  };
+  (0,_utils_hooks__WEBPACK_IMPORTED_MODULE_2__.useInterval)(() => {
+    getTransferStatus();
+  }, transferStatus.packagedFailed || transferStatus.packagedSuccess ? null : 2000);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (transferStatus.packagedFailed) {
+      navigate('/error');
+    }
+    if (transferStatus.packagedSuccess) {
+      window.location.reload();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transferStatus]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "h-full bg-white"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -4450,10 +4540,63 @@ const TransferStatus = () => {
     className: "text-center text-lg mt-6 w-2/5"
   }, "Please wait for the cloning process to complete, once completed, we will issue you your transfer key")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "flex justify-center mt-4 px-10"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_ProgressBar__WEBPACK_IMPORTED_MODULE_1__.ProgressBar, {
-    progress: progress,
-    message: 'Packaging plugins'
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_TransferProgressIndicator__WEBPACK_IMPORTED_MODULE_1__.TransferProgressIndicator, {
+    progress: transferStatus.progress,
+    message: transferStatus.message
   }))));
+};
+
+/***/ }),
+
+/***/ "./src/components/transfer/TransferSuccess.js":
+/*!****************************************************!*\
+  !*** ./src/components/transfer/TransferSuccess.js ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TransferSuccess: function() { return /* binding */ TransferSuccess; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+const TransferSuccess = () => {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "transfer-success-div"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-3"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
+    className: "text-5xl text-center font-bold  w-2/5"
+  }, "Great news, your website has been cloned successfully!")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-4"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "text-center text-lg mt-6 w-2/5"
+  }, "Your site has been cloned and is now ready for transfer. To initiate the transfer, you need to copy the transfer key and paste it into the Migration Services page.")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-16"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "text-2xl text-center"
+  }, "1KTY-60G5-6767-BH5H")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-1"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "action-button"
+  }, "Copy transfer key")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-4"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://google.com",
+    target: "_blank",
+    className: "text-lg text-[#3575D3]",
+    rel: "noreferrer"
+  }, "Login to Bluehost")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center mt-4"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "text-lg"
+  }, "Don't have an account ?\xA0", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://google.com",
+    target: "_blank",
+    className: "text-lg text-[#3575D3] underline ",
+    rel: "noreferrer"
+  }, "Create account"))));
 };
 
 /***/ }),
@@ -4470,15 +4613,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _components_Migration__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Migration */ "./src/components/Migration.js");
+/* harmony import */ var _components_transfer_TransferFailed__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/transfer/TransferFailed */ "./src/components/transfer/TransferFailed.js");
+
 
 
 
 function Routes() {
-  return (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useRoutes)([{
+  return (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useRoutes)([{
     path: '/',
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Migration__WEBPACK_IMPORTED_MODULE_1__.Migration, null)
+  }, {
+    path: '/error',
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_transfer_TransferFailed__WEBPACK_IMPORTED_MODULE_2__.TransferFailed, null)
   }]);
 }
 
@@ -4531,6 +4679,12 @@ const SiteMigratorAPIs = () => {
         return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
           path: MIGRATION_TASKS_BASE.concat('/'),
           method: 'POST'
+        });
+      },
+      getTransferStatus: async () => {
+        return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+          path: MIGRATION_TASKS_BASE.concat('/status'),
+          method: 'GET'
         });
       }
     }
@@ -4586,6 +4740,43 @@ async function getGeoLocation() {
     apiCallParams: '',
     step: 'geoLocation'
   });
+}
+
+/***/ }),
+
+/***/ "./src/utils/hooks.js":
+/*!****************************!*\
+  !*** ./src/utils/hooks.js ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useInterval: function() { return /* binding */ useInterval; },
+/* harmony export */   useIsomorphicLayoutEffect: function() { return /* binding */ useIsomorphicLayoutEffect; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect;
+function useInterval(callback, delay) {
+  const savedCallback = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(callback);
+
+  // Remember the latest callback if it changes.
+  useIsomorphicLayoutEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    // Don't schedule if no delay is specified.
+    // Note: 0 is a valid value for delay.
+    if (!delay && delay !== 0) {
+      return;
+    }
+    const id = setInterval(() => savedCallback.current(), delay);
+    return () => clearInterval(id);
+  }, [delay]);
 }
 
 /***/ }),

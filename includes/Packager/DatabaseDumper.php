@@ -9,7 +9,7 @@ use BluehostSiteMigrator\Utils\Status;
 /**
  * Class to package the database for a site
  */
-class Database extends PackagerBase {
+class DatabaseDumper extends PackagerBase {
 
 	/**
 	 * Get the parameters for database packaging
@@ -28,13 +28,6 @@ class Database extends PackagerBase {
 	}
 
 	/**
-	 * Get the table list file path
-	 */
-	public static function get_table_list_file_path() {
-		return nfd_bhsm_get_hashed_file_path( 'tables', 'config', 'list' );
-	}
-
-	/**
 	 * Prepare the packaging, populate parameters
 	 */
 	public static function prepare() {
@@ -47,6 +40,13 @@ class Database extends PackagerBase {
 			$total_tables_count = (int) $database_task_params['total_tables_count'];
 		} else {
 			$total_tables_count = 1;
+		}
+
+		if ( isset( $database_task_params['table_list_path'] ) ) {
+			$table_list_file_path = $database_task_params['table_list_path'];
+		} else {
+			$table_list_file_path                    = nfd_bhsm_get_hashed_file_path( 'tables', 'config', 'list' );
+			$database_task_params['table_list_path'] = $table_list_file_path;
 		}
 
 		// Set the status message and stage
@@ -80,9 +80,7 @@ class Database extends PackagerBase {
 		}
 
 		// Dump the tables list in a file
-		$table_list_file_path                    = self::get_table_list_file_path();
-		$tables_list                             = nfd_bhsm_open( $table_list_file_path, 'w' );
-		$database_task_params['table_list_path'] = $table_list_file_path;
+		$tables_list = nfd_bhsm_open( $table_list_file_path, 'w' );
 
 		// Write table line
 		foreach ( $mysql->get_tables() as $table_name ) {
@@ -103,10 +101,13 @@ class Database extends PackagerBase {
 	public static function execute() {
 		global $wpdb;
 
-		// Prepare the params for this task
-		self::prepare();
-
 		$params = self::get_database_params();
+
+		// Prepare the params for this task
+		if ( ! isset( $params['table_list_path'] ) ) {
+			self::prepare();
+			$params = self::get_database_params();
+		}
 
 		// Set query offset
 		if ( isset( $params['query_offset'] ) ) {
@@ -150,6 +151,14 @@ class Database extends PackagerBase {
 			$table_list_file_path = '';
 		}
 
+		// Set the database dump path
+		if ( isset( $params['database_dump_file_path'] ) ) {
+			$database_dump_path = $params['database_dump_file_path'];
+		} else {
+			$database_dump_path                = nfd_bhsm_get_hashed_file_path( 'db', 'backup', 'sql' );
+			$params['database_dump_file_path'] = $database_dump_path;
+		}
+
 		// What percent of tables have we processed?
 		$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
 		Status::set_status(
@@ -175,19 +184,22 @@ class Database extends PackagerBase {
 		$mysql->set_table_where_query(
 			nfd_bhsm_table_prefix() . 'options',
 			sprintf(
-				"`option_name` NOT IN ('%s', '%s', '%s', '%s', '%s', '%s')",
+				"`option_name` NOT IN ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 				BH_SITE_MIGRATOR_OPTION_NAME,
 				BH_SITE_MIGRATOR_REGIONS_OPTION,
 				BH_SITE_MIGRATOR_GEO_DATA_OPTION,
 				BH_SITE_MIGRATOR_TOKEN_OPTION,
 				BH_SITE_MIGRATOR_MIGRATION_ID_OPTION,
 				BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION,
+				BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION,
+				BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION,
+				BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION
 			)
 		);
 
 		// Try exporting the database
 		$completed = $mysql->export(
-			nfd_bhsm_get_hashed_file_path( 'db', 'backup', 'sql' ),
+			$database_dump_path,
 			$query_offset,
 			$table_index,
 			$table_offset,

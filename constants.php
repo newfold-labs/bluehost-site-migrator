@@ -2,6 +2,7 @@
 
 define( 'BH_SITE_MIGRATOR_VERSION', '1.0.12' );
 define( 'BH_SITE_MIGRATOR_CIPHER_NAME', 'AES-256-CBC' );
+define( 'BH_SITE_MIGRATOR_PLUGIN_NAME', 'bluehost-site-migrator' );
 define( 'BH_SITE_MIGRATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BH_SITE_MIGRATOR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'BH_SITE_MIGRATOR_PLUGIN_BUILD_DIR', plugin_dir_path( __FILE__ ) . 'build/' . BH_SITE_MIGRATOR_VERSION );
@@ -41,6 +42,18 @@ if ( ! defined( 'BH_SITE_MIGRATOR_GEO_DATA_OPTION' ) ) {
 
 if ( ! defined( 'BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION' ) ) {
 	define( 'BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION', 'bh_site_migration_country_code' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION', 'bh_site_migrator_packaging_status' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_PACKAGING_SUCCESS_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_PACKAGING_SUCCESS_OPTION', 'bh_site_migrator_packaged_success' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION', 'bh_site_migrator_packaged_failed' );
 }
 
 if ( ! defined( 'BH_SITE_MIGRATOR_API_BASEURL' ) ) {

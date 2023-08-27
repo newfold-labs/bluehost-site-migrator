@@ -3,8 +3,8 @@
 namespace BluehostSiteMigrator\RestApi;
 
 use BluehostSiteMigrator\MigrationManager\MigrationTasks;
-use BluehostSiteMigrator\Packager\Database;
 use BluehostSiteMigrator\Utils\Options;
+use BluehostSiteMigrator\Utils\Status;
 
 /**
  * Controller to queue and manage tasks
@@ -40,6 +40,18 @@ class MigrationTasksController extends \WP_REST_Controller {
 				),
 			),
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/status',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_task_status' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			),
+		);
 	}
 
 	/**
@@ -52,13 +64,34 @@ class MigrationTasksController extends \WP_REST_Controller {
 	public function queue_tasks( $request ) {
 		$migration_tasks = new MigrationTasks();
 		$migration_tasks->queue_tasks();
-		// Database::execute();
 
 		Options::set( 'queued_packaging_tasks', true );
 
 		return rest_ensure_response(
 			array(
 				'queued' => true,
+			),
+		);
+	}
+
+	/**
+	 * Queue the tasks.
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function get_task_status( $request ) {
+		$status           = Status::get_status();
+		$packaging_status = Status::get_packaging_status();
+		$packaged_success = $packaging_status['success'];
+		$packaged_failed  = $packaging_status['failed'];
+
+		return rest_ensure_response(
+			array(
+				'status'           => $status,
+				'packaged_success' => $packaged_success,
+				'packaged_failed'  => $packaged_failed,
 			),
 		);
 	}

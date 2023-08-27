@@ -4,6 +4,7 @@ namespace BluehostSiteMigrator\RestApi;
 
 use BluehostSiteMigrator\MigrationChecks\Checker;
 use BluehostSiteMigrator\Utils\Options;
+use BluehostSiteMigrator\Utils\Status;
 
 /**
  * Try the migration check
@@ -118,13 +119,18 @@ class MigrationCheckController extends \WP_REST_Controller {
 	 */
 	public function get_current_step( $request ) {
 		// TODO: Extend this for sync progress check as well
-		$compatible      = Options::get( 'isCompatible', null );
-		$transfer_queued = Options::get( 'queued_packaging_tasks', false );
+		$compatible       = Options::get( 'isCompatible', null );
+		$transfer_queued  = Options::get( 'queued_packaging_tasks', false );
+		$packaging_status = Status::get_packaging_status();
+		$packaged_success = $packaging_status['success'];
+		$packaged_failed  = $packaging_status['failed'];
 		return rest_ensure_response(
 			array(
-				'compatible'      => $compatible,
-				'transfer_queued' => $transfer_queued,
-				'checked'         => $compatible !== null ? true : false,
+				'compatible'       => $compatible,
+				'transfer_queued'  => $transfer_queued,
+				'checked'          => $compatible !== null ? true : false,
+				'packaged_success' => $packaged_success,
+				'packaged_failed'  => $packaged_failed,
 			),
 		);
 	}

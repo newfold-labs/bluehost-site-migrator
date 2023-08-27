@@ -6,6 +6,7 @@
 
 #wpcontent {
     padding-left: 0px !important;
+    @apply bg-white;
 }
 
 .bh-sm {
@@ -42,6 +43,30 @@
             bg-right-bottom
             bg-[length:40%]
             bg-[url('../images/boxed-up.svg')]
+            bg-[#E3F6FA]
+            pl-0
+            pt-2
+    }
+
+    .transfer-success-div {
+        @apply
+            h-full
+            bg-no-repeat
+            bg-bottom
+            bg-[length:50%]
+            bg-[url('../images/moving-truck-unloaded.svg')]
+            bg-[#E3F6FA]
+            pl-0
+            pt-2
+    }
+
+    .transfer-failed-div {
+        @apply
+            h-full
+            bg-no-repeat
+            bg-bottom
+            bg-[length:50%]
+            bg-[url('../images/moving-truck-with-cones.svg')]
             bg-[#E3F6FA]
             pl-0
             pt-2

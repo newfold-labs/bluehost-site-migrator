@@ -554,8 +554,16 @@ video {
   margin-right: 0.75rem;
 }
 
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
 .mt-14 {
   margin-top: 3.5rem;
+}
+
+.mt-16 {
+  margin-top: 4rem;
 }
 
 .mt-3 {
@@ -626,12 +634,26 @@ video {
   width: 40%;
 }
 
+.w-3\/5 {
+  width: 60%;
+}
+
 .w-4\/5 {
   width: 80%;
 }
 
 .w-5 {
   width: 1.25rem;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes spin {
@@ -768,6 +790,11 @@ video {
   vertical-align: -0.125em;
 }
 
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
 .text-5xl {
   font-size: 3rem;
   line-height: 1;
@@ -808,9 +835,18 @@ video {
   line-height: 1;
 }
 
+.text-\[\#3575D3\] {
+  --tw-text-opacity: 1;
+  color: rgb(53 117 211 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.underline {
+  text-decoration-line: underline;
 }
 
 .opacity-25 {
@@ -837,6 +873,14 @@ video {
 
 .duration-150 {
   transition-duration: 150ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .ease-in-out {
@@ -868,6 +912,8 @@ video {
 
 #wpcontent {
   padding-left: 0px !important;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .bh-sm {
@@ -945,6 +991,56 @@ video {
     padding-left: 0px;
   }
   .transfer-status-div {
+    padding-top: 0.5rem;
+  }
+  .transfer-success-div {
+    height: 100%;
+  }
+  .transfer-success-div {
+    --tw-bg-opacity: 1;
+    background-color: rgb(227 246 250 / var(--tw-bg-opacity));
+  }
+  .transfer-success-div {
+    background-image: url('../images/moving-truck-unloaded.svg');
+  }
+  .transfer-success-div {
+    background-size: 50%;
+  }
+  .transfer-success-div {
+    background-position: bottom;
+  }
+  .transfer-success-div {
+    background-repeat: no-repeat;
+  }
+  .transfer-success-div {
+    padding-left: 0px;
+  }
+  .transfer-success-div {
+    padding-top: 0.5rem;
+  }
+  .transfer-failed-div {
+    height: 100%;
+  }
+  .transfer-failed-div {
+    --tw-bg-opacity: 1;
+    background-color: rgb(227 246 250 / var(--tw-bg-opacity));
+  }
+  .transfer-failed-div {
+    background-image: url('../images/moving-truck-with-cones.svg');
+  }
+  .transfer-failed-div {
+    background-size: 50%;
+  }
+  .transfer-failed-div {
+    background-position: bottom;
+  }
+  .transfer-failed-div {
+    background-repeat: no-repeat;
+  }
+  .transfer-failed-div {
+    padding-left: 0px;
+  }
+  .transfer-failed-div {
     padding-top: 0.5rem;
   }
   .action-button {

@@ -5,6 +5,7 @@ import { apiCall } from '../utils/apiCall';
 import { SiteMigratorAPIs } from '../utils/api';
 import { CompatibilityCheck } from './compatibility/Check';
 import { TransferStatus } from './transfer/TransferStatus';
+import { TransferSuccess } from './transfer/TransferSuccess';
 
 // The base component that loads the required step based on current migration state
 export const Migration = () => {
@@ -34,6 +35,8 @@ export const Migration = () => {
 				compatible: response.compatible,
 				checked: response.checked,
 				transferQueued: response.transfer_queued,
+				packagedSuccess: response.packaged_success,
+				packagedFailed: response.packaged_failed,
 			} );
 		};
 
@@ -42,6 +45,14 @@ export const Migration = () => {
 
 	if ( stepResult.loading ) {
 		return <LoadingSpinner />;
+	}
+
+	if ( stepResult.packagedSuccess ) {
+		return <TransferSuccess />;
+	}
+
+	if ( stepResult.packagedFailed ) {
+		return <></>;
 	}
 
 	if ( stepResult.transferQueued ) {

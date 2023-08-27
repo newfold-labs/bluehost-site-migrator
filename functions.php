@@ -265,3 +265,66 @@ function nfd_bhsm_data_get( $data, $key, $default = null ) {
 
 	return $value;
 }
+
+
+/**
+ * Get WordPress plugins directory
+ *
+ * @return string
+ */
+function nfd_bhsm_plugins_dir() {
+	return untrailingslashit( WP_PLUGIN_DIR );
+}
+
+/**
+ * Get WordPress themes directory
+ *
+ * @return array
+ */
+function nfd_bhsm_themes_dir() {
+	$theme_dirs = array();
+	foreach ( search_theme_directories() as $theme_name => $theme_info ) {
+		if ( isset( $theme_info['theme_root'] ) ) {
+			if ( ! in_array( $theme_info['theme_root'], $theme_dirs ) ) {
+				$theme_dirs[] = untrailingslashit( $theme_info['theme_root'] );
+			}
+		}
+	}
+
+	return $theme_dirs;
+}
+
+/**
+ * Get WordPress uploads directory
+ *
+ * @return string
+ */
+function nfd_bhsm_uploads_dir() {
+	$upload_dir = wp_upload_dir();
+	if ( $upload_dir ) {
+		if ( isset( $upload_dir['basedir'] ) ) {
+			return untrailingslashit( $upload_dir['basedir'] );
+		}
+	}
+}
+
+/**
+ * Get the mu plugins directory for WordPress
+ *
+ * @return string
+ */
+function nfd_bhsm_mu_plugins_dir() {
+	$mu_plugins_dir = WPMU_PLUGIN_DIR;
+	if ( is_dir( $mu_plugins_dir ) ) {
+		return untrailingslashit( $mu_plugins_dir );
+	}
+}
+
+/**
+ * Get the WordPress root
+ *
+ * @return string
+ */
+function nfd_bhsm_root_dir() {
+	return untrailingslashit( ABSPATH );
+}

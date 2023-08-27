@@ -1,8 +1,55 @@
-import { useState } from '@wordpress/element';
-import { ProgressBar } from '../common/ProgressBar';
+import { useEffect, useState } from '@wordpress/element';
+import { useNavigate } from 'react-router-dom';
+import { TransferProgressIndicator } from '../common/TransferProgressIndicator';
+import { useInterval } from '../../utils/hooks';
+import { apiCall } from '../../utils/apiCall';
+import { SiteMigratorAPIs } from '../../utils/api';
 
 export const TransferStatus = () => {
-	const [ progress ] = useState( 10 );
+	const initialStatus = {
+		message: 'Preparing environment for packaging',
+		progress: 2,
+		stage: 'initial',
+		packagedFailed: false,
+		packagedSuccess: false,
+	};
+	const [ transferStatus, setTransferStatus ] = useState( initialStatus );
+	const navigate = useNavigate();
+
+	const getTransferStatus = async () => {
+		const status = await apiCall( {
+			apiCallFunc: SiteMigratorAPIs().migrationTasks.getTransferStatus,
+		} );
+		if ( ! status.status ) {
+			setTransferStatus( initialStatus );
+		}
+		setTransferStatus( {
+			message: status?.status?.message,
+			progress: status?.status?.progress,
+			stage: status?.status?.stage,
+			packagedFailed: status?.packaged_failed,
+			packagedSuccess: status?.packaged_success,
+		} );
+	};
+
+	useInterval(
+		() => {
+			getTransferStatus();
+		},
+		transferStatus.packagedFailed || transferStatus.packagedSuccess
+			? null
+			: 2000
+	);
+
+	useEffect( () => {
+		if ( transferStatus.packagedFailed ) {
+			navigate( '/error' );
+		}
+		if ( transferStatus.packagedSuccess ) {
+			window.location.reload();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ transferStatus ] );
 
 	return (
 		<div className="h-full bg-white">
@@ -17,9 +64,9 @@ export const TransferStatus = () => {
 					</p>
 				</div>
 				<div className="flex justify-center mt-4 px-10">
-					<ProgressBar
-						progress={ progress }
-						message={ 'Packaging plugins' }
+					<TransferProgressIndicator
+						progress={ transferStatus.progress }
+						message={ transferStatus.message }
 					/>
 				</div>
 			</div>

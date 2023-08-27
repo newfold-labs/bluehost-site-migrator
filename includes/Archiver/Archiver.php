@@ -62,10 +62,6 @@ abstract class Archiver {
 		// Initialize end of file block
 		$this->eof = pack( 'a4377', '' );
 
-		if ( ! file_exists( $file_name ) ) {
-			throw new \Exception( 'Unable to find the given file' );
-		}
-
 		// Open archive file
 		if ( $write ) {
 			// Open archive file for writing

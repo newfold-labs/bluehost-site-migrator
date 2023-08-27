@@ -36,6 +36,12 @@ export const SiteMigratorAPIs = () => {
 					method: 'POST',
 				} );
 			},
+			getTransferStatus: async () => {
+				return await apiFetch( {
+					path: MIGRATION_TASKS_BASE.concat( '/status' ),
+					method: 'GET',
+				} );
+			},
 		},
 	};
 };
