@@ -291,6 +291,9 @@ class PluginsArchiver extends PackagerBase {
 			Status::set_status( 'Done archiving plugins ', 37, 'plugins' );
 
 			self::set_plugins_params( $params );
+
+			// Return the archive path to be used in the global file options.
+			parent::persist_archive_path( $plugins_archive_path, 'plugins' );
 		} else {
 
 			// Set archive bytes offset

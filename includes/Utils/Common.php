@@ -3,7 +3,7 @@
 namespace BluehostSiteMigrator\Utils;
 
 class Common {
-    /**
+	/**
 	 * Get the path to the wp-config.php file.
 	 *
 	 * @return string
@@ -17,5 +17,23 @@ class Common {
 		}
 
 		return $path;
+	}
+
+	/**
+	 * Get all the task names
+	 *
+	 * @return array
+	 */
+	public static function get_packaging_task_names() {
+		return array(
+			'package_database',
+			'archive_database',
+			'archive_plugins',
+			'archive_themes',
+			'archive_uploads',
+			'archive_mu_plugins',
+			'archive_dropins',
+			'archive_root',
+		);
 	}
 }

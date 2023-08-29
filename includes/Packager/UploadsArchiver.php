@@ -295,6 +295,9 @@ class UploadsArchiver extends PackagerBase {
 			Status::set_status( 'Done archiving uploads ', 62, 'uploads' );
 
 			self::set_uploads_params( $params );
+
+			// Return the archive path to be used in the global file options.
+			parent::persist_archive_path( $uploads_archive_path, 'uploads' );
 		} else {
 
 			// Set archive bytes offset

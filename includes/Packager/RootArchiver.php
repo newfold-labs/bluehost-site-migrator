@@ -313,6 +313,9 @@ class RootArchiver extends PackagerBase {
 			Status::set_packaging_success( true );
 
 			self::set_root_params( $params );
+
+			// Return the archive path to be used in the global file options.
+			parent::persist_archive_path( $root_archive_path, 'root' );
 		} else {
 
 			// Set archive bytes offset

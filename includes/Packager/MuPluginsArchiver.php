@@ -277,6 +277,9 @@ class MuPluginsArchiver extends PackagerBase {
 			Status::set_status( 'Done archiving mu_plugins ', 75, 'mu_plugins' );
 
 			self::set_mu_plugins_params( $params );
+
+			// Return the archive path to be used in the global file options.
+			parent::persist_archive_path( $mu_plugins_archive_path, 'mu-plugins' );
 		} else {
 
 			// Set archive bytes offset

@@ -44,6 +44,16 @@ export const SiteMigratorAPIs = () => {
 					method: 'GET',
 				} );
 			},
+			sendPackagedFilesDetails: async () => {
+				return await apiFetch( {
+					path: MIGRATION_TASKS_BASE.concat( '/send-files' ),
+				} );
+			},
+			reportFailed: async () => {
+				return await apiFetch( {
+					path: MIGRATION_TASKS_BASE.concat( '/report-errors' ),
+				} );
+			},
 		},
 		migrationData: {
 			getMigrationData: async () => {

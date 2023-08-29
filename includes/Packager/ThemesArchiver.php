@@ -279,6 +279,9 @@ class ThemesArchiver extends PackagerBase {
 			Status::set_status( 'Done archiving themes ', 50, 'themes' );
 
 			self::set_themes_params( $params );
+
+			// Return the archive path to be used in the global file options.
+			parent::persist_archive_path( $themes_archive_path, 'themes' );
 		} else {
 
 			// Set archive bytes offset

@@ -43,12 +43,28 @@ export const TransferStatus = () => {
 			: 5000
 	);
 
+	const reportAndMoveOn = async ( failed = false ) => {
+		if ( failed ) {
+			await apiCall( {
+				apiCallFunc: SiteMigratorAPIs().migrationTasks.reportFailed,
+			} );
+			navigate( '/error' );
+			return;
+		}
+		await apiCall( {
+			apiCallFunc:
+				SiteMigratorAPIs().migrationTasks.sendPackagedFilesDetails,
+		} );
+		// Make an API call to send the files
+		window.location.reload();
+	};
+
 	useEffect( () => {
 		if ( transferStatus.packagedFailed ) {
-			navigate( '/error' );
+			reportAndMoveOn( true );
 		}
 		if ( transferStatus.packagedSuccess ) {
-			window.location.reload();
+			reportAndMoveOn();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ transferStatus ] );

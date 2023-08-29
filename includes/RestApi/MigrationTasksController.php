@@ -3,8 +3,10 @@
 namespace BluehostSiteMigrator\RestApi;
 
 use BluehostSiteMigrator\MigrationManager\MigrationTasks;
+use BluehostSiteMigrator\Utils\Common;
 use BluehostSiteMigrator\Utils\Options;
 use BluehostSiteMigrator\Utils\Status;
+use NewfoldLabs\WP\Module\Tasks\Models\TaskResult;
 
 /**
  * Controller to queue and manage tasks
@@ -52,6 +54,30 @@ class MigrationTasksController extends \WP_REST_Controller {
 				),
 			),
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/send-files',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'send_files' ),
+					'permission_callback' => array( $this, 'check_permissions' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/report-errors',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'report_failed_migration' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -93,6 +119,119 @@ class MigrationTasksController extends \WP_REST_Controller {
 				'packaged_success' => $packaged_success,
 				'packaged_failed'  => $packaged_failed,
 			),
+		);
+	}
+
+	/**
+	 * Send the files list to CWM
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function send_files( $request ) {
+		$migration_id = get_option( BH_SITE_MIGRATOR_MIGRATION_ID_OPTION );
+		$files        = Options::get( 'packaged_files', array() );
+		$payload      = \wp_json_encode( $files, JSON_PRETTY_PRINT );
+		$response     = \wp_remote_post(
+			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/files",
+			array(
+				'headers'   => array(
+					'Content-Type' => 'application/json',
+					'x-auth-token' => get_option( BH_SITE_MIGRATOR_TOKEN_OPTION ),
+				),
+				'body'      => $payload,
+				'sslverify' => \is_ssl(),
+			)
+		);
+
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+
+		if ( 200 !== $status_code ) {
+			return new \WP_Error(
+				'migration_payload_failure',
+				'An error occurred when delivering the migration payload.',
+				array(
+					'status_code' => $status_code,
+				)
+			);
+		}
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'files'   => $files,
+			)
+		);
+	}
+
+	/**
+	 * Send files manifest to Bluehost.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function report_failed_migration() {
+		$migration_id = get_option( BH_SITE_MIGRATOR_MIGRATION_ID_OPTION );
+
+		// Get all failed tasks
+		$failed_tasks          = TaskResult::get_failed_tasks();
+		$relevant_failed_tasks = array();
+
+		$package_task_names = Common::get_packaging_task_names();
+
+		foreach ( $failed_tasks as $failed_task ) {
+			if ( in_array( $failed_task->task_name, $package_task_names, true ) ) {
+				array_push( $relevant_failed_tasks, $failed_task );
+			}
+		}
+
+		if ( empty( $relevant_failed_tasks ) ) {
+			return new \WP_Error(
+				'migration_error_log_failure',
+				'No failed tasks found.',
+				array(
+					'status_code' => 404,
+				)
+			);
+		}
+
+		$error_logs = wp_json_encode(
+			$relevant_failed_tasks,
+			JSON_PRETTY_PRINT
+		);
+		$payload    = wp_json_encode(
+			array( 'runtimeLogs' => $error_logs ),
+			JSON_PRETTY_PRINT
+		);
+		$response   = wp_remote_post(
+			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/reportFailed",
+			array(
+				'headers'   => array(
+					'Content-Type' => 'application/json',
+					'x-auth-token' => get_option( 'bh_site_migration_token' ),
+				),
+				'body'      => $payload,
+				'sslverify' => is_ssl(),
+			)
+		);
+
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+
+		if ( 200 !== $status_code ) {
+			return new \WP_Error(
+				'migration_payload_failure',
+				'An error occurred when delivering the migration payload.',
+				array(
+					'status_code' => $status_code,
+				)
+			);
+		}
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+				'errors'  => wp_json_encode( $relevant_failed_tasks ),
+			)
 		);
 	}
 

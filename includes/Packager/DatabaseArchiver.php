@@ -99,6 +99,9 @@ class DatabaseArchiver extends PackagerBase {
 
 			// Persist the params and try again after some time
 			self::set_database_params( $params );
+
+			// Return the archive path to be stored in a global option
+			parent::persist_archive_path( $database_archive_path, 'database' );
 		} else {
 			// Get archive bytes offset
 			$archive_bytes_offset = $archive->get_file_pointer();

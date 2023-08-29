@@ -275,6 +275,9 @@ class DropinsArchiver extends PackagerBase {
 			Status::set_status( 'Done archiving dropins ', 87, 'dropins' );
 
 			self::set_dropins_params( $params );
+
+			// Return the archive path to be used in the global file options.
+			parent::persist_archive_path( $dropins_archive_path, 'dropins' );
 		} else {
 
 			// Set archive bytes offset
