@@ -13,8 +13,8 @@ export const BeginTransfer = () => {
 		const response = await apiCall( {
 			apiCallFunc: SiteMigratorAPIs().migrationTasks.queueMigrationTasks,
 		} );
-		setLoading( false );
 		if ( response.failed ) {
+			setLoading( false );
 			navigate( '/error', {
 				state: {
 					error: response.error || 'Unknown error',
@@ -23,7 +23,11 @@ export const BeginTransfer = () => {
 			} );
 		}
 		if ( response.queued ) {
-			window.location.reload();
+			// Reload after a certain delay to allow propagating the status
+			setTimeout( () => {
+				setLoading( false );
+				window.location.reload();
+			}, 3000 );
 		}
 	};
 

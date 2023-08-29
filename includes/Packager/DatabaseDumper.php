@@ -183,17 +183,9 @@ class DatabaseDumper extends PackagerBase {
 		// Exclude site options
 		$mysql->set_table_where_query(
 			nfd_bhsm_table_prefix() . 'options',
-			sprintf(
+			vsprintf(
 				"`option_name` NOT IN ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-				BH_SITE_MIGRATOR_OPTION_NAME,
-				BH_SITE_MIGRATOR_REGIONS_OPTION,
-				BH_SITE_MIGRATOR_GEO_DATA_OPTION,
-				BH_SITE_MIGRATOR_TOKEN_OPTION,
-				BH_SITE_MIGRATOR_MIGRATION_ID_OPTION,
-				BH_SITE_MIGRATOR_COUNTRY_CODE_OPTION,
-				BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION,
-				BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION,
-				BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION
+				BH_SITE_MIGRATOR_OPTIONS_LIST
 			)
 		);
 

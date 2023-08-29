@@ -24,6 +24,18 @@
             pt-2
     }
 
+    .incompatible-div {
+        @apply
+            h-3/4
+            bg-no-repeat
+            bg-right-bottom
+            bg-[length:60%]
+            bg-[url('../images/computer-transfer-broken.svg')]
+            bg-[#E3F6FA]
+            pl-0
+            pt-2
+    }
+
     .transfer-start-div {
         @apply
             h-3/4
@@ -45,7 +57,6 @@
             bg-[url('../images/boxed-up.svg')]
             bg-[#E3F6FA]
             pl-0
-            pt-2
     }
 
     .transfer-success-div {

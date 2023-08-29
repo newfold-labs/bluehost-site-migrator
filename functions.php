@@ -328,3 +328,19 @@ function nfd_bhsm_mu_plugins_dir() {
 function nfd_bhsm_root_dir() {
 	return untrailingslashit( ABSPATH );
 }
+
+/**
+ * Purge Migration related things
+ */
+function nfd_bhsm_purge_all() {
+	// Delete the options
+	foreach( BH_SITE_MIGRATOR_OPTIONS_LIST as $option ) {
+		delete_option( $option );
+	}
+
+	// Delete the migration data
+	rmdir( nfd_bhsm_storage_path() );
+
+	// Delete the transient
+	delete_transient( BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT );
+}

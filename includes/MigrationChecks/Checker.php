@@ -49,12 +49,10 @@ class Checker {
 	 */
 	public static function can_we_migrate_api( $can_migrate ) {
 		if ( $can_migrate ) {
-			$cache_key   = 'bluehost_site_migrator_can_migrate';
-			$can_migrate = get_transient( $cache_key );
+			$can_migrate = get_transient( BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT );
 			if ( ! $can_migrate ) {
 				$manifest = Manifest::create();
 				$payload  = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
-				return true;
 				$response = wp_remote_post(
 					BH_SITE_MIGRATOR_API_BASEURL . '/manifestScan',
 					array(
@@ -81,7 +79,7 @@ class Checker {
 					update_option( BH_SITE_MIGRATOR_REGIONS_OPTION, nfd_bhsm_data_get( $data, 'regionUrls', array() ) );
 					update_option( BH_SITE_MIGRATOR_MIGRATION_ID_OPTION, $data['migrationId'] );
 					update_option( BH_SITE_MIGRATOR_TOKEN_OPTION, $data['x-auth-token'] );
-					set_transient( $cache_key, $can_migrate, HOUR_IN_SECONDS );
+					set_transient( BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT, $can_migrate, HOUR_IN_SECONDS );
 				}
 			}
 			if ( ! array_key_exists( 'cwm_api', self::$results ) ) {

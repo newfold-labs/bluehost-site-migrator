@@ -6,6 +6,7 @@ import { SiteMigratorAPIs } from '../utils/api';
 import { CompatibilityCheck } from './compatibility/Check';
 import { TransferStatus } from './transfer/TransferStatus';
 import { TransferSuccess } from './transfer/TransferSuccess';
+import { useNavigate } from 'react-router-dom';
 
 // The base component that loads the required step based on current migration state
 export const Migration = () => {
@@ -17,6 +18,8 @@ export const Migration = () => {
 		error: '',
 		transferQueued: false,
 	} );
+
+	const navigate = useNavigate();
 
 	useEffect( () => {
 		const getCurrentStep = async () => {
@@ -52,7 +55,7 @@ export const Migration = () => {
 	}
 
 	if ( stepResult.packagedFailed ) {
-		return <></>;
+		navigate( '/error' );
 	}
 
 	if ( stepResult.transferQueued ) {
@@ -65,5 +68,9 @@ export const Migration = () => {
 
 	if ( ! stepResult.checked ) {
 		return <CompatibilityCheck />;
+	}
+
+	if ( ! stepResult.compatible ) {
+		navigate( '/incompatible' );
 	}
 };

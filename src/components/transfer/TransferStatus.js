@@ -20,8 +20,9 @@ export const TransferStatus = () => {
 		const status = await apiCall( {
 			apiCallFunc: SiteMigratorAPIs().migrationTasks.getTransferStatus,
 		} );
-		if ( ! status.status ) {
+		if ( ! status.status || status.status?.length === 0 ) {
 			setTransferStatus( initialStatus );
+			return;
 		}
 		setTransferStatus( {
 			message: status?.status?.message,
@@ -32,13 +33,14 @@ export const TransferStatus = () => {
 		} );
 	};
 
+	// Ping every 5 seconds
 	useInterval(
 		() => {
 			getTransferStatus();
 		},
 		transferStatus.packagedFailed || transferStatus.packagedSuccess
 			? null
-			: 2000
+			: 5000
 	);
 
 	useEffect( () => {
@@ -52,23 +54,21 @@ export const TransferStatus = () => {
 	}, [ transferStatus ] );
 
 	return (
-		<div className="h-full bg-white">
-			<div className="transfer-status-div mt-14">
-				<h1 className="text-5xl text-center font-bold">
-					Cloning your website
-				</h1>
-				<div className="flex justify-center mt-4">
-					<p className="text-center text-lg mt-6 w-2/5">
-						Please wait for the cloning process to complete, once
-						completed, we will issue you your transfer key
-					</p>
-				</div>
-				<div className="flex justify-center mt-4 px-10">
-					<TransferProgressIndicator
-						progress={ transferStatus.progress }
-						message={ transferStatus.message }
-					/>
-				</div>
+		<div className="transfer-status-div">
+			<h1 className="text-5xl text-center font-bold pt-14">
+				Cloning your website
+			</h1>
+			<div className="flex justify-center mt-4">
+				<p className="text-center text-lg mt-6 w-2/5">
+					Please wait for the cloning process to complete, once
+					completed, we will issue you your transfer key
+				</p>
+			</div>
+			<div className="flex justify-center mt-4 px-10">
+				<TransferProgressIndicator
+					progress={ transferStatus.progress }
+					message={ transferStatus.message }
+				/>
 			</div>
 		</div>
 	);

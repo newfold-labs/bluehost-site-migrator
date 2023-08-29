@@ -17,6 +17,7 @@ class RestApi {
 		$controllers = array(
 			'BluehostSiteMigrator\\RestApi\\MigrationTasksController',
 			'BluehostSiteMigrator\\RestApi\\MigrationCheckController',
+			'BluehostSiteMigrator\\RestApi\\MigrationDataController'
 		);
 
 		foreach ( $controllers as $controller ) {
