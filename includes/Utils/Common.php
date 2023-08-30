@@ -4,6 +4,9 @@ namespace BluehostSiteMigrator\Utils;
 
 use NewfoldLabs\WP\Module\Tasks\Models\Task;
 
+/**
+ * Common utilities class
+ */
 class Common {
 	/**
 	 * Get the path to the wp-config.php file.

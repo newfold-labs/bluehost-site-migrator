@@ -78,7 +78,7 @@ class ThemesArchiver extends PackagerBase {
 								$iterator->getSubPathname(),
 								$iterator->getSize(),
 								$iterator->getMTime(),
-							),
+							)
 						);
 						if ( $written ) {
 							++$total_themes_files_count;
@@ -177,9 +177,8 @@ class ThemesArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d theme files ... %d%% complete',
-				$total_themes_files_count,
-				$progress !== 0 ? $progress : 5
+				'Archiving %d theme files ...',
+				esc_xml( $total_themes_files_count )
 			),
 			35,
 			'themes'
@@ -227,14 +226,15 @@ class ThemesArchiver extends PackagerBase {
 				Status::set_status(
 					sprintf(
 						'Archiving %d theme files...',
-						$total_themes_files_count,
+						esc_xml( $total_themes_files_count )
 					),
 					45,
 					'themes'
 				);
 
 				// More than 10 seconds have passed, break and do another request
-				if ( ( $timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 ) ) ) {
+				$timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 );
+				if ( $timeout ) {
 					if ( ( microtime( true ) - $start ) > $timeout ) {
 						$completed = false;
 						break;
@@ -312,7 +312,7 @@ class ThemesArchiver extends PackagerBase {
 			Status::set_status(
 				sprintf(
 					'Archiving %d theme files...',
-					$total_themes_files_count,
+					esc_xml( $total_themes_files_count )
 				),
 				45,
 				'themes'

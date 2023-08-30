@@ -13,11 +13,14 @@ class RestApi {
 		\add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 
+	/**
+	 * Register routes from all classes.
+	 */
 	public function register_routes() {
 		$controllers = array(
 			'BluehostSiteMigrator\\RestApi\\MigrationTasksController',
 			'BluehostSiteMigrator\\RestApi\\MigrationCheckController',
-			'BluehostSiteMigrator\\RestApi\\MigrationDataController'
+			'BluehostSiteMigrator\\RestApi\\MigrationDataController',
 		);
 
 		foreach ( $controllers as $controller ) {

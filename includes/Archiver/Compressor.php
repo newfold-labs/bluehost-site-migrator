@@ -61,10 +61,10 @@ class Compressor extends Archiver {
 					$file_bytes = fwrite( $this->file_handle, $block );
 					if ( false !== $file_bytes ) {
 						if ( strlen( $block ) !== $file_bytes ) {
-							throw new \Exception( sprintf( 'Out of disk space. Unable to write header to file. File: %s', $this->file_name ) );
+							throw new \Exception( sprintf( 'Out of disk space. Unable to write header to file. File: %s', esc_xml( $this->file_name ) ) );
 						}
 					} else {
-						throw new \Exception( sprintf( 'Unable to write header to file. File: %s', $this->file_name ) );
+						throw new \Exception( sprintf( 'Unable to write header to file. File: %s', esc_xml( $this->file_name ) ) );
 					}
 				}
 
@@ -86,10 +86,10 @@ class Compressor extends Archiver {
 
 							if ( false !== $file_bytes ) {
 								if ( strlen( $file_content ) !== $file_bytes ) {
-									throw new \Exception( sprintf( 'Out of disk space. Unable to write content to file. File: %s', $this->file_name ) );
+									throw new \Exception( sprintf( 'Out of disk space. Unable to write content to file. File: %s', esc_xml( $this->file_name ) ) );
 								}
 							} else {
-								throw new \Exception( sprintf( 'Unable to write content to file. File: %s', $this->file_name ) );
+								throw new \Exception( sprintf( 'Unable to write content to file. File: %s', esc_xml( $this->file_name ) ) );
 							}
 
 							// Set file written
@@ -122,10 +122,10 @@ class Compressor extends Archiver {
 					$file_bytes = fwrite( $this->file_handle, $block );
 					if ( false !== $file_bytes ) {
 						if ( strlen( $block ) !== $file_bytes ) {
-							throw new \Exception( sprintf( 'Out of disk space. Unable to write size to file. File: %s', $this->file_name ) );
+							throw new \Exception( sprintf( 'Out of disk space. Unable to write size to file. File: %s', esc_xml( $this->file_name ) ) );
 						}
 					} else {
-						throw new \Exception( sprintf( 'Unable to write size to file. File: %s', $this->file_name ) );
+						throw new \Exception( sprintf( 'Unable to write size to file. File: %s', esc_xml( $this->file_name ) ) );
 					}
 
 					// Seek to end of file content

@@ -34,13 +34,13 @@ class Options {
 	/**
 	 * Get value of option. Optionally provide a default value.
 	 *
-	 * @param string $name    The option name.
-	 * @param mixed  $default The default value if option isn't found. Defaults to null.
+	 * @param string $name        The option name.
+	 * @param mixed  $default_val The default value if option isn't found. Defaults to null.
 	 *
 	 * @return mixed
 	 */
-	public static function get( $name, $default = null ) {
-		$value = $default;
+	public static function get( $name, $default_val = null ) {
+		$value = $default_val;
 		if ( self::has( $name ) ) {
 			$value = self::$options[ $name ];
 		}

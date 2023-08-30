@@ -42,10 +42,10 @@
 	},
 	"scripts": {
 		"fix": [
-			"vendor/bin/phpcbf . "
+			"vendor/bin/phpcbf . --ignore=*/bh-site-migrator.asset.php/*"
 		],
 		"lint": [
-			"vendor/bin/phpcs . "
+			"vendor/bin/phpcs . --ignore=*/bh-site-migrator.asset.php/*"
 		]
 	},
 	"scripts-descriptions": {

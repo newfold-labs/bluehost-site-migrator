@@ -237,14 +237,14 @@ function nfd_bhsm_get_dir_size( $path ) {
  * Get a value from an object or an array.  Allows the ability to fetch a nested value from a
  * heterogeneous multidimensional collection using dot notation.
  *
- * @param array|object $data    Data to fetch from.
- * @param string       $key     Key as a string, optionally using dot notation.
- * @param mixed        $default The fallback value if a value doesn't exist.
+ * @param array|object $data        Data to fetch from.
+ * @param string       $key         Key as a string, optionally using dot notation.
+ * @param mixed        $default_val The fallback value if a value doesn't exist.
  *
  * @return mixed
  */
-function nfd_bhsm_data_get( $data, $key, $default = null ) {
-	$value = $default;
+function nfd_bhsm_data_get( $data, $key, $default_val = null ) {
+	$value = $default_val;
 	if ( is_array( $data ) && array_key_exists( $key, $data ) ) {
 		$value = $data[ $key ];
 	} elseif ( is_object( $data ) && property_exists( $data, $key ) ) {
@@ -257,7 +257,7 @@ function nfd_bhsm_data_get( $data, $key, $default = null ) {
 			} elseif ( is_object( $data ) && property_exists( $data, $segment ) ) {
 				$value = $data = $data->$segment; // phpcs:ignore
 			} else {
-				$value = $default;
+				$value = $default_val;
 				break;
 			}
 		}
@@ -285,7 +285,7 @@ function nfd_bhsm_themes_dir() {
 	$theme_dirs = array();
 	foreach ( search_theme_directories() as $theme_name => $theme_info ) {
 		if ( isset( $theme_info['theme_root'] ) ) {
-			if ( ! in_array( $theme_info['theme_root'], $theme_dirs ) ) {
+			if ( ! in_array( $theme_info['theme_root'], $theme_dirs, true ) ) {
 				$theme_dirs[] = untrailingslashit( $theme_info['theme_root'] );
 			}
 		}
@@ -334,7 +334,7 @@ function nfd_bhsm_root_dir() {
  */
 function nfd_bhsm_purge_all() {
 	// Delete the options
-	foreach( BH_SITE_MIGRATOR_OPTIONS_LIST as $option ) {
+	foreach ( BH_SITE_MIGRATOR_OPTIONS_LIST as $option ) {
 		delete_option( $option );
 	}
 

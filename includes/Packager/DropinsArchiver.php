@@ -75,11 +75,10 @@ class DropinsArchiver extends PackagerBase {
 						$dropin,
 						filesize( $file_path ),
 						filemtime( $file_path ),
-					),
+					)
 				);
 				if ( $written ) {
 					++$total_dropins_files_count;
-					// $total_dropins_files_size += $iterator->getSize();
 				}
 			}
 		}
@@ -172,9 +171,8 @@ class DropinsArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d dropin files ... %d%% complete',
-				$total_dropins_files_count,
-				$progress !== 0 ? $progress : 5
+				'Archiving %d dropin files ...',
+				esc_xml( $total_dropins_files_count )
 			),
 			85,
 			'dropins'
@@ -221,16 +219,16 @@ class DropinsArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d dropin files...%d%% complete',
-						$total_dropins_files_count,
-						$progress
+						'Archiving %d dropin files...',
+						esc_xml( $total_dropins_files_count )
 					),
 					85,
 					'dropins'
 				);
 
 				// More than 10 seconds have passed, break and do another request
-				if ( ( $timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 ) ) ) {
+				$timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 );
+				if ( ( $timeout ) ) {
 					if ( ( microtime( true ) - $start ) > $timeout ) {
 						$completed = false;
 						break;

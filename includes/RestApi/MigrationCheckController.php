@@ -39,7 +39,7 @@ class MigrationCheckController extends \WP_REST_Controller {
 					'callback'            => array( $this, 'get_item' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
-			),
+			)
 		);
 
 		// Get the result for compatibility check
@@ -52,7 +52,7 @@ class MigrationCheckController extends \WP_REST_Controller {
 					'callback'            => array( $this, 'get_compatibility' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
-			),
+			)
 		);
 
 		// Get the current migration stage, i.e. compatibility check, tasks queued etc.
@@ -65,7 +65,7 @@ class MigrationCheckController extends \WP_REST_Controller {
 					'callback'            => array( $this, 'get_current_step' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
-			),
+			)
 		);
 	}
 
@@ -104,7 +104,7 @@ class MigrationCheckController extends \WP_REST_Controller {
 		return rest_ensure_response(
 			array(
 				'compatible' => $compatible,
-				'checked'    => $compatible !== null ? true : false,
+				'checked'    => null !== $compatible ? true : false,
 			)
 		);
 	}
@@ -118,7 +118,6 @@ class MigrationCheckController extends \WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function get_current_step( $request ) {
-		// TODO: Extend this for sync progress check as well
 		$compatible       = Options::get( 'isCompatible', null );
 		$transfer_queued  = Options::get( 'queued_packaging_tasks', false );
 		$packaging_status = Status::get_packaging_status();
@@ -128,10 +127,10 @@ class MigrationCheckController extends \WP_REST_Controller {
 			array(
 				'compatible'       => $compatible,
 				'transfer_queued'  => $transfer_queued,
-				'checked'          => $compatible !== null ? true : false,
+				'checked'          => null !== $compatible ? true : false,
 				'packaged_success' => $packaged_success,
 				'packaged_failed'  => $packaged_failed,
-			),
+			)
 		);
 	}
 

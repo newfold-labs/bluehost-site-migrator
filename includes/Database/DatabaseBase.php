@@ -110,6 +110,8 @@ abstract class DatabaseBase {
 	 * Constructor
 	 *
 	 * @param object $wpdb WPDB instance
+	 *
+	 * @throws \Exception When we cannot connect to SQL.
 	 */
 	public function __construct( $wpdb ) {
 		$this->wpdb = $wpdb;
@@ -120,8 +122,7 @@ abstract class DatabaseBase {
 				throw new \Exception(
 					(
 						'Your WordPress installation uses Microsoft SQL Server. ' .
-						'To use Bluehost Site Migrator, please change your installation to MySQL and try again. ' .
-						'<a href="https://help.servmask.com/knowledgebase/microsoft-sql-server/" target="_blank">Technical details</a>'
+						'To use Bluehost Site Migrator, please change your installation to MySQL and try again. '
 					)
 				);
 			}
@@ -145,8 +146,8 @@ abstract class DatabaseBase {
 	/**
 	 * Set table where query
 	 *
-	 * @param  string $table_name   Table name
-	 * @param  array  $where_$query Table query
+	 * @param  string $table_name  Table name
+	 * @param  array  $where_query Table query
 	 * @return object
 	 */
 	public function set_table_where_query( $table_name, $where_query ) {
@@ -228,7 +229,6 @@ abstract class DatabaseBase {
 	 * @param  string $exclude_prefix Exclude prefix
 	 * @return object
 	 */
-
 	public function add_table_prefix_filter( $table_prefix, $exclude_prefix = null ) {
 		$this->table_prefix_filters[] = array( $table_prefix, $exclude_prefix );
 
@@ -431,6 +431,7 @@ abstract class DatabaseBase {
 					implode( ' OR ', $where_query )
 				)
 			);
+			// phpcs:ignore
 			while ( $row = $this->fetch_row( $result ) ) {
 				if ( isset( $row[0] ) ) {
 					$this->views[] = $row[0];
@@ -505,6 +506,7 @@ abstract class DatabaseBase {
 					implode( ' OR ', $where_query )
 				)
 			);
+			// phpcs:ignore
 			while ( $row = $this->fetch_row( $result ) ) {
 				if ( isset( $row[0] ) ) {
 					$this->base_tables[] = $row[0];
@@ -576,7 +578,7 @@ abstract class DatabaseBase {
 		if ( fseek( $file_handler, $query_offset ) !== -1 ) {
 
 			// Write headers
-			if ( $query_offset === 0 ) {
+			if ( 0 === $query_offset ) {
 				nfd_bhsm_write( $file_handler, $this->get_header() );
 			}
 
@@ -669,12 +671,14 @@ abstract class DatabaseBase {
 							$table_keys = implode( ', ', $table_keys );
 
 							// Set table where query
-							if ( ! ( $table_where = $this->get_table_where_query( $table_name ) ) ) {
+							$table_where = $this->get_table_where_query( $table_name );
+							if ( ! ( $table_where ) ) {
 								$table_where = 1;
 							}
 
 							// Set table select columns
-							if ( ! ( $select_columns = $this->get_table_select_columns( $table_name ) ) ) {
+							$select_columns = $this->get_table_select_columns( $table_name );
+							if ( ! ( $select_columns ) ) {
 								$select_columns = array( 't1.*' );
 							}
 
@@ -688,12 +692,14 @@ abstract class DatabaseBase {
 							$table_keys = 1;
 
 							// Set table where query
-							if ( ! ( $table_where = $this->get_table_where_query( $table_name ) ) ) {
+							$table_where = $this->get_table_where_query( $table_name );
+							if ( ! ( $table_where ) ) {
 								$table_where = 1;
 							}
 
 							// Set table select columns
-							if ( ! ( $select_columns = $this->get_table_select_columns( $table_name ) ) ) {
+							$select_columns = $this->get_table_select_columns( $table_name );
+							if ( ! ( $select_columns ) ) {
 								$select_columns = array( '*' );
 							}
 
@@ -707,7 +713,7 @@ abstract class DatabaseBase {
 						$result = $this->query( $query );
 
 						// Repair table data
-						if ( $this->errno() === 1194 ) {
+						if ( 1194 === $this->errno() ) {
 
 							// Current table is marked as crashed and should be repaired
 							$this->repair_table( $table_name );
@@ -725,7 +731,7 @@ abstract class DatabaseBase {
 							while ( $row ) {
 
 								// Write start transaction
-								if ( $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES === 0 ) {
+								if ( 0 === $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES ) {
 									nfd_bhsm_write( $file_handler, "START TRANSACTION;\n" );
 								}
 
@@ -750,7 +756,7 @@ abstract class DatabaseBase {
 								++$table_rows;
 
 								// Write end of transaction
-								if ( $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES === 0 ) {
+								if ( 0 === $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES ) {
 									nfd_bhsm_write( $file_handler, "COMMIT;\n" );
 								}
 
@@ -759,7 +765,7 @@ abstract class DatabaseBase {
 						} else {
 
 							// Write end of transaction
-							if ( $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES !== 0 ) {
+							if ( 0 !== $table_offset % BH_SITE_MIGRATOR_MAX_TRANSACTION_QUERIES ) {
 								nfd_bhsm_write( $file_handler, "COMMIT;\n" );
 							}
 

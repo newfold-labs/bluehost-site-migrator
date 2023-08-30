@@ -38,6 +38,7 @@ class DatabaseUtility {
 	public static function replace_serialized_values( $from = array(), $to = array(), $data = '', $serialized = false ) {
 		try {
 			// Some unserialized data cannot be re-serialized eg. SimpleXMLElements
+			// phpcs:ignore
 			$unserialized = unserialize( $data );
 			if ( is_serialized( $data ) && ( false !== $unserialized ) ) {
 				$data = self::replace_serialized_values( $from, $to, $unserialized, true );
@@ -62,15 +63,14 @@ class DatabaseUtility {
 					$data = $tmp;
 					unset( $tmp );
 				}
-			} else {
-				if ( is_string( $data ) ) {
-					if ( ! empty( $from ) && ! empty( $to ) ) {
-						$data = strtr( $data, array_combine( $from, $to ) );
-					}
+			} elseif ( is_string( $data ) ) {
+				if ( ! empty( $from ) && ! empty( $to ) ) {
+					$data = strtr( $data, array_combine( $from, $to ) );
 				}
 			}
 
 			if ( $serialized ) {
+				// phpcs:ignore
 				return serialize( $data );
 			}
 		} catch ( \Exception $e ) {
@@ -119,6 +119,7 @@ class DatabaseUtility {
 	 * @return string
 	 */
 	public static function base64_encode( $data ) {
+		// phpcs:ignore
 		return base64_encode( $data );
 	}
 
@@ -129,6 +130,7 @@ class DatabaseUtility {
 	 * @return string
 	 */
 	public static function base64_decode( $data ) {
+		// phpcs:ignore
 		return base64_decode( $data );
 	}
 
@@ -139,6 +141,7 @@ class DatabaseUtility {
 	 * @return boolean
 	 */
 	public static function base64_validate( $data ) {
+		// phpcs:ignore
 		return base64_encode( base64_decode( $data ) ) === $data;
 	}
 }

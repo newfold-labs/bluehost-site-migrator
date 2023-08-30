@@ -28,6 +28,8 @@ class DatabaseArchiver extends PackagerBase {
 
 	/**
 	 * Create the archive
+	 *
+	 * @throws \Exception When we cannot find database dump path.
 	 */
 	public static function execute() {
 		$params                 = self::get_database_params();

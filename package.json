@@ -33,7 +33,8 @@
 		"start": "yarn run generate:css && wp-scripts start ./src/bh-site-migrator.js",
 		"lint:js": "wp-scripts lint-js ./src",
 		"lint:js:fix": "wp-scripts lint-js ./src --fix",
-		"watch": "watch 'yarn run generate:css' ./src ./assets"
+		"watch": "watch 'yarn run generate:css' ./src ./assets",
+		"test": "yarn cypress run"
 	},
 	"dependencies": {
 		"@wordpress/api-fetch": "^6.37.0",

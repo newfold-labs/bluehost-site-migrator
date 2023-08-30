@@ -40,7 +40,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 					'callback'            => array( $this, 'queue_tasks' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
-			),
+			)
 		);
 
 		register_rest_route(
@@ -52,7 +52,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 					'callback'            => array( $this, 'get_task_status' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
-			),
+			)
 		);
 
 		register_rest_route(
@@ -64,7 +64,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 					'callback'            => array( $this, 'cancel_transfer' ),
 					'permission_callback' => array( $this, 'check_permission' ),
 				),
-			),
+			)
 		);
 
 		register_rest_route(
@@ -108,7 +108,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 		return rest_ensure_response(
 			array(
 				'queued' => true,
-			),
+			)
 		);
 	}
 
@@ -130,7 +130,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 				'status'           => $status,
 				'packaged_success' => $packaged_success,
 				'packaged_failed'  => $packaged_failed,
-			),
+			)
 		);
 	}
 

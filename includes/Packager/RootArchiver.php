@@ -91,7 +91,7 @@ class RootArchiver extends PackagerBase {
 				if ( $iterator->hasChildren() ) {
 					return false;
 				}
-				if ( in_array( $file->getFilename(), $exclude_filters ) ) {
+				if ( in_array( $file->getFilename(), $exclude_filters, true ) ) {
 					return false;
 				}
 				return $file->isFile();
@@ -111,7 +111,7 @@ class RootArchiver extends PackagerBase {
 							$iterator->getSubPathname(),
 							$iterator->getSize(),
 							$iterator->getMTime(),
-						),
+						)
 					);
 					if ( $written ) {
 						++$total_root_files_count;
@@ -210,7 +210,7 @@ class RootArchiver extends PackagerBase {
 		Status::set_status(
 			sprintf(
 				'Archiving %d root files ... ',
-				$total_root_files_count,
+				esc_xml( $total_root_files_count )
 			),
 			95,
 			'root'
@@ -258,14 +258,15 @@ class RootArchiver extends PackagerBase {
 				Status::set_status(
 					sprintf(
 						'Archiving %d root files...',
-						$total_root_files_count,
+						esc_xml( $total_root_files_count )
 					),
 					95,
 					'root'
 				);
 
 				// More than 10 seconds have passed, break and do another request
-				if ( ( $timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 ) ) ) {
+				$timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 );
+				if ( $timeout ) {
 					if ( ( microtime( true ) - $start ) > $timeout ) {
 						$completed = false;
 						break;
@@ -346,7 +347,7 @@ class RootArchiver extends PackagerBase {
 			Status::set_status(
 				sprintf(
 					'Archiving %d root files...',
-					$total_root_files_count,
+					esc_xml( $total_root_files_count )
 				),
 				95,
 				'root'

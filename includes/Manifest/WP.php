@@ -5,7 +5,7 @@ namespace BluehostSiteMigrator\Manifest;
 use BluehostSiteMigrator\Utils\Common;
 
 /**
- * Wordpress Manifest
+ * WordPress Manifest
  */
 class WP extends Registry {
 	/**

@@ -67,18 +67,18 @@ abstract class Archiver {
 			// Open archive file for writing
 			$this->file_handle = fopen( $file_name, 'cb' );
 			if ( false === $this->file_handle ) {
-				throw new \Exception( sprintf( 'Unable to open file for writing. File: %s' ), $this->file_name );
+				throw new \Exception( sprintf( 'Unable to open file for writing. File: %s', esc_xml( $this->file_name ) ) );
 			}
 
 			// Seek to end of archive file
 			if ( -1 === fseek( $this->file_handle, 0, SEEK_END ) ) {
-				throw new \Exception( sprintf( 'Unable to seek to end of file. File: %s', $this->file_name ) );
+				throw new \Exception( sprintf( 'Unable to seek to end of file. File: %s', esc_xml( $this->file_name ) ) );
 			}
 		} else {
 			// Open archive file for reading
 			$this->file_handle = fopen( $file_name, 'rb' );
 			if ( false === $this->file_handle ) {
-				throw new \Exception( sprintf( 'Unable to open file for reading. File: %s', $this->file_name ) );
+				throw new \Exception( sprintf( 'Unable to open file for reading. File: %s', esc_xml( $this->file_name ) ) );
 			}
 		}
 	}
@@ -94,7 +94,7 @@ abstract class Archiver {
 	 */
 	public function set_file_pointer( $offset ) {
 		if ( -1 === fseek( $this->file_handle, $offset, SEEK_SET ) ) {
-			throw new \Exception( sprintf( 'Unable to seek to offset of file. File: %s Offset: %d', $this->file_name, $offset ) );
+			throw new \Exception( sprintf( 'Unable to seek to offset of file. File: %s Offset: %d', esc_xml( $this->file_name ), esc_xml( $offset ) ) );
 		}
 	}
 
@@ -108,7 +108,7 @@ abstract class Archiver {
 	public function get_file_pointer() {
 		$offset = ftell( $this->file_handle );
 		if ( false === $offset ) {
-			throw new \Exception( sprintf( 'Unable to tell offset of file. File: %s', $this->file_name ) );
+			throw new \Exception( sprintf( 'Unable to tell offset of file. File: %s', esc_xml( $this->file_name ) ) );
 		}
 
 		return $offset;
@@ -124,17 +124,17 @@ abstract class Archiver {
 	protected function append_eof() {
 		// Seek to end of archive file
 		if ( -1 === fseek( $this->file_handle, 0, SEEK_END ) ) {
-			throw new \Exception( sprintf( 'Unable to seek to end of file. File: %s', $this->file_name ) );
+			throw new \Exception( sprintf( 'Unable to seek to end of file. File: %s', esc_xml( $this->file_name ) ) );
 		}
 
 		// Write end of file block
 		$file_bytes = fwrite( $this->file_handle, $this->eof );
 		if ( false === $file_bytes ) {
 			if ( strlen( $this->eof ) !== $file_bytes ) {
-				throw new \Exception( sprintf( 'Out of disk space. Unable to write end of block to file. File: %s', $this->file_name ) );
+				throw new \Exception( sprintf( 'Out of disk space. Unable to write end of block to file. File: %s', esc_xml( $this->file_name ) ) );
 			}
 		} else {
-			throw new \Exception( sprintf( 'Unable to write end of block to file. File: %s', $this->file_name ) );
+			throw new \Exception( sprintf( 'Unable to write end of block to file. File: %s', esc_xml( $this->file_name ) ) );
 		}
 	}
 
@@ -211,12 +211,12 @@ abstract class Archiver {
 	public function truncate() {
 		$offset = ftell( $this->file_handle );
 		if ( false === $offset ) {
-			throw new \Exception( sprintf( 'Unable to tell offset of file. File: %s', $this->file_name ) );
+			throw new \Exception( sprintf( 'Unable to tell offset of file. File: %s', esc_xml( $this->file_name ) ) );
 		}
 
 		if ( filesize( $this->file_name ) > $offset ) {
 			if ( ftruncate( $this->file_handle, $offset ) === false ) {
-				throw new \Exception( sprintf( 'Unable to truncate file. File: %s', $this->file_name ) );
+				throw new \Exception( sprintf( 'Unable to truncate file. File: %s', esc_xml( $this->file_name ) ) );
 			}
 		}
 	}
@@ -239,7 +239,7 @@ abstract class Archiver {
 		}
 
 		if ( fclose( $this->file_handle ) === false ) {
-			throw new \Exception( sprintf( 'Unable to close file. File: %s', $this->file_name ) );
+			throw new \Exception( sprintf( 'Unable to close file. File: %s', esc_xml( $this->file_name ) ) );
 		}
 	}
 }

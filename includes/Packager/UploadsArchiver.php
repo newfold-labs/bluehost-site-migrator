@@ -73,7 +73,8 @@ class UploadsArchiver extends PackagerBase {
 				if ( $iterator->hasChildren() ) {
 					if ( ! in_array(
 						$file->getFilename(),
-						$exclude_filters
+						$exclude_filters,
+						true
 					) ) {
 						return true;
 					}
@@ -95,7 +96,7 @@ class UploadsArchiver extends PackagerBase {
 							$iterator->getSubPathname(),
 							$iterator->getSize(),
 							$iterator->getMTime(),
-						),
+						)
 					);
 					if ( $written ) {
 						++$total_uploads_files_count;
@@ -193,9 +194,8 @@ class UploadsArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d upload files ... %d%% complete',
-				$total_uploads_files_count,
-				$progress !== 0 ? $progress : 5
+				'Archiving %d upload files ...',
+				esc_xml( $total_uploads_files_count )
 			),
 			60,
 			'uploads'
@@ -243,14 +243,15 @@ class UploadsArchiver extends PackagerBase {
 				Status::set_status(
 					sprintf(
 						'Archiving %d upload files...',
-						$total_uploads_files_count,
+						esc_xml( $total_uploads_files_count )
 					),
 					60,
 					'uploads'
 				);
 
 				// More than 10 seconds have passed, break and do another request
-				if ( ( $timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 ) ) ) {
+				$timeout = apply_filters( 'nfd_bhsm_completed_timeout', 10 );
+				if ( ( $timeout ) ) {
 					if ( ( microtime( true ) - $start ) > $timeout ) {
 						$completed = false;
 						break;
@@ -328,7 +329,7 @@ class UploadsArchiver extends PackagerBase {
 			Status::set_status(
 				sprintf(
 					'Archiving %d upload files...',
-					$total_uploads_files_count,
+					esc_xml( $total_uploads_files_count )
 				),
 				60,
 				'uploads'
