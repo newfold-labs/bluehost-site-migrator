@@ -344,3 +344,18 @@ function nfd_bhsm_purge_all() {
 	// Delete the transient
 	delete_transient( BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT );
 }
+
+/**
+ * Redirect to the plugin page when it is activated
+ */
+function nfd_bhsm_set_redirect() {
+	// Set an option which will be consumed during admin init
+	add_option( BH_SITE_MIGRATOR_REDIRECT_OPTION, true );
+}
+
+function nfd_bhsm_redirect() {
+	if ( get_option( BH_SITE_MIGRATOR_REDIRECT_OPTION, false ) ) {
+		delete_option( BH_SITE_MIGRATOR_REDIRECT_OPTION );
+		wp_redirect( BH_SITE_MIGRATOR_ENTRYPOINT_URL );
+	}
+}

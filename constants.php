@@ -60,6 +60,10 @@ if ( ! defined( 'BH_SITE_MIGRATOR_API_BASEURL' ) ) {
 	define( 'BH_SITE_MIGRATOR_API_BASEURL', 'https://cwm.eigproserve.com/api/v1' );
 }
 
+if ( ! defined( 'BH_SITE_MIGRATOR_REDIRECT_OPTION' ) ) {
+	define( 'BH_SITE_MIGRATOR_REDIRECT_OPTION', 'bh_site_migrator_redirect' );
+}
+
 if ( ! defined( 'BH_SITE_MIGRATOR_OPTIONS_LIST' ) ) {
 	define(
 		'BH_SITE_MIGRATOR_OPTIONS_LIST',
@@ -73,10 +77,15 @@ if ( ! defined( 'BH_SITE_MIGRATOR_OPTIONS_LIST' ) ) {
 			BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION,
 			BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION,
 			BH_SITE_MIGRATOR_PACKAGING_SUCCESS_OPTION,
+			BH_SITE_MIGRATOR_REDIRECT_OPTION,
 		)
 	);
 }
 
 if ( ! defined( 'BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT' ) ) {
 	define( 'BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT', 'bluehost_site_migrator_can_migrate' );
+}
+
+if ( ! defined( 'BH_SITE_MIGRATOR_ENTRYPOINT_URL' ) ) {
+	define( 'BH_SITE_MIGRATOR_ENTRYPOINT_URL', '/wp-admin/admin.php?page=bluehost-site-migrator' );
 }
