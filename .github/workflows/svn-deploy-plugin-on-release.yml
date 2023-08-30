@@ -1,81 +1,69 @@
 name: Deploy to WordPress.org
 on:
-  release:
-    types:
-      - published
-      - edited
+    release:
+        types:
+            - published
+            - edited
 
 jobs:
-  deploy:
-    name: On Release
-    runs-on: ubuntu-latest
-    steps:
+    deploy:
+        name: On Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
 
-      - name: Checkout
-        uses: actions/checkout@v2
+            - name: Set Package Name
+              id: package
+              env:
+                  REPO: ${{ github.repository }}
+              run: echo ::set-output name=PACKAGE::${REPO##*/}
 
-      - name: Set Package Name
-        id: package
-        env:
-          REPO: ${{ github.repository }}
-        run: echo ::set-output name=PACKAGE::${REPO##*/}
+            - name: PHP version
+              run: php --version
 
-      - name: PHP version
-        run: php --version
+            - name: Set Node.js 18.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
+                  cache: 'yarn'
 
-      - name: Set Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
+            - name: Node version
+              run: node --version
 
-      - name: Node version
-        run: node --version
+            - name: Enable yarn
+              run: corepack enable
 
-      - name: NPM version
-        run: npm --version
+            - name: Install node deps
+              run: yarn install
 
-      - name: Get npm cache directory
-        id: npm-cache
-        run: echo "::set-output name=dir::$(npm config get cache)"
+            - name: Run build
+              run: yarn webpack && yarn webpack --mode=production
 
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+            - name: Generate .pot file
+              run: yarn run i18n
 
-      - name: npm install
-        run: npm install
+            - name: Validate composer.json and composer.lock
+              run: composer validate
 
-      - name: Run build
-        run: npx webpack && npx webpack --mode=production
+            - name: Get Composer Cache Directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Generate .pot file
-        run: npm run i18n
+            - name: Cache Composer vendor directory
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+            - name: Install PHP Dependencies
+              run: composer install --no-progress --no-dev --optimize-autoloader
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache Composer vendor directory
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Install PHP Dependencies
-        run: composer install --no-progress --no-dev --optimize-autoloader
-
-      - name: WordPress Plugin Deploy
-        uses: 10up/action-wordpress-plugin-deploy@master
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          ASSETS_DIR: .wporg
+            - name: WordPress Plugin Deploy
+              uses: 10up/action-wordpress-plugin-deploy@master
+              env:
+                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+                  ASSETS_DIR: .wporg
