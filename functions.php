@@ -353,9 +353,12 @@ function nfd_bhsm_set_redirect() {
 	add_option( BH_SITE_MIGRATOR_REDIRECT_OPTION, true );
 }
 
+/**
+ * Consume the activation option and redirect on admin init if needed.
+ */
 function nfd_bhsm_redirect() {
 	if ( get_option( BH_SITE_MIGRATOR_REDIRECT_OPTION, false ) ) {
 		delete_option( BH_SITE_MIGRATOR_REDIRECT_OPTION );
-		wp_redirect( BH_SITE_MIGRATOR_ENTRYPOINT_URL );
+		wp_safe_redirect( BH_SITE_MIGRATOR_ENTRYPOINT_URL );
 	}
 }
