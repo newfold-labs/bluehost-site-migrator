@@ -69,12 +69,6 @@ jobs:
             - name: Build JavaScript
               run: yarn run build
 
-            - name: Commit build assets
-              run: |
-                  git add build/* src/*
-                  git commit -m "Update the build assets"
-                  git push origin ${{ github.head_ref || github.ref_name }}
-
             - name: Create Distribution Copy
               run: rsync -r --exclude-from=.distignore . ${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}
 
