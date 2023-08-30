@@ -1,6 +1,6 @@
 {
 	"plugins": [ "." ],
-	"port": 10004,
+	"port": 10005,
 	"testsPort": 10004,
 	"config": {
 		"WP_DEBUG": true,
