@@ -1,0 +1,18 @@
+{
+	"regions": [
+		{
+			"countryCode": "US",
+			"countryName": "United States of America",
+			"signupUrl": "https://www.bluehost.com/hosting/shared#pricing-cards",
+			"loginUrl": "https://my.bluehost.com/web-hosting/cplogin"
+		},
+		{
+			"countryCode": "IN",
+			"countryName": "India",
+			"signupUrl": "https://www.bluehost.in/hosting/shared#pricing-cards",
+			"loginUrl": "https://my.bluehost.in/web-hosting/cplogin"
+		}
+	],
+	"countryCode": "IN",
+	"migrationId": "6euyjubnvcd8789w"
+}

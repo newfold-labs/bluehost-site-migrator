@@ -57,12 +57,24 @@ class MigrationTasksController extends \WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->rest_base . '/cancel',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'cancel_transfer' ),
+					'permission_callback' => array( $this, 'check_permission' ),
+				),
+			),
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->rest_base . '/send-files',
 			array(
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'send_files' ),
-					'permission_callback' => array( $this, 'check_permissions' ),
+					'permission_callback' => array( $this, 'check_permission' ),
 				),
 			)
 		);
@@ -119,6 +131,26 @@ class MigrationTasksController extends \WP_REST_Controller {
 				'packaged_success' => $packaged_success,
 				'packaged_failed'  => $packaged_failed,
 			),
+		);
+	}
+
+	/**
+	 * Cancel transfer purge tasks and reset queued transfer
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 *
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function cancel_transfer( $request ) {
+		Common::purge_tasks();
+		Options::set( 'queued_packaging_tasks', false );
+		// Reset the status
+		delete_option( BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION );
+
+		return rest_ensure_response(
+			array(
+				'success' => true,
+			)
 		);
 	}
 

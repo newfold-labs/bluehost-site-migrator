@@ -47,11 +47,19 @@ export const SiteMigratorAPIs = () => {
 			sendPackagedFilesDetails: async () => {
 				return await apiFetch( {
 					path: MIGRATION_TASKS_BASE.concat( '/send-files' ),
+					method: 'POST',
 				} );
 			},
 			reportFailed: async () => {
 				return await apiFetch( {
 					path: MIGRATION_TASKS_BASE.concat( '/report-errors' ),
+					method: 'POST',
+				} );
+			},
+			cancelTransfer: async () => {
+				return await apiFetch( {
+					path: MIGRATION_TASKS_BASE.concat( '/cancel' ),
+					method: 'POST',
 				} );
 			},
 		},

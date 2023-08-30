@@ -4,6 +4,7 @@ import { TransferProgressIndicator } from '../common/TransferProgressIndicator';
 import { useInterval } from '../../utils/hooks';
 import { apiCall } from '../../utils/apiCall';
 import { SiteMigratorAPIs } from '../../utils/api';
+import { LoadingButton } from '../common/LoadingButton';
 
 export const TransferStatus = () => {
 	const initialStatus = {
@@ -14,6 +15,7 @@ export const TransferStatus = () => {
 		packagedSuccess: false,
 	};
 	const [ transferStatus, setTransferStatus ] = useState( initialStatus );
+	const [ loading, setLoading ] = useState( false );
 	const navigate = useNavigate();
 
 	const getTransferStatus = async () => {
@@ -51,11 +53,14 @@ export const TransferStatus = () => {
 			navigate( '/error' );
 			return;
 		}
-		await apiCall( {
+		const response = await apiCall( {
 			apiCallFunc:
 				SiteMigratorAPIs().migrationTasks.sendPackagedFilesDetails,
 		} );
-		// Make an API call to send the files
+		if ( response.failed || ! response.success ) {
+			navigate( '/error' );
+			return;
+		}
 		window.location.reload();
 	};
 
@@ -69,9 +74,23 @@ export const TransferStatus = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ transferStatus ] );
 
+	const onCancel = async () => {
+		setLoading( true );
+		await apiCall( {
+			apiCallFunc: SiteMigratorAPIs().migrationTasks.cancelTransfer,
+		} );
+		setTimeout( () => {
+			setLoading( false );
+			window.location.reload();
+		}, 3000 );
+	};
+
 	return (
 		<div className="transfer-status-div">
-			<h1 className="text-5xl text-center font-bold pt-14">
+			<h1
+				className="text-5xl text-center font-bold pt-14"
+				id="transfer-status-heading"
+			>
 				Cloning your website
 			</h1>
 			<div className="flex justify-center mt-4">
@@ -85,6 +104,15 @@ export const TransferStatus = () => {
 					progress={ transferStatus.progress }
 					message={ transferStatus.message }
 				/>
+			</div>
+			<div className="flex justify-center mt-1">
+				<LoadingButton
+					id="cancel-transfer-button"
+					onSubmit={ onCancel }
+					loading={ loading }
+				>
+					Cancel Transfer
+				</LoadingButton>
 			</div>
 		</div>
 	);

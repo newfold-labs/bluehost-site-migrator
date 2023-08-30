@@ -20,6 +20,7 @@
 		"@wordpress/eslint-plugin": "^15.0.0",
 		"@wordpress/prettier-config": "^2.23.0",
 		"@wordpress/scripts": "^26.11.0",
+		"cypress": "^12.17.4",
 		"tailwindcss": "^3.3.3",
 		"watch": "^1.0.2",
 		"webpack-merge": "^5.9.0"

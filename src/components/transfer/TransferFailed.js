@@ -1,4 +1,23 @@
+import { useState } from '@wordpress/element';
+import { LoadingButton } from '../common/LoadingButton';
+import { SiteMigratorAPIs } from '../../utils/api';
+import { apiCall } from '../../utils/apiCall';
+import { useNavigate } from 'react-router-dom';
+
 export const TransferFailed = () => {
+	const [ loading, setLoading ] = useState( false );
+	const navigate = useNavigate();
+	const onRetry = async () => {
+		setLoading( true );
+		await apiCall( {
+			apiCallFunc: SiteMigratorAPIs().migrationTasks.cancelTransfer,
+		} );
+		setTimeout( () => {
+			setLoading( false );
+			navigate( '/' );
+		}, 3000 );
+	};
+
 	return (
 		<div className="transfer-success-div">
 			<div className="flex justify-center mt-16">
@@ -18,7 +37,13 @@ export const TransferFailed = () => {
 				</p>
 			</div>
 			<div className="flex justify-center mt-1">
-				<button className="action-button">Try again</button>
+				<LoadingButton
+					id="retry-transfer-button"
+					onSubmit={ onRetry }
+					loading={ loading }
+				>
+					Try again
+				</LoadingButton>
 			</div>
 		</div>
 	);

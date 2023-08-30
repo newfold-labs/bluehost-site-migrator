@@ -16,21 +16,14 @@
 		{
 			"type": "composer",
 			"url": "https://newfold-labs.github.io/satis/",
-			"exclude": [
-				"newfold-labs/wp-module-tasks"
+			"only": [
+				"newfold-labs/*"
 			]
-		},
-		{
-			"type": "path",
-			"url": "../wp-module-tasks",
-			"options": {
-				"symlink": true
-			}
 		}
 	],
 	"require": {
 		"wp-forge/wp-plugin-check": "^1.0",
-		"newfold-labs/wp-module-tasks": "@dev"
+		"newfold-labs/wp-module-tasks": "^1.0.3"
 	},
 	"require-dev": {
 		"newfold-labs/wp-php-standards": "^1.2"

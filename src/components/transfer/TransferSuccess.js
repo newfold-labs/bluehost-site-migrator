@@ -110,10 +110,16 @@ export const TransferSuccess = () => {
 				</p>
 			</div>
 			<div className="flex justify-center mt-16">
-				<h2 className="text-2xl text-center">{ migrationId }</h2>
+				<h2 id="migration-id" className="text-2xl text-center">
+					{ migrationId }
+				</h2>
 			</div>
 			<div className="flex justify-center mt-1">
-				<button className="action-button" onClick={ copyTransferKey }>
+				<button
+					id="copy-transfer-key-button"
+					className="action-button"
+					onClick={ copyTransferKey }
+				>
 					Copy transfer key
 				</button>
 			</div>
@@ -143,7 +149,11 @@ export const TransferSuccess = () => {
 			<div className="flex justify-center mt-4">
 				<p className="text-lg">
 					Choose your country:
-					<select className="ml-2" value={ countryCode }>
+					<select
+						className="ml-2"
+						value={ countryCode }
+						id="country-select"
+					>
 						{ Object.keys( regions ).map( ( regionCountryCode ) => {
 							const region = regions[ regionCountryCode ];
 							return (

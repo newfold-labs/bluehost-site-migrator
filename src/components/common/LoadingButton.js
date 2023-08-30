@@ -1,8 +1,9 @@
-export const LoadingButton = ( { loading, children, onSubmit } ) => {
+export const LoadingButton = ( { loading, children, onSubmit, id } ) => {
 	if ( loading ) {
 		return (
 			<button
 				type="button"
+				id={ id }
 				className="inline-flex items-center mt-8 px-8 py-3 text-lg font-semibold leading-6 text-white transition duration-150 ease-in-out bg-[#3575D3] shadow cursor-not-allowed"
 				disabled
 			>
@@ -31,7 +32,7 @@ export const LoadingButton = ( { loading, children, onSubmit } ) => {
 		);
 	}
 	return (
-		<button className="action-button" onClick={ onSubmit }>
+		<button id={ id } className="action-button" onClick={ onSubmit }>
 			{ children }
 		</button>
 	);

@@ -2,6 +2,8 @@
 
 namespace BluehostSiteMigrator\Utils;
 
+use NewfoldLabs\WP\Module\Tasks\Models\Task;
+
 class Common {
 	/**
 	 * Get the path to the wp-config.php file.
@@ -35,5 +37,19 @@ class Common {
 			'archive_dropins',
 			'archive_root',
 		);
+	}
+
+	/**
+	 * Delete all the queued tasks
+	 */
+	public static function purge_tasks() {
+		$task_names = self::get_packaging_task_names();
+		foreach ( $task_names as $task_name ) {
+			$tasks_to_delete = Task::get_tasks_with_name( $task_name );
+			foreach ( $tasks_to_delete as $task ) {
+				$task_obj = new Task( $task->task_id );
+				$task_obj->delete();
+			}
+		}
 	}
 }

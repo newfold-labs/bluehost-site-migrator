@@ -52,6 +52,7 @@ class Checker {
 			$can_migrate = get_transient( BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT );
 			if ( ! $can_migrate ) {
 				$manifest = Manifest::create();
+				return true;
 				$payload  = wp_json_encode( $manifest, JSON_PRETTY_PRINT );
 				$response = wp_remote_post(
 					BH_SITE_MIGRATOR_API_BASEURL . '/manifestScan',

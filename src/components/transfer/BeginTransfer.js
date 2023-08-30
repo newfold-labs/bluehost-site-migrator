@@ -54,6 +54,7 @@ export const BeginTransfer = () => {
 					</p>
 					<LoadingButton
 						loading={ loading }
+						id="begin-transfer-button"
 						onSubmit={ beginTransfer }
 					>
 						Start Transfer

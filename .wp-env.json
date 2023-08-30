@@ -1,0 +1,11 @@
+{
+	"plugins": [ "." ],
+	"port": 10004,
+	"testsPort": 10004,
+	"config": {
+		"WP_DEBUG": true,
+		"WP_DEBUG_DISPLAY": false,
+		"WP_DEBUG_LOG": "/var/www/html/wp-content/plugins/bluehost-site-migrator/error.log",
+		"SCRIPT_DEBUG": false
+	}
+}

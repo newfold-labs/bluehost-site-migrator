@@ -3,3 +3,4 @@
 /vendor
 cypress.env.json
 .idea
+cypress/videos

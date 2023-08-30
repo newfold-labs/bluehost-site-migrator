@@ -46,6 +46,7 @@ export const CompatibilityCheck = () => {
 						your website can be transferred
 					</p>
 					<LoadingButton
+						id="check-compatibility-button"
 						onSubmit={ onCheckSubmit }
 						loading={ loading }
 					>
