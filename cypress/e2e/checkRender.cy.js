@@ -48,7 +48,6 @@ describe( 'migration component render checks', () => {
 			{
 				method: 'GET',
 				url: `**${ encodeURIComponent( MIGRATION_DATA_BASE ) }**`,
-				ß,
 			},
 			{
 				statusCode: 200,
