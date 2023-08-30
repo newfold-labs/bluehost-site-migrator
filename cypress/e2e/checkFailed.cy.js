@@ -12,7 +12,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -29,12 +31,16 @@ describe( 'migration compatibility check tests', () => {
 	it( 'can retry if failed', () => {
 		cy.intercept( {
 			method: 'POST',
-			url: `**${ MIGRATION_TASKS_BASE.concat( '/cancel' ) }**`,
+			url: `**${ encodeURIComponent(
+				MIGRATION_TASKS_BASE.concat( '/cancel' )
+			) }**`,
 		} ).as( 'stubCancelCall' );
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,

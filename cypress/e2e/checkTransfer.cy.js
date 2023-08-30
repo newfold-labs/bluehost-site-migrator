@@ -13,7 +13,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -31,7 +33,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_TASKS_BASE.concat( '/status' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_TASKS_BASE.concat( '/status' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -41,7 +45,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'POST',
-				url: `**${ MIGRATION_TASKS_BASE.concat( '/send-files' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_TASKS_BASE.concat( '/send-files' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -53,7 +59,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -66,7 +74,7 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_DATA_BASE }**`,
+				url: `**${ encodeURIComponent( MIGRATION_DATA_BASE ) }**`,
 			},
 			{
 				statusCode: 200,
@@ -85,7 +93,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_TASKS_BASE.concat( '/status' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_TASKS_BASE.concat( '/status' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -95,7 +105,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'POST',
-				url: `**${ MIGRATION_TASKS_BASE.concat( '/send-files' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_TASKS_BASE.concat( '/send-files' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -115,7 +127,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_TASKS_BASE.concat( '/status' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_TASKS_BASE.concat( '/status' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -134,7 +148,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'POST',
-				url: `**${ MIGRATION_TASKS_BASE.concat( '/cancel' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_TASKS_BASE.concat( '/cancel' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -144,7 +160,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,

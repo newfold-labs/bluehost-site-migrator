@@ -10,7 +10,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -35,7 +37,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'POST',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -47,7 +51,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -79,7 +85,9 @@ describe( 'migration compatibility check tests', () => {
 		cy.intercept(
 			{
 				method: 'POST',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/' )
+				) }**`,
 			},
 			{
 				statusCode: 200,

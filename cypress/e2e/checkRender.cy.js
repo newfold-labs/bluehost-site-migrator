@@ -14,7 +14,9 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -30,7 +32,9 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -43,7 +47,8 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_DATA_BASE }**`,
+				url: `**${ encodeURIComponent( MIGRATION_DATA_BASE ) }**`,
+				ß,
 			},
 			{
 				statusCode: 200,
@@ -59,7 +64,9 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -78,7 +85,9 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -97,7 +106,9 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
@@ -116,7 +127,9 @@ describe( 'migration component render checks', () => {
 		cy.intercept(
 			{
 				method: 'GET',
-				url: `**${ MIGRATION_CHECK_BASE.concat( '/step' ) }**`,
+				url: `**${ encodeURIComponent(
+					MIGRATION_CHECK_BASE.concat( '/step' )
+				) }**`,
 			},
 			{
 				statusCode: 200,
