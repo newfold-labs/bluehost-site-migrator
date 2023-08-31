@@ -146,6 +146,11 @@ class MigrationTasksController extends \WP_REST_Controller {
 		Options::set( 'queued_packaging_tasks', false );
 		// Reset the status
 		delete_option( BH_SITE_MIGRATOR_PACKAGING_STATUS_OPTION );
+		delete_option( BH_SITE_MIGRATOR_PACKAGING_SUCCESS_OPTION );
+		delete_option( BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION );
+
+		// Delete the archived files if any
+		nfd_bhsm_delete_directory( nfd_bhsm_storage_path() );
 
 		return rest_ensure_response(
 			array(
@@ -163,7 +168,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 	 */
 	public function send_files( $request ) {
 		$migration_id = get_option( BH_SITE_MIGRATOR_MIGRATION_ID_OPTION );
-		$files        = Options::get( 'packaged_files', array() );
+		$files        = array_values( Options::get( 'packaged_files', array() ) );
 		$payload      = \wp_json_encode( $files, JSON_PRETTY_PRINT );
 		$response     = \wp_remote_post(
 			BH_SITE_MIGRATOR_API_BASEURL . "/migration/{$migration_id}/files",
@@ -180,6 +185,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 		$status_code = (int) wp_remote_retrieve_response_code( $response );
 
 		if ( 200 !== $status_code ) {
+			Status::set_packaging_success( false );
 			return new \WP_Error(
 				'migration_payload_failure',
 				'An error occurred when delivering the migration payload.',
@@ -203,6 +209,7 @@ class MigrationTasksController extends \WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function report_failed_migration() {
+		Status::set_packaging_success( false );
 		$migration_id = get_option( BH_SITE_MIGRATOR_MIGRATION_ID_OPTION );
 
 		// Get all failed tasks

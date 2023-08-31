@@ -49,9 +49,9 @@ export const TransferSuccess = () => {
 	const setUrlsFromCountryCode = ( receivedCountryCode ) => {
 		setUrls( {
 			signupUrl:
-				regions[ getValidCountryCode( receivedCountryCode ) ].loginUrl,
-			loginUrl:
 				regions[ getValidCountryCode( receivedCountryCode ) ].signupUrl,
+			loginUrl:
+				regions[ getValidCountryCode( receivedCountryCode ) ].loginUrl,
 		} );
 	};
 
@@ -152,6 +152,9 @@ export const TransferSuccess = () => {
 					<select
 						className="ml-2"
 						value={ countryCode }
+						onChange={ ( selectedOption ) => {
+							setCountryCode( selectedOption.target.value );
+						} }
 						id="country-select"
 					>
 						{ Object.keys( regions ).map( ( regionCountryCode ) => {

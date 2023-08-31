@@ -330,6 +330,31 @@ function nfd_bhsm_root_dir() {
 }
 
 /**
+ * A function to recursively purge a directory
+ *
+ * @param string $dir The directory path.
+ */
+function nfd_bhsm_delete_directory( $dir ) {
+	if ( ! is_dir( $dir ) ) {
+		return false;
+	}
+
+	$files = scandir( $dir );
+	foreach ( $files as $file ) {
+		if ( '.' !== $file && '..' !== $file ) {
+			$path = $dir . '/' . $file;
+			if ( is_dir( $path ) ) {
+				nfd_bhsm_delete_directory( $path ); // Recursively delete subdirectories
+			} else {
+				unlink( $path ); // Delete individual files
+			}
+		}
+	}
+
+	return rmdir( $dir ); // Remove the empty directory
+}
+
+/**
  * Purge Migration related things
  */
 function nfd_bhsm_purge_all() {
@@ -339,7 +364,7 @@ function nfd_bhsm_purge_all() {
 	}
 
 	// Delete the migration data
-	rmdir( nfd_bhsm_storage_path() );
+	nfd_bhsm_delete_directory( nfd_bhsm_storage_path() );
 
 	// Delete the transient
 	delete_transient( BH_SITE_MIGRATOR_CAN_MIGRATE_TRANSIENT );

@@ -50,12 +50,12 @@ export const Migration = () => {
 		return <LoadingSpinner />;
 	}
 
-	if ( stepResult.packagedSuccess ) {
-		return <TransferSuccess />;
-	}
-
 	if ( stepResult.packagedFailed ) {
 		navigate( '/error' );
+	}
+
+	if ( stepResult.packagedSuccess ) {
+		return <TransferSuccess />;
 	}
 
 	if ( stepResult.transferQueued ) {

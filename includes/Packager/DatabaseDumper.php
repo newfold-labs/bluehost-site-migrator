@@ -162,7 +162,7 @@ class DatabaseDumper extends PackagerBase {
 		// What percent of tables have we processed?
 		$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
 		Status::set_status(
-			'Exporting database ... ' . strval( $progress ) . '%',
+			'Exporting database ... ',
 			10,
 			BH_SITE_MIGRATOR_STAGE_DATABASE
 		);
@@ -226,7 +226,7 @@ class DatabaseDumper extends PackagerBase {
 			$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
 
 			// Set progress
-			Status::set_status( 'Exporting database ', $progress, BH_SITE_MIGRATOR_STAGE_DATABASE );
+			Status::set_status( 'Exporting database ...', $progress, BH_SITE_MIGRATOR_STAGE_DATABASE );
 
 			// Set query offset
 			$params['query_offset'] = $query_offset;

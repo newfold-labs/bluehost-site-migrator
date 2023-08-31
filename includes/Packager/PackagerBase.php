@@ -44,6 +44,7 @@ class PackagerBase {
 			'size'      => filesize( $package_path ),
 			'timestamp' => time(),
 			'url'       => str_replace( $uploads['basedir'], $uploads['baseurl'], $package_path ),
+			'type'      => $package_type,
 		);
 
 		$files_array[ $package_type ] = $package_data;
