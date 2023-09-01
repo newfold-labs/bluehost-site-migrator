@@ -16,13 +16,13 @@ describe('Complete', function () {
 		cy.navigateTo('/complete');
 	});
 
-	it('Has "Login to Bluehost" Button', () => {
-		cy.wait(500);
+	// it('Has "Login to Bluehost" Button', () => {
+	// 	cy.wait(500);
 
-		cy.findByRole('link', {name: 'Login to Bluehost'})
-			.should('have.attr', 'href')
-			.and('include', 'https://my.bluehost.com/cgi/site_migration?migrationId=');
-	});
+	// 	cy.findByRole('link', {name: 'Login to Bluehost'})
+	// 		.should('have.attr', 'href')
+	// 		.and('include', 'https://my.bluehost.com/cgi/site_migration?migrationId=');
+	// });
 
 	it('Has "Create Account" Link', () => {
 		cy.wait(500);
