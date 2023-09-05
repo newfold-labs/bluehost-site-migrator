@@ -1,5 +1,4 @@
 {
-	"name": "bluehost-site-migrator",
 	"version": "1.0.13",
 	"description": "Quickly and easily migrate your website to Bluehost.",
 	"private": true,
@@ -30,7 +29,6 @@
 		"generate:css": "tailwindcss -i ./assets/styles/app.css -o ./src/styles/bh-site-migrator.css",
 		"build": "yarn run generate:css && wp-scripts build ./src/bh-site-migrator.js",
 		"format": "wp-scripts format ./src",
-		"i18n": "wp i18n makepot --exclude=node_modules,assets",
 		"start": "yarn run generate:css && wp-scripts start ./src/bh-site-migrator.js",
 		"lint:js": "wp-scripts lint-js ./src",
 		"lint:js:fix": "wp-scripts lint-js ./src --fix",

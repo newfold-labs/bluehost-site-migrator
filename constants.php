@@ -1,6 +1,6 @@
 <?php
 
-define( 'BH_SITE_MIGRATOR_VERSION', '1.0.12' );
+define( 'BH_SITE_MIGRATOR_VERSION', '1.0.13' );
 define( 'BH_SITE_MIGRATOR_CIPHER_NAME', 'AES-256-CBC' );
 define( 'BH_SITE_MIGRATOR_PLUGIN_NAME', 'bluehost-site-migrator' );
 define( 'BH_SITE_MIGRATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
