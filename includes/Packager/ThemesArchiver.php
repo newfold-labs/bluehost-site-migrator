@@ -54,7 +54,11 @@ class ThemesArchiver extends PackagerBase {
 		}
 
 		// Set the progress
-		Status::set_status( 'Retrieving a list of WordPress theme files ...', 40, 'themes' );
+		Status::set_status(
+			__( 'Retrieving a list of WordPress theme files ...', 'bluehost-site-migrator' ),
+			40,
+			'themes'
+		);
 
 		// Create the theme details file
 		$themes_list = nfd_bhsm_open( $themes_list_file_path, 'w' );
@@ -89,7 +93,11 @@ class ThemesArchiver extends PackagerBase {
 			}
 		}
 
-		Status::set_status( 'Done retrieving a list of WordPress theme files.', 42, 'themes' );
+		Status::set_status(
+			__( 'Done retrieving a list of WordPress theme files.', 'bluehost-site-migrator' ),
+			42,
+			'themes'
+		);
 
 		$theme_task_params['total_themes_files_count'] = $total_themes_files_count;
 
@@ -177,10 +185,11 @@ class ThemesArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d theme files ...',
+				// translators: %d: total mu plugins file count
+				esc_html__( 'Archiving %d theme files ...', 'bluehost-site-migrator' ),
 				esc_xml( $total_themes_files_count )
 			),
-			35,
+			45,
 			'themes'
 		);
 
@@ -225,7 +234,8 @@ class ThemesArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d theme files...',
+					// translators: %d: total mu plugins file count
+						esc_html__( 'Archiving %d theme files ...', 'bluehost-site-migrator' ),
 						esc_xml( $total_themes_files_count )
 					),
 					45,
@@ -276,7 +286,7 @@ class ThemesArchiver extends PackagerBase {
 			// Unset completed flag
 			unset( $params['completed'] );
 
-			Status::set_status( 'Done archiving themes ', 50, 'themes' );
+			Status::set_status( __( 'Done archiving themes ', 'bluehost-site-migrator' ), 50, 'themes' );
 
 			self::set_themes_params( $params );
 
@@ -311,7 +321,8 @@ class ThemesArchiver extends PackagerBase {
 			// Set progress
 			Status::set_status(
 				sprintf(
-					'Archiving %d theme files...',
+				// translators: %d: total mu plugins file count
+					esc_html__( 'Archiving %d theme files ...', 'bluehost-site-migrator' ),
 					esc_xml( $total_themes_files_count )
 				),
 				45,

@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { useNavigate } from 'react-router-dom';
 // UI Imports
@@ -35,15 +36,25 @@ export const CompatibilityCheck = () => {
 			<div className="compatibility-div">
 				<div className="pt-14 pl-12">
 					<h1 className="text-5xl font-bold">
-						Bluehost Site Migrator
+						{ __(
+							'Bluehost Site Migrator',
+							'bluehost-site-migrator'
+						) }
 					</h1>
 					<p className="font-bold text-lg mt-6">
-						Let&apos;s get this truck rolling:
+						{ __(
+							"Let's get this truck rolling:",
+							'bluehost-site-migrator'
+						) }
 					</p>
 					<p className="text-lg mt-6 w-2/5">
-						A website compatibility check needs to be performed
-						before the transfer process can begin to verify that
-						your website can be transferred
+						{ __(
+							'A website compatibility check needs to be performed '.concat(
+								'before the transfer process can begin to verify that ',
+								'your website can be transferred'
+							),
+							'bluehost-site-migrator'
+						) }
 					</p>
 					<LoadingButton
 						id="check-compatibility-button"

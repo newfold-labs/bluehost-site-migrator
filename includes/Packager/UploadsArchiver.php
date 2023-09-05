@@ -57,7 +57,7 @@ class UploadsArchiver extends PackagerBase {
 		$exclude_filters = array( BH_SITE_MIGRATOR_PLUGIN_NAME );
 
 		// Set the progress
-		Status::set_status( 'Retrieving a list of WordPress upload files ...', 55, 'uploads' );
+		Status::set_status( __( 'Retrieving a list of WordPress upload files ...', 'bluehost-site-migrator' ), 55, 'uploads' );
 
 		// Create the upload details file
 		$uploads_list = nfd_bhsm_open( $uploads_list_file_path, 'w' );
@@ -106,7 +106,7 @@ class UploadsArchiver extends PackagerBase {
 			}
 		}
 
-		Status::set_status( 'Done retrieving a list of WordPress upload files.', 58, 'uploads' );
+		Status::set_status( __( 'Done retrieving a list of WordPress upload files.', 'bluehost-site-migrator' ), 58, 'uploads' );
 
 		$upload_task_params['total_uploads_files_count'] = $total_uploads_files_count;
 
@@ -194,7 +194,8 @@ class UploadsArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d upload files ...',
+				// translators: %d: total mu plugins file count
+				esc_html__( 'Archiving %d upload files ...', 'bluehost-site-migrator' ),
 				esc_xml( $total_uploads_files_count )
 			),
 			60,
@@ -242,7 +243,8 @@ class UploadsArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d upload files...',
+					// translators: %d: total mu plugins file count
+						esc_html__( 'Archiving %d upload files ...', 'bluehost-site-migrator' ),
 						esc_xml( $total_uploads_files_count )
 					),
 					60,
@@ -293,7 +295,7 @@ class UploadsArchiver extends PackagerBase {
 			// Unset completed flag
 			unset( $params['completed'] );
 
-			Status::set_status( 'Done archiving uploads ', 62, 'uploads' );
+			Status::set_status( __( 'Done archiving uploads ', 'bluehost-site-migrator' ), 62, 'uploads' );
 
 			self::set_uploads_params( $params );
 
@@ -328,7 +330,8 @@ class UploadsArchiver extends PackagerBase {
 			// Set progress
 			Status::set_status(
 				sprintf(
-					'Archiving %d upload files...',
+				// translators: %d: total mu plugins file count
+					esc_html__( 'Archiving %d upload files ...', 'bluehost-site-migrator' ),
 					esc_xml( $total_uploads_files_count )
 				),
 				60,

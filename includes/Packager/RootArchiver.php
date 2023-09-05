@@ -75,7 +75,11 @@ class RootArchiver extends PackagerBase {
 		);
 
 		// Set the progress
-		Status::set_status( 'Retrieving a list of WordPress root files ...', 90, 'root' );
+		Status::set_status(
+			__( 'Retrieving a list of WordPress root files ...', 'bluehost-site-migrator' ),
+			90,
+			'root'
+		);
 
 		// Create the root details file
 		$root_list = nfd_bhsm_open( $root_list_file_path, 'w' );
@@ -207,9 +211,11 @@ class RootArchiver extends PackagerBase {
 		// What percent of files have we processed?
 		$progress = (int) min( ( $processed_files_size / $total_root_files_size ) * 100, 100 );
 
+		// Set progress
 		Status::set_status(
 			sprintf(
-				'Archiving %d root files ... ',
+				// translators: %d: total mu plugins file count
+				esc_html__( 'Archiving %d root files ... ', 'bluehost-site-migrator' ),
 				esc_xml( $total_root_files_count )
 			),
 			95,
@@ -257,7 +263,8 @@ class RootArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d root files...',
+					// translators: %d: total mu plugins file count
+						esc_html__( 'Archiving %d root files ... ', 'bluehost-site-migrator' ),
 						esc_xml( $total_root_files_count )
 					),
 					95,
@@ -308,7 +315,7 @@ class RootArchiver extends PackagerBase {
 			// Unset completed flag
 			unset( $params['completed'] );
 
-			Status::set_status( 'Done archiving root ', 99, 'root' );
+			Status::set_status( __( 'Done archiving root ', 'bluehost-site-migrator' ), 99, 'root' );
 
 			// Set the next stage of things
 			Status::set_packaging_success( true );
@@ -346,7 +353,8 @@ class RootArchiver extends PackagerBase {
 			// Set progress
 			Status::set_status(
 				sprintf(
-					'Archiving %d root files...',
+				// translators: %d: total mu plugins file count
+					esc_html__( 'Archiving %d root files ... ', 'bluehost-site-migrator' ),
 					esc_xml( $total_root_files_count )
 				),
 				95,

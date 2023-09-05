@@ -54,7 +54,11 @@ class DropinsArchiver extends PackagerBase {
 		}
 
 		// Set the progress
-		Status::set_status( 'Retrieving a list of WordPress dropin files ...', 80, 'dropins' );
+		Status::set_status(
+			__( 'Retrieving a list of WordPress dropin files ...', 'bluehost-site-migrator' ),
+			80,
+			'dropins'
+		);
 
 		// Create the dropin details file
 		$dropins_list = nfd_bhsm_open( $dropins_list_file_path, 'w' );
@@ -83,7 +87,7 @@ class DropinsArchiver extends PackagerBase {
 			}
 		}
 
-		Status::set_status( 'Done retrieving a list of WordPress dropin files.', 83, 'dropins' );
+		Status::set_status( __( 'Done retrieving a list of WordPress dropin files.', 'bluehost-site-migrator' ), 83, 'dropins' );
 
 		$dropin_task_params['total_dropins_files_count'] = $total_dropins_files_count;
 
@@ -171,7 +175,11 @@ class DropinsArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d dropin files ...',
+				// translators: %d: file count
+				esc_html__(
+					'Archiving %d dropin files ...',
+					'bluehost-site-migrator'
+				),
 				esc_xml( $total_dropins_files_count )
 			),
 			85,
@@ -219,7 +227,11 @@ class DropinsArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d dropin files...',
+					// translators: %d: file count
+						esc_html__(
+							'Archiving %d dropin files ...',
+							'bluehost-site-migrator'
+						),
 						esc_xml( $total_dropins_files_count )
 					),
 					85,
@@ -270,7 +282,7 @@ class DropinsArchiver extends PackagerBase {
 			// Unset completed flag
 			unset( $params['completed'] );
 
-			Status::set_status( 'Done archiving dropins ', 87, 'dropins' );
+			Status::set_status( __( 'Done archiving dropins ', 'bluehost-site-migrator' ), 87, 'dropins' );
 
 			self::set_dropins_params( $params );
 
@@ -305,9 +317,12 @@ class DropinsArchiver extends PackagerBase {
 			// Set progress
 			Status::set_status(
 				sprintf(
-					'Archiving %d dropin files...%d%% complete',
-					$total_dropins_files_count,
-					$progress
+				// translators: %d: file count
+					esc_html__(
+						'Archiving %d dropin files ...',
+						'bluehost-site-migrator'
+					),
+					esc_xml( $total_dropins_files_count )
 				),
 				85,
 				'dropins'

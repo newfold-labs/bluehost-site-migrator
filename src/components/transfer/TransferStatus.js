@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
 import { useNavigate } from 'react-router-dom';
 import { TransferProgressIndicator } from '../common/TransferProgressIndicator';
@@ -95,8 +96,11 @@ export const TransferStatus = () => {
 			</h1>
 			<div className="flex justify-center mt-4">
 				<p className="text-center text-lg mt-6 w-2/5">
-					Please wait for the cloning process to complete, once
-					completed, we will issue you your transfer key
+					{ __(
+						`Please wait for the cloning process to complete, once
+					completed, we will issue you your transfer key`,
+						'bluehost-site-migrator'
+					) }
 				</p>
 			</div>
 			<div className="flex justify-center mt-4 px-10">
@@ -111,7 +115,7 @@ export const TransferStatus = () => {
 					onSubmit={ onCancel }
 					loading={ loading }
 				>
-					Cancel Transfer
+					{ __( 'Cancel Transfer', 'bluehost-site-migrator' ) }
 				</LoadingButton>
 			</div>
 		</div>

@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from '../common/Alert';
@@ -104,9 +105,12 @@ export const TransferSuccess = () => {
 			</div>
 			<div className="flex justify-center mt-4">
 				<p className="text-center text-lg mt-6 w-2/5">
-					Your site has been cloned and is now ready for transfer. To
+					{ __(
+						`Your site has been cloned and is now ready for transfer. To
 					initiate the transfer, you need to copy the transfer key and
-					paste it into the Migration Services page.
+					paste it into the Migration Services page.`,
+						'bluehost-site-migrator'
+					) }
 				</p>
 			</div>
 			<div className="flex justify-center mt-16">

@@ -61,10 +61,22 @@ class Compressor extends Archiver {
 					$file_bytes = fwrite( $this->file_handle, $block );
 					if ( false !== $file_bytes ) {
 						if ( strlen( $block ) !== $file_bytes ) {
-							throw new \Exception( sprintf( 'Out of disk space. Unable to write header to file. File: %s', esc_xml( $this->file_name ) ) );
+							throw new \Exception(
+								sprintf(
+									// translators: %s: file name
+									esc_html__( 'Out of disk space. Unable to write header to file. File: %s', 'bluehost-site-migrator' ),
+									esc_xml( $this->file_name )
+								)
+							);
 						}
 					} else {
-						throw new \Exception( sprintf( 'Unable to write header to file. File: %s', esc_xml( $this->file_name ) ) );
+						throw new \Exception(
+							sprintf(
+								// translators: %s: file name
+								esc_html__( 'Unable to write header to file. File: %s', 'bluehost-site-migrator' ),
+								esc_xml( $this->file_name )
+							)
+						);
 					}
 				}
 
@@ -86,10 +98,22 @@ class Compressor extends Archiver {
 
 							if ( false !== $file_bytes ) {
 								if ( strlen( $file_content ) !== $file_bytes ) {
-									throw new \Exception( sprintf( 'Out of disk space. Unable to write content to file. File: %s', esc_xml( $this->file_name ) ) );
+									throw new \Exception(
+										sprintf(
+										// translators: %s: file name
+											esc_html__( 'Out of disk space. Unable to write content to file. File: %s', 'bluehost-site-migrator' ),
+											esc_xml( $this->file_name )
+										)
+									);
 								}
 							} else {
-								throw new \Exception( sprintf( 'Unable to write content to file. File: %s', esc_xml( $this->file_name ) ) );
+								throw new \Exception(
+									sprintf(
+										// translators: %s: file name
+										esc_html__( 'Unable to write content to file. File: %s', 'bluehost-site-migrator' ),
+										esc_xml( $this->file_name )
+									)
+								);
 							}
 
 							// Set file written
@@ -115,22 +139,42 @@ class Compressor extends Archiver {
 				if ( $block ) {
 					// Seek to beginning of file size
 					if ( -1 === fseek( $this->file_handle, - $file_offset - 4096 - 12 - 14, SEEK_CUR ) ) {
-						throw new \Exception( 'Your PHP is 32-bit. In order to export your file, please change your PHP version to 64-bit and try again. <a href="https://help.servmask.com/knowledgebase/php-32bit/" target="_blank">Technical details</a>' );
+						throw new \Exception(
+							sprintf(
+								esc_html__( 'Your PHP is 32-bit. In order to export your file, please change your PHP version to 64-bit and try again.', 'bluehost-site-migrator' )
+							)
+						);
 					}
 
 					// Write file size to file header
 					$file_bytes = fwrite( $this->file_handle, $block );
 					if ( false !== $file_bytes ) {
 						if ( strlen( $block ) !== $file_bytes ) {
-							throw new \Exception( sprintf( 'Out of disk space. Unable to write size to file. File: %s', esc_xml( $this->file_name ) ) );
+							throw new \Exception(
+								sprintf(
+									// translators: %s: file name
+									esc_html__( 'Out of disk space. Unable to write size to file. File: %s', 'bluehost-site-migrator' ),
+									esc_xml( $this->file_name )
+								)
+							);
 						}
 					} else {
-						throw new \Exception( sprintf( 'Unable to write size to file. File: %s', esc_xml( $this->file_name ) ) );
+						throw new \Exception(
+							sprintf(
+								// translators: %s: file name
+								esc_html__( 'Unable to write size to file. File: %s', 'bluehost-site-migrator' ),
+								esc_xml( $this->file_name )
+							)
+						);
 					}
 
 					// Seek to end of file content
 					if ( -1 === fseek( $this->file_handle, + $file_offset + 4096 + 12, SEEK_CUR ) ) {
-						throw new \Exception( 'Your PHP is 32-bit. In order to export your file, please change your PHP version to 64-bit and try again. <a href="https://help.servmask.com/knowledgebase/php-32bit/" target="_blank">Technical details</a>' );
+						throw new \Exception(
+							sprintf(
+								esc_html__( 'Your PHP is 32-bit. In order to export your file, please change your PHP version to 64-bit and try again.', 'bluehost-site-migrator' )
+							)
+						);
 					}
 				}
 			}

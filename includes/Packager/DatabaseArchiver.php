@@ -73,7 +73,7 @@ class DatabaseArchiver extends PackagerBase {
 
 		// What percent of database have we processed?
 		$progress = (int) min( ( $database_bytes_offset / $total_database_size ) * 100, 100 );
-		Status::set_status( sprintf( 'Archiving database ... %d%% complete', $progress ), 15, 'database' );
+		Status::set_status( __( 'Archiving database ...', 'bluehost-site-migrator' ), 15, 'database' );
 
 		// Open the archive file for writing
 		$archive = new Compressor( $database_archive_path );
@@ -85,7 +85,7 @@ class DatabaseArchiver extends PackagerBase {
 		$completed = $archive->add_file( $database_dump_path, 'database.sql', $database_bytes_written, $database_bytes_offset );
 
 		if ( $completed ) {
-			Status::set_status( 'Done archiving the database', 25, 'database' );
+			Status::set_status( __( 'Done archiving the database', 'bluehost-site-migrator' ), 25, 'database' );
 
 			// Unset archive bytes offset
 			unset( $params['archive_bytes_offset'] );
@@ -112,7 +112,7 @@ class DatabaseArchiver extends PackagerBase {
 			$progress = (int) min( ( $database_bytes_offset / $total_database_size ) * 100, 100 );
 
 			// Set progress
-			Status::set_status( sprintf( 'Archiving database...<br />%d%% complete', $progress ), 18, 'database' );
+			Status::set_status( __( 'Archiving database...', 'bluehost-site-migrator' ), 18, 'database' );
 
 			// Set archive bytes offset
 			$params['archive_bytes_offset'] = $archive_bytes_offset;

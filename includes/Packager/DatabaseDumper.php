@@ -50,7 +50,11 @@ class DatabaseDumper extends PackagerBase {
 		}
 
 		// Set the status message and stage
-		Status::set_status( 'Retrieving a list of WordPress database tables ', 5, BH_SITE_MIGRATOR_STAGE_DATABASE );
+		Status::set_status(
+			__( 'Retrieving a list of WordPress database tables ', 'bluehost-site-migrator' ),
+			5,
+			BH_SITE_MIGRATOR_STAGE_DATABASE
+		);
 
 		// Get the database client
 		$mysql = new DatabaseMysqli( $wpdb );
@@ -89,7 +93,11 @@ class DatabaseDumper extends PackagerBase {
 			}
 		}
 
-		Status::set_status( 'Done retrieving the WordPress database tables', 8, BH_SITE_MIGRATOR_STAGE_DATABASE );
+		Status::set_status(
+			__( 'Done retrieving the WordPress database tables', 'bluehost-site-migrator' ),
+			8,
+			BH_SITE_MIGRATOR_STAGE_DATABASE
+		);
 
 		$database_task_params['total_tables_count'] = $total_tables_count;
 		self::set_database_params( $database_task_params );
@@ -162,7 +170,7 @@ class DatabaseDumper extends PackagerBase {
 		// What percent of tables have we processed?
 		$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
 		Status::set_status(
-			'Exporting database ... ',
+			__( 'Exporting database ... ', 'bluehost-site-migrator' ),
 			10,
 			BH_SITE_MIGRATOR_STAGE_DATABASE
 		);
@@ -199,7 +207,14 @@ class DatabaseDumper extends PackagerBase {
 		);
 
 		if ( $completed ) {
-			Status::set_status( 'Done creating the database dump', 13, BH_SITE_MIGRATOR_STAGE_DATABASE );
+			Status::set_status(
+				__(
+					'Done creating the database dump',
+					'bluehost-site-migrator'
+				),
+				13,
+				BH_SITE_MIGRATOR_STAGE_DATABASE
+			);
 
 			// Unset query offset
 			unset( $params['query_offset'] );
@@ -226,7 +241,11 @@ class DatabaseDumper extends PackagerBase {
 			$progress = (int) ( ( $table_index / $total_tables_count ) * 100 );
 
 			// Set progress
-			Status::set_status( 'Exporting database ...', $progress, BH_SITE_MIGRATOR_STAGE_DATABASE );
+			Status::set_status(
+				__( 'Exporting database ...', 'bluehost-site-migrator' ),
+				$progress,
+				BH_SITE_MIGRATOR_STAGE_DATABASE
+			);
 
 			// Set query offset
 			$params['query_offset'] = $query_offset;

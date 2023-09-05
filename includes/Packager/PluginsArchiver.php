@@ -54,7 +54,7 @@ class PluginsArchiver extends PackagerBase {
 		}
 
 		// Set the progress
-		Status::set_status( 'Retrieving a list of WordPress plugin files ...', 30, 'plugins' );
+		Status::set_status( __( 'Retrieving a list of WordPress plugin files ...', 'bluehost-site-migrator' ), 30, 'plugins' );
 
 		// Add the current plugin to the excluded list
 		$exclude_filters = array( BH_SITE_MIGRATOR_PLUGIN_NAME );
@@ -103,7 +103,11 @@ class PluginsArchiver extends PackagerBase {
 			}
 		}
 
-		Status::set_status( 'Done retrieving a list of WordPress plugin files.', 32, 'plugins' );
+		Status::set_status(
+			__( 'Done retrieving a list of WordPress plugin files.', 'bluehost-site-migrator' ),
+			32,
+			'plugins'
+		);
 
 		$plugin_task_params['total_plugins_files_count'] = $total_plugins_files_count;
 
@@ -182,7 +186,8 @@ class PluginsArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d plugin files ... ',
+				// translators: %d: total plugin files count
+				esc_html__( 'Archiving %d plugin files ... ', 'bluehost-site-migrator' ),
 				esc_xml( $total_plugins_files_count )
 			),
 			35,
@@ -239,8 +244,9 @@ class PluginsArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d plugin files...',
-						$total_plugins_files_count
+					// translators: %d: total plugin files count
+						esc_html__( 'Archiving %d plugin files ... ', 'bluehost-site-migrator' ),
+						esc_xml( $total_plugins_files_count )
 					),
 					35,
 					'plugins'
@@ -290,7 +296,7 @@ class PluginsArchiver extends PackagerBase {
 			// Unset completed flag
 			unset( $params['completed'] );
 
-			Status::set_status( 'Done archiving plugins ', 37, 'plugins' );
+			Status::set_status( __( 'Done archiving plugins ', 'bluehost-site-migrator' ), 37, 'plugins' );
 
 			self::set_plugins_params( $params );
 

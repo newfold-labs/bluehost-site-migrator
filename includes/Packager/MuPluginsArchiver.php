@@ -54,7 +54,7 @@ class MuPluginsArchiver extends PackagerBase {
 		}
 
 		// Set the progress
-		Status::set_status( 'Retrieving a list of WordPress mu_plugin files ...', 66, 'mu_plugins' );
+		Status::set_status( __( 'Retrieving a list of WordPress mu_plugin files ...', 'bluehost-site-migrator' ), 66, 'mu_plugins' );
 
 		// Create the mu_plugin details file
 		$mu_plugins_list = nfd_bhsm_open( $mu_plugins_list_file_path, 'w' );
@@ -87,7 +87,11 @@ class MuPluginsArchiver extends PackagerBase {
 			}
 		}
 
-		Status::set_status( 'Done retrieving a list of WordPress mu_plugin files.', 69, 'mu_plugins' );
+		Status::set_status(
+			__( 'Done retrieving a list of WordPress mu_plugin files.', 'bluehost-site-migrator' ),
+			69,
+			'mu_plugins'
+		);
 
 		$mu_plugin_task_params['total_mu_plugins_files_count'] = $total_mu_plugins_files_count;
 
@@ -175,7 +179,8 @@ class MuPluginsArchiver extends PackagerBase {
 
 		Status::set_status(
 			sprintf(
-				'Archiving %d mu_plugin files ...',
+				// translators: %d: total mu plugins file count
+				esc_html__( 'Archiving %d mu_plugin files ...', 'bluehost-site-migrator' ),
 				esc_xml( $total_mu_plugins_files_count )
 			),
 			72,
@@ -223,7 +228,8 @@ class MuPluginsArchiver extends PackagerBase {
 				// Set progress
 				Status::set_status(
 					sprintf(
-						'Archiving %d mu_plugin files...',
+					// translators: %d: total mu plugins file count
+						esc_html__( 'Archiving %d mu_plugin files ...', 'bluehost-site-migrator' ),
 						esc_xml( $total_mu_plugins_files_count )
 					),
 					72,
@@ -274,7 +280,7 @@ class MuPluginsArchiver extends PackagerBase {
 			// Unset completed flag
 			unset( $params['completed'] );
 
-			Status::set_status( 'Done archiving mu_plugins ', 75, 'mu_plugins' );
+			Status::set_status( __( 'Done archiving mu_plugins ', 'bluehost-site-migrator' ), 75, 'mu_plugins' );
 
 			self::set_mu_plugins_params( $params );
 
@@ -309,8 +315,9 @@ class MuPluginsArchiver extends PackagerBase {
 			// Set progress
 			Status::set_status(
 				sprintf(
-					'Archiving %d mu_plugin files..',
-					$total_mu_plugins_files_count
+				// translators: %d: total mu plugins file count
+					esc_html__( 'Archiving %d mu_plugin files ...', 'bluehost-site-migrator' ),
+					esc_xml( $total_mu_plugins_files_count )
 				),
 				72,
 				'mu_plugins'

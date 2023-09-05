@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import { LoadingButton } from '../common/LoadingButton';
 import { SiteMigratorAPIs } from '../../utils/api';
@@ -22,18 +23,27 @@ export const TransferFailed = () => {
 		<div className="transfer-success-div">
 			<div className="flex justify-center mt-16">
 				<h1 className="text-5xl text-center font-bold  w-3/5">
-					It looks like your site didn&apos;t transfer.
+					{ __(
+						"It looks like your site didn't transfer.",
+						'bluehost-site-migrator'
+					) }
 				</h1>
 			</div>
 			<div className="flex justify-center mt-4">
 				<p className="text-center text-lg mt-6 w-3/5">
-					We might have gotten disconnected , or there could be
-					something else going on. Let&apos;s figure it out.
+					{ __(
+						`We might have gotten disconnected , or there could be
+					something else going on. Let's figure it out.`,
+						'bluehost-site-migrator'
+					) }
 				</p>
 			</div>
 			<div className="flex justify-center mt-4">
 				<p className="text-center text-lg mt-6 w-3/5">
-					Call us at 888-401-4678
+					{ __(
+						'Call us at 888-401-4678',
+						'bluehost-site-migrator'
+					) }
 				</p>
 			</div>
 			<div className="flex justify-center mt-1">
@@ -42,7 +52,7 @@ export const TransferFailed = () => {
 					onSubmit={ onRetry }
 					loading={ loading }
 				>
-					Try again
+					{ __( 'Try again', 'bluehost-site-migrator' ) }
 				</LoadingButton>
 			</div>
 		</div>

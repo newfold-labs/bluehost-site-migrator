@@ -11,7 +11,7 @@
  * Plugin Name:       Bluehost Site Migrator
  * Plugin URI:        https://wordpress.org/plugins/bluehost-site-migrator
  * Description:       Quickly and easily migrate your website to Bluehost.
- * Version:           1.0.12
+ * Version:           1.0.13
  * Requires PHP:      5.6
  * Requires at least: 4.7
  * Author:            Bluehost
