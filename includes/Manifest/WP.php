@@ -43,7 +43,7 @@ class WP extends Registry {
 			'SECURE_AUTH_KEY',
 			'SECURE_AUTH_SALT',
 			'WP_HOME',
-			'WP_SITE_URL',
+			'WP_SITEURL',
 		);
 
 		$config_path = Common::locate_wp_config_file();
