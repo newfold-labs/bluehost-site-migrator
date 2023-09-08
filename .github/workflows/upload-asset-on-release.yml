@@ -42,7 +42,7 @@ jobs:
               run: yarn install
 
             - name: Run build
-              run: yarn webpack && yarn webpack --mode=production
+              run: yarn run build
 
             - name: Validate composer.json and composer.lock
               run: composer validate
