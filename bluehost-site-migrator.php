@@ -11,7 +11,7 @@
  * Plugin Name:       Bluehost Site Migrator
  * Plugin URI:        https://wordpress.org/plugins/bluehost-site-migrator
  * Description:       Quickly and easily migrate your website to Bluehost.
- * Version:           1.0.12
+ * Version:           1.0.13
  * Requires PHP:      5.6
  * Requires at least: 4.7
  * Author:            Bluehost
@@ -22,15 +22,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-define( 'BH_SITE_MIGRATOR_VERSION', '1.0.12' );
-define( 'BH_SITE_MIGRATOR_FILE', __FILE__ );
-define( 'BH_SITE_MIGRATOR_DIR', plugin_dir_path( __FILE__ ) );
-define( 'BH_SITE_MIGRATOR_URL', plugin_dir_url( __FILE__ ) );
-
-require dirname( __FILE__ ) . '/vendor/autoload.php';
-
-register_activation_hook( __FILE__, 'nfd_tasks_setup_tables' );
-register_deactivation_hook( __FILE__, 'nfd_tasks_purge_tables' );
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/constants.php';
 
 // Check plugin requirements
 global $pagenow;
@@ -44,4 +37,27 @@ if ( 'plugins.php' === $pagenow ) {
 	$plugin_check->check_plugin_requirements();
 }
 
-require dirname( __FILE__ ) . '/includes/bootstrap.php';
+
+// Include functions
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'functions.php';
+
+register_activation_hook( __FILE__, 'nfd_tasks_setup_tables' );
+register_activation_hook( __FILE__, 'nfd_bhsm_set_redirect' );
+register_deactivation_hook( __FILE__, 'nfd_tasks_purge_tables' );
+register_deactivation_hook( __FILE__, 'nfd_bhsm_purge_all' );
+add_action( 'admin_init', 'nfd_bhsm_redirect' );
+
+// Initialize the Admin page
+new BluehostSiteMigrator\WP_Admin();
+
+// Initialize the REST APIs
+new BluehostSiteMigrator\RestApi\RestApi();
+
+// Initialize options
+BluehostSiteMigrator\Utils\Options::fetch();
+
+// Add the migration check filters
+BluehostSiteMigrator\MigrationChecks\Checker::register();
+
+// persist options on shutdown
+add_action( 'shutdown', array( 'BluehostSiteMigrator\Utils\Options', 'maybe_persist' ) );

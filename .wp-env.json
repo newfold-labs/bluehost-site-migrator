@@ -1,13 +1,11 @@
 {
-  "plugins": [
-    "."
-  ],
-  "port": 8767,
-  "testsPort": 8768,
-  "config": {
-    "WP_DEBUG": true,
-    "WP_DEBUG_DISPLAY": false,
-    "WP_DEBUG_LOG": "/var/www/html/wp-content/plugins/bluehost-site-migrator/error.log",
-    "SCRIPT_DEBUG": false
-  }
+	"plugins": [ "." ],
+	"port": 10004,
+	"testsPort": 10005,
+	"config": {
+		"WP_DEBUG": true,
+		"WP_DEBUG_DISPLAY": false,
+		"WP_DEBUG_LOG": "/var/www/html/wp-content/plugins/bluehost-site-migrator/error.log",
+		"SCRIPT_DEBUG": false
+	}
 }

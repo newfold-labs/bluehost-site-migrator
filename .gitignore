@@ -1,6 +1,7 @@
-/assets
 /languages/bluehost-site-migrator.php
 /node_modules
 /vendor
 cypress.env.json
 .idea
+cypress/videos
+cypress/screenshots
