@@ -3,7 +3,7 @@ const { merge } = require( 'webpack-merge' );
 const wpScriptsConfig = require( '@wordpress/scripts/config/webpack.config' );
 const version = require( './package.json' ).version; // never require full config!
 
-const nfdCloudPatternsWebpackConfig = {
+const bluehostSiteMigratorWebpackConfig = {
 	output: {
 		path: path.resolve( process.cwd(), `build/${ version }` ),
 		library: [ 'newfold', 'BluehostSiteMigrator', '[name]' ],
@@ -11,4 +11,4 @@ const nfdCloudPatternsWebpackConfig = {
 	},
 };
 
-module.exports = merge( wpScriptsConfig, nfdCloudPatternsWebpackConfig );
+module.exports = merge( wpScriptsConfig, bluehostSiteMigratorWebpackConfig );

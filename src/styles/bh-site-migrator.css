@@ -634,8 +634,8 @@ video {
   margin-top: 2rem;
 }
 
-.mt-\[20\%\] {
-  margin-top: 20%;
+.mt-\[8\%\] {
+  margin-top: 8%;
 }
 
 .inline-block {
@@ -1091,16 +1091,10 @@ video {
   }
 }
 
-#wpcontent {
-  padding-left: 0px !important;
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .bh-sm {
   height: 90vh;
   .compatibility-div {
-    height: 50%;
+    height: 75%;
   }
   .compatibility-div {
     --tw-bg-opacity: 1;

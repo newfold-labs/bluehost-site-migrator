@@ -75,7 +75,6 @@ export const TransferSuccess = () => {
 		}
 		setRegions( receivedRegions );
 		setCountryCode( response.countryCode );
-		setUrlsFromCountryCode( response.countryCode );
 	};
 
 	useEffect( () => {
@@ -90,7 +89,7 @@ export const TransferSuccess = () => {
 			`Country updated to ${ regions[ countryCode ].countryName }`
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ countryCode ] );
+	}, [ countryCode, regions ] );
 
 	if ( loading ) {
 		return <LoadingSpinner />;
@@ -166,7 +165,7 @@ export const TransferSuccess = () => {
 							return (
 								<option
 									value={ regionCountryCode }
-									key={ countryCode }
+									key={ regionCountryCode }
 								>
 									{ region.countryName }
 								</option>

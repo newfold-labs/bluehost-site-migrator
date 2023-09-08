@@ -34,7 +34,7 @@ class PackagerBase {
 	 * @param string $package_path The path for the generated archive
 	 * @param string $package_type The type for package, eg - database, plugins etc.
 	 */
-	public function persist_archive_path( $package_path, $package_type ) {
+	public static function persist_archive_path( $package_path, $package_type ) {
 		$files_array = Options::get( 'packaged_files', array() );
 		$uploads     = wp_get_upload_dir();
 

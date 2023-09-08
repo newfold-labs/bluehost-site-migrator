@@ -4,17 +4,12 @@
 @tailwind utilities;
 @tailwind variants;
 
-#wpcontent {
-    padding-left: 0px !important;
-    @apply bg-white;
-}
-
 .bh-sm {
     @apply h-[90vh];
 
     .compatibility-div {
         @apply
-            h-2/4
+            h-3/4
             bg-no-repeat
             bg-right-bottom
             bg-[length:50%]
