@@ -44,9 +44,6 @@ jobs:
             - name: Run build
               run: yarn webpack && yarn webpack --mode=production
 
-            - name: Generate .pot file
-              run: yarn run i18n
-
             - name: Validate composer.json and composer.lock
               run: composer validate
 
