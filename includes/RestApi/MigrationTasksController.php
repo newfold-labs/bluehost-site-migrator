@@ -149,6 +149,8 @@ class MigrationTasksController extends \WP_REST_Controller {
 		delete_option( BH_SITE_MIGRATOR_PACKAGING_SUCCESS_OPTION );
 		delete_option( BH_SITE_MIGRATOR_PACKAGING_FAILED_OPTION );
 
+		Options::set( 'cancelled_packaging', true );
+
 		// Delete the archived files if any
 		nfd_bhsm_delete_directory( nfd_bhsm_storage_path() );
 
