@@ -17,6 +17,7 @@ export const Migration = () => {
 		failed: false,
 		error: '',
 		transferQueued: false,
+		cancelled: false,
 	} );
 
 	const navigate = useNavigate();
@@ -40,6 +41,7 @@ export const Migration = () => {
 				transferQueued: response.transfer_queued,
 				packagedSuccess: response.packaged_success,
 				packagedFailed: response.packaged_failed,
+				cancelled: response.cancelled,
 			} );
 		};
 
@@ -63,7 +65,7 @@ export const Migration = () => {
 	}
 
 	if ( stepResult.compatible ) {
-		return <BeginTransfer />;
+		return <BeginTransfer cancelled={ stepResult.cancelled } />;
 	}
 
 	if ( ! stepResult.checked ) {
