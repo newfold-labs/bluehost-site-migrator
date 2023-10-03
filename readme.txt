@@ -24,6 +24,14 @@ Important:  You will need a Bluehost hosting account for this plugin to complete
 
 == Upgrade Notice ==
 
+= 1.0.14 =
+* Revert to 1.0.12
+
+= 1.0.13 =
+* Alternate database packaging methods.
+* Chunks zipping for better efficiency and to avoid cpu crashes.
+* Minor ux improvements
+
 = 1.0.12 =
 * Bump up latest tested version for public view.
 
