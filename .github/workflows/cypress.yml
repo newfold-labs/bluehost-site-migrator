@@ -1,102 +1,93 @@
 name: Cypress Tests
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - '.github/**'
-      - '.wporg/**'
-      - '!.github/workflows/cypress.yml'
-      - '.gitignore'
-      - '**.md'
-  pull_request:
-    types: [opened, edited, synchronize, reopened, ready_for_review]
-  pull_request_review:
-    types: [submitted, edited]
+    push:
+        branches:
+            - master
+        paths-ignore:
+            - '.github/**'
+            - '.wporg/**'
+            - '!.github/workflows/cypress.yml'
+            - '.gitignore'
+            - '**.md'
+    pull_request:
+        types: [opened, edited, synchronize, reopened, ready_for_review]
+    pull_request_review:
+        types: [submitted, edited]
 
 jobs:
-  test:
-    name: Run Cypress Tests
-    runs-on: ubuntu-latest
-    steps:
+    test:
+        name: Run Cypress Tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
 
-      - name: Checkout
-        uses: actions/checkout@v2
+            - name: Setup workflow context
+              id: workflow
+              working-directory: ${{ runner.temp }}
+              env:
+                  REPO: ${{ github.repository }}
+              run: |
+                  mkdir dist
+                  echo ::set-output name=DIST::${PWD}/dist
+                  echo ::set-output name=PACKAGE::${REPO##*/}
 
-      - name: Setup workflow context
-        id: workflow
-        working-directory: ${{ runner.temp }}
-        env:
-          REPO: ${{ github.repository }}
-        run: |
-          mkdir dist
-          echo ::set-output name=DIST::${PWD}/dist
-          echo ::set-output name=PACKAGE::${REPO##*/}
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
+                  cache: 'yarn'
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            - name: Cache Composer vendor directory
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-composer-
 
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            - name: PHP version
+              run: php --version
 
-      - name: Cache Composer vendor directory
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+            - name: Validate composer.json and composer.lock
+              run: composer validate
 
-      - name: PHP version
-        run: php --version
+            - name: Install PHP Dependencies
+              run: composer install --no-progress --no-dev --optimize-autoloader
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+            - name: Enable yarn
+              run: corepack enable
 
-      - name: Install PHP Dependencies
-        run: composer install --no-progress --no-dev --optimize-autoloader
+            - name: Install Dependencies
+              run: yarn install
 
-      - name: NPM Install
-        run: npm install
+            - name: Build JavaScript
+              run: yarn run build
 
-      - name: Build JavaScript
-        run: npm run build
+            - name: Create Distribution Copy
+              run: rsync -r --exclude-from=.distignore . ${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}
 
-      - name: Create Distribution Copy
-        run: rsync -r --exclude-from=.distignore . ${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}
+            - name: List Distribution Files
+              working-directory: ${{ steps.workflow.outputs.DIST }}
+              run: find .
 
-      - name: List Distribution Files
-        working-directory: ${{ steps.workflow.outputs.DIST }}
-        run: find .
+            - name: Configure WordPress
+              run: echo '{"plugins":["${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}"]}' > .wp-env.override.json
 
-      - name: Configure WordPress
-        run: echo '{"plugins":["${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}"]}' > .wp-env.override.json
+            - name: Install WordPress
+              run: yarn wp-env start
 
-      - name: Install WordPress
-        run: npx wp-env start
+            - name: Run Cypress Tests
+              run: yarn run test
 
-      - name: Run Cypress Tests
-        run: npm run test
-
-      - name: Store screenshots of test failures
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: ./tests/cypress/screenshots
+            - name: Store screenshots of test failures
+              if: ${{ failure() }}
+              uses: actions/upload-artifact@v3
+              with:
+                  name: screenshots
+                  path: ./tests/cypress/screenshots
