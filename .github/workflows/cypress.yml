@@ -80,7 +80,7 @@ jobs:
               run: echo '{"plugins":["${{ steps.workflow.outputs.DIST }}/${{ steps.workflow.outputs.PACKAGE }}"]}' > .wp-env.override.json
 
             - name: Install WordPress
-              run: yarn wp-env start
+              run: npx wp-env start
 
             - name: Run Cypress Tests
               run: yarn run test
