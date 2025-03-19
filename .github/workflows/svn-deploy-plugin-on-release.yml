@@ -59,7 +59,7 @@ jobs:
               run: composer install --no-progress --no-dev --optimize-autoloader
 
             - name: WordPress Plugin Deploy
-              uses: 10up/action-wordpress-plugin-deploy@master
+              uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2 # v2.3.0
               env:
                   SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
                   SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
