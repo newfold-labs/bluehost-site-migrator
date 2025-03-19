@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Setup Workflow Context
               id: workflow
@@ -27,7 +27,7 @@ jobs:
               run: php --version
 
             - name: Set Node.js 18.x
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
               with:
                   node-version: 18.x
                   cache: 'yarn'
@@ -52,7 +52,7 @@ jobs:
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
             - name: Cache Composer vendor directory
-              uses: actions/cache@v4
+              uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -69,7 +69,7 @@ jobs:
               working-directory: ${{ steps.workflow.outputs.DIST }}
               run: find .
 
-            - uses: actions/upload-artifact@v3
+            - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
               with:
                   name: ${{ steps.workflow.outputs.PACKAGE }}
                   path: ${{ steps.workflow.outputs.DIST }}
