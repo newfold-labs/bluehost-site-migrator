@@ -15,6 +15,7 @@ jobs:
     master:
         name: Push to master
         runs-on: ubuntu-latest
+        timeout-minutes: 15
         permissions:
             contents: read # Required for actions/checkout to clone the repository (SVN deploy uses separate SVN credentials, not GITHUB_TOKEN).
         steps:

@@ -13,6 +13,7 @@ jobs:
     deploy:
         name: On Release
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         permissions:
             contents: write # Required for actions/upload-release-asset to attach a build artifact to the GitHub release (also covers contents: read for actions/checkout).
         steps:

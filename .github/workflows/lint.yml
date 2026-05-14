@@ -18,6 +18,7 @@ permissions: {}
 jobs:
     phpcs:
         runs-on: ubuntu-latest
+        timeout-minutes: 10
         permissions:
             contents: read # Required for actions/checkout to clone the repository.
         steps:
