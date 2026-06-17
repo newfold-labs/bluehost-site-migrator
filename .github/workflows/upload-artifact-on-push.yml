@@ -5,10 +5,17 @@ on:
         branches:
             - master
 
+# Disable permissions for all available scopes by default.
+# Any needed permissions should be configured at the job level.
+permissions: {}
+
 jobs:
     build:
         name: On Push to Master
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: read # Required for actions/checkout to clone the repository (actions/upload-artifact@v4 does not require GITHUB_TOKEN permissions).
         steps:
             - name: Checkout
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
