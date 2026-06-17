@@ -1,12 +1,14 @@
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from '@wordpress/element';
+import { LoadingSpinner } from '../common/LoadingSpinner';
 import { LoadingButton } from '../common/LoadingButton';
 import { apiCall } from '../../utils/apiCall';
 import { SiteMigratorAPIs } from '../../utils/api';
-import { useNavigate } from 'react-router-dom';
 
-export const BeginTransfer = () => {
-	const [ loading, setLoading ] = useState( false );
+export const BeginTransfer = ( { cancelled = false } ) => {
+	const [ loading, setLoading ] = useState( true );
 	const navigate = useNavigate();
 
 	const beginTransfer = async () => {
@@ -26,11 +28,23 @@ export const BeginTransfer = () => {
 		if ( response.queued ) {
 			// Reload after a certain delay to allow propagating the status
 			setTimeout( () => {
-				setLoading( false );
 				window.location.reload();
+				setLoading( false );
 			}, 3000 );
 		}
 	};
+
+	useEffect( () => {
+		if ( ! cancelled ) {
+			beginTransfer();
+		} else {
+			setLoading( false );
+		}
+	}, [] );
+
+	if ( loading ) {
+		return <LoadingSpinner />;
+	}
 
 	return (
 		<div className="h-full bg-white">

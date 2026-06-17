@@ -120,6 +120,7 @@ class MigrationCheckController extends \WP_REST_Controller {
 	public function get_current_step( $request ) {
 		$compatible       = Options::get( 'isCompatible', null );
 		$transfer_queued  = Options::get( 'queued_packaging_tasks', false );
+		$cancelled        = Options::get( 'cancelled_packaging', false );
 		$packaging_status = Status::get_packaging_status();
 		$packaged_success = $packaging_status['success'];
 		$packaged_failed  = $packaging_status['failed'];
@@ -130,6 +131,7 @@ class MigrationCheckController extends \WP_REST_Controller {
 				'checked'          => null !== $compatible ? true : false,
 				'packaged_success' => $packaged_success,
 				'packaged_failed'  => $packaged_failed,
+				'cancelled'        => $cancelled,
 			)
 		);
 	}

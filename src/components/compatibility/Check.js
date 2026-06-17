@@ -56,6 +56,31 @@ export const CompatibilityCheck = () => {
 							'bluehost-site-migrator'
 						) }
 					</p>
+					<p className="text-lg mt-6 w-2/5">
+						{ __(
+							`We need to make a clone of your Wordpress website next,
+							which we can then use to transfer you to your desired
+						account.`,
+							'bluehost-site-migrator'
+						) }
+						<br />
+						<br />
+						{ __(
+							`Please wait to make changes to your website until the
+						transfer process has been completed. In addition, for
+						now, leave your DNS and domain settings the same as
+						well.`,
+							'bluehost-site-migrator'
+						) }
+						<br />
+						<br />
+						{ __(
+							`Once the cloning process is completed, you will be given
+						a transfer key that can be copied and used to complete
+						the WordPress website transfer process.`,
+							'bluehost-site-migrator'
+						) }
+					</p>
 					<LoadingButton
 						id="check-compatibility-button"
 						onSubmit={ onCheckSubmit }
